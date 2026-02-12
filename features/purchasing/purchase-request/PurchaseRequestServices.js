@@ -233,3 +233,57 @@ export async function getPurchaseRequestReport(id) {
     const response = await axios.post(`/api/apigateway`, apiGatewayData)
     return response.data
 }
+
+export async function getVendorByCNPJ(cnpj) {
+    const query = new Api()
+        .setMethod('GET')
+        .setUrl('/BusinessPartners')
+        .setParams({
+            $select: 'CardCode,CardName,FederalTaxID',
+            $filter: `CardType eq 'cSupplier' and FederalTaxID eq '${cnpj}'`
+        })
+        .get()
+
+    const result = await doApiCall(query)
+    if (result.value && result.value.length > 0) {
+        return result.value[0]
+    }
+    return null
+}
+
+export async function getVendorCatalogNumbers(cardCode) {
+    const query = new Api()
+        .setMethod('GET')
+        .setUrl('/BusinessPartnerItemNumbers')
+        .setParams({
+            $filter: `CardCode eq '${cardCode}'`
+        })
+        .get()
+
+    const result = await doApiCall(query)
+    if (result.value) {
+        return result.value.map(item => ({
+            sapItemCode: item.ItemCode,
+            vendorItemCode: item.SubstituteVendor,
+            sapItemName: item.ItemName || ''
+        }))
+    }
+    return []
+}
+
+export async function getItemByCode(itemCode) {
+    const query = new Api()
+        .setMethod('GET')
+        .setUrl('/Items')
+        .setParams({
+            $select: 'ItemCode,ItemName,InventoryUOM',
+            $filter: `ItemCode eq '${itemCode}'`
+        })
+        .get()
+
+    const result = await doApiCall(query)
+    if (result.value && result.value.length > 0) {
+        return result.value[0]
+    }
+    return null
+}

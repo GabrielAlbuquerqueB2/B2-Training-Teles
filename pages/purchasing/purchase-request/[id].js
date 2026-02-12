@@ -166,7 +166,7 @@ export default function PurchaseRequest() {
                             setEquipment={setEquipment}
                             itemGroups={itemGroups}
                         />
-
+                        
                         <PurchaseRequestGrid
                             data={data}
                             setChildField={setChildField}
@@ -195,19 +195,20 @@ export default function PurchaseRequest() {
                     </>}
                 />
             </Tabs>
-
-            <br />
             <br />
             <PurchaseRequestActions
                 data={data}
+                setData={setData}
                 t={t}
                 vendor={vendor}
                 requester={requester}
                 router={router}
                 status={status}
                 isPurchaseMade={isPurchaseMade}
+                setIsPurchaseMade={setIsPurchaseMade}
                 equipment={equipment}
                 setAlert={setAlert}
+                setField={setField}
                 fileList={fileList}
             />
             <Box hidden={!alert.visible}>

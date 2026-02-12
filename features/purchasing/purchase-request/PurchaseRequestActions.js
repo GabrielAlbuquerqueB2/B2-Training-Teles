@@ -5,8 +5,9 @@ import SaveIcon from '@mui/icons-material/Save'
 import { createPurchaseRequestModel, editPurchaseRequestModel, createPurchaseOrderModel } from './PurchaseRequestModel'
 import { createPurchaseRequest, editPurchaseRequest, cancelPurchaseRequest, createPurchaseOrder, getPurchaseRequestReport } from './PurchaseRequestServices'
 import { createAttachment, updateAttachment } from '../../../lib/attachments/AttachmentsService'
+import PurchaseRequestXmlImport from './PurchaseRequestXmlImport'
 
-export default function PurchaseRequestActions({ data, requester, vendor, router, status, equipment, setAlert, fileList }) {
+export default function PurchaseRequestActions({ data, setData, requester, vendor, router, status, equipment, setAlert, setField, setIsPurchaseMade, fileList }) {
 
     const [isLoading, setIsLoading] = useState(false)
     const [isCancelLoading, setIsCancelLoading] = useState(false)
@@ -180,6 +181,16 @@ export default function PurchaseRequestActions({ data, requester, vendor, router
                 >
                     IMPRIMIR SOLICITAÇÂO
                 </LoadingButton>
+
+                {status === 'CREATE' && (
+                    <PurchaseRequestXmlImport
+                        data={data}
+                        setData={setData}
+                        setIsPurchaseMade={setIsPurchaseMade}
+                        setField={setField}
+                        setAlert={setAlert}
+                    />
+                )}
             </Stack>
             <br />
         </>

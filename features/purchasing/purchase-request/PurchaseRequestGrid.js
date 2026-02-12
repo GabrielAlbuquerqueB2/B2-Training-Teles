@@ -20,6 +20,8 @@ export default function PurchaseRequestGrid(props) {
                     <Table>
                         <TableHead>
                             <TableRow>
+                                <TableCell>Cód. Item XML</TableCell>
+                                <TableCell>Desc. Item XML</TableCell>
                                 <TableCell>Item</TableCell>
                                 <TableCell>Desc. Complementar</TableCell>
                                 <TableCell>Quantidade</TableCell>
@@ -34,7 +36,25 @@ export default function PurchaseRequestGrid(props) {
                                     props.data.DocumentLines?.map((item, index) => {
                                         return (
                                             <TableRow>
-                                                <TableCell width="25%" sx={{ padding: '3px' }}>
+                                                <TableCell width="8%" sx={{ padding: '3px' }}>
+                                                    <TextField
+                                                        type="text"
+                                                        value={props.data.DocumentLines[index]?.VendorItemCode ?? ''}
+                                                        InputProps={{ readOnly: true }}
+                                                        placeholder="-"
+                                                        size="small"
+                                                    />
+                                                </TableCell>
+                                                <TableCell width="18%" sx={{ padding: '3px' }}>
+                                                    <TextField
+                                                        type="text"
+                                                        value={props.data.DocumentLines[index]?.XmlDescription ?? ''}
+                                                        InputProps={{ readOnly: true }}
+                                                        placeholder="-"
+                                                        size="small"
+                                                    />
+                                                </TableCell>
+                                                <TableCell width="18%" sx={{ padding: '3px' }}>
                                                     <ItemAutocomplete
                                                         name="Item"
                                                         itemGroup={props.data.ItemGroup}
@@ -42,7 +62,7 @@ export default function PurchaseRequestGrid(props) {
                                                         setValue={(newValue) => { props.setChildField('DocumentLines', 'Item', index, newValue) }}
                                                     />
                                                 </TableCell>
-                                                <TableCell width="25%" sx={{ padding: '3px' }}>
+                                                <TableCell width="15%" sx={{ padding: '3px' }}>
                                                     <TextField
                                                         type="text"
                                                         value={props.data.DocumentLines[index]?.FreeText}
