@@ -1,0 +1,19 @@
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.box {
+    display: flex;
+    align-items: center;
+}
+
+.menuIcon {
+    color: #fff;
+    margin-right: 10px;
+}
+
+.logo {
+    cursor: pointer;
+}

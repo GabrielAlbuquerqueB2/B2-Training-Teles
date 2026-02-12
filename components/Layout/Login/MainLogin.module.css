@@ -1,0 +1,31 @@
+.paper {
+    background-image: url('/images/wallpaper.jpg');
+    background-size: cover;  
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    margin: 0 auto;
+}
+
+.loginPaper {
+    margin-top: 5vh;
+    margin-left: 5vw;
+    padding: 20px;
+    width: 20vw;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Estilo para telas de celular */
+@media (max-width: 600px) {
+    .loginPaper {
+      margin-top: 4vh;
+      margin-bottom: 2vh;
+      margin-left: 5vw;
+      width: 90vw;
+      height: 170vw;
+      padding: 10px;
+    }
+  }

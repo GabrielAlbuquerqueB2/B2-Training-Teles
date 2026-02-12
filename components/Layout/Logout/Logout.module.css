@@ -1,0 +1,22 @@
+@value colors: "../../../styles/colors.css";
+@value white, light from colors;
+
+.button {
+    color:white;
+    font-size: small;
+}
+
+.button:hover {
+    background-color: light; 
+}
+
+.box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.accountIcon {
+    margin-right: 5px;
+}

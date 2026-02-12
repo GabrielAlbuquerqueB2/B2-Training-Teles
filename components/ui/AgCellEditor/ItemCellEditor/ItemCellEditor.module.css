@@ -1,0 +1,15 @@
+.inputText {
+    height: 35px;
+    width: 500px;
+}
+
+.ulOption {
+    font-size: large;
+    margin: 0;
+    padding: 10px;    
+}
+
+.liOption {
+    cursor: pointer;
+    list-style-type: none;     
+}

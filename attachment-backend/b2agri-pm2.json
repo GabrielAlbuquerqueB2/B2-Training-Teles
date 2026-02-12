@@ -1,0 +1,9 @@
+{
+    "apps": [
+        {
+            "name": "b2agri-backend",
+            "script": "npm",
+            "args": "start"
+        }
+    ]
+}

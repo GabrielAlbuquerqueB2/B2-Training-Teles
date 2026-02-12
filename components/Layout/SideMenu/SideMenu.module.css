@@ -1,0 +1,22 @@
+@value colors: "../../../styles/colors.css";
+@value main from colors;
+
+.listItem {
+    color: main;
+}
+
+.listItem:hover {
+    background-color: #eee;
+    cursor: pointer;
+    transition: 0.4s;
+    color: main;
+}
+
+.drawer {
+    width: 300px;
+    flex-shrink: 0;
+}
+
+.icon {
+    color: main;
+}

@@ -1,0 +1,53 @@
+{
+  "name": "b2agri-manager",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "vitest",
+    "coverage": "vitest run --coverage",
+    "cy:test": "cypress run",
+    "cy:open": "cypress open"
+  },
+  "dependencies": {
+    "@ag-grid-community/all-modules": "^27.3.0",
+    "@emotion/react": "^11.8.2",
+    "@emotion/styled": "^11.8.1",
+    "@fontsource/roboto": "^4.5.5",
+    "@mui/icons-material": "^5.5.1",
+    "@mui/lab": "^5.0.0-alpha.97",
+    "@mui/material": "^5.10.3",
+    "ag-grid-community": "^28.1.1",
+    "ag-grid-react": "^28.1.1",
+    "autonumeric": "^4.6.0",
+    "axios": "^0.26.1",
+    "cookie": "^0.4.2",
+    "crypto": "^1.0.1",
+    "crypto-js": "^4.1.1",
+    "directory-tree": "^3.3.0",
+    "form-data": "^4.0.0",
+    "multiparty": "^4.2.3",
+    "next": "12.1.0",
+    "nookies": "^2.5.2",
+    "postcss-modules-values": "^4.0.0",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-input-mask": "^2.0.4",
+    "request": "^2.88.2",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^12.1.5",
+    "@vitejs/plugin-react": "^2.1.0",
+    "@vitest/coverage-c8": "^0.23.4",
+    "cypress": "^10.3.1",
+    "eslint": "8.11.0",
+    "eslint-config-next": "12.1.0",
+    "jsdom": "^20.0.0",
+    "vitest": "^0.23.4"
+  }
+}

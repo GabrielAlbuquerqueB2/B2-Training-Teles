@@ -1,0 +1,11 @@
+.mainContainer {
+    max-width: 95vw;
+    margin: auto
+}
+
+.container {
+    margin-top: 70px;
+    background-color: rgba(256,256,256,.9);
+    color: #000;
+    min-height: 85vh;
+}

@@ -1,0 +1,3017 @@
+[
+    {
+        "BusinessPlaces": {
+            "BPLID": 9,
+            "BPLName": "FAZ. MATA AZUL - BCT -  IE. 15.534.702-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "9.T1003",
+            "WarehouseName": "TRANSPORTE LUFT LTDA- FAZ MATA AZUL - BCT",
+            "BusinessPlaceID": 9
+        },
+        "ProductionUnit": {
+            "Code": "1",
+            "Name": "1 - MODELO / SANTA CARMEM"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 13,
+            "BPLName": "FAZ. MODELO - FMT - IE. 15.417.501-3"
+        },
+        "Warehouses": {
+            "WarehouseCode": "13.ED",
+            "WarehouseName": "EXPEDICAO DIRETA - LOGISTICA TELES",
+            "BusinessPlaceID": 13
+        },
+        "ProductionUnit": {
+            "Code": "1",
+            "Name": "1 - MODELO / SANTA CARMEM"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 44,
+            "BPLName": "FAZ. MATA AZUL I - BCT -  IE. 15.574.825-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "44.BOV",
+            "WarehouseName": "BOVINOS - FAZ MATA AZUL I - BCT IE 15.574.825-4",
+            "BusinessPlaceID": 44
+        },
+        "ProductionUnit": {
+            "Code": "1",
+            "Name": "1 - MODELO / SANTA CARMEM"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 44,
+            "BPLName": "FAZ. MATA AZUL I - BCT -  IE. 15.574.825-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "44.ED",
+            "WarehouseName": "EXPEDICAO DIRETA - FAZ MATA AZUL I - BCT IE 15.574.825-4",
+            "BusinessPlaceID": 44
+        },
+        "ProductionUnit": {
+            "Code": "1",
+            "Name": "1 - MODELO / SANTA CARMEM"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 22,
+            "BPLName": "FAZ. MODELO II - LMT - IE. 15.417.503-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "22.T1003",
+            "WarehouseName": "RURAL BRASIL LTDA - FAZ MODELO - LMT",
+            "BusinessPlaceID": 22
+        },
+        "ProductionUnit": {
+            "Code": "1",
+            "Name": "1 - MODELO / SANTA CARMEM"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 44,
+            "BPLName": "FAZ. MATA AZUL I - BCT -  IE. 15.574.825-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "44.0001",
+            "WarehouseName": "DEPOSITO GERAL - FAZ MATA AZUL I - BCT IE 15.574.825-4",
+            "BusinessPlaceID": 44
+        },
+        "ProductionUnit": {
+            "Code": "1",
+            "Name": "1 - MODELO / SANTA CARMEM"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 9,
+            "BPLName": "FAZ. MATA AZUL - BCT -  IE. 15.534.702-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "9.LAV",
+            "WarehouseName": "LAVOURA COLHEITA - FAZ MATA AZUL - BCT",
+            "BusinessPlaceID": 9
+        },
+        "ProductionUnit": {
+            "Code": "1",
+            "Name": "1 - MODELO / SANTA CARMEM"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 22,
+            "BPLName": "FAZ. MODELO II - LMT - IE. 15.417.503-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "22.T1001",
+            "WarehouseName": "ARMAZEM TELES COMERCIO - FAZ MODELO - LMT",
+            "BusinessPlaceID": 22
+        },
+        "ProductionUnit": {
+            "Code": "1",
+            "Name": "1 - MODELO / SANTA CARMEM"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 22,
+            "BPLName": "FAZ. MODELO II - LMT - IE. 15.417.503-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "22.0001",
+            "WarehouseName": "DEPOSITO GERAL - FAZ MODELO - LMT",
+            "BusinessPlaceID": 22
+        },
+        "ProductionUnit": {
+            "Code": "1",
+            "Name": "1 - MODELO / SANTA CARMEM"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 22,
+            "BPLName": "FAZ. MODELO II - LMT - IE. 15.417.503-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "22.LAV",
+            "WarehouseName": "LAVOURA COLHEITA - FAZ MODELO - LMT",
+            "BusinessPlaceID": 22
+        },
+        "ProductionUnit": {
+            "Code": "1",
+            "Name": "1 - MODELO / SANTA CARMEM"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 22,
+            "BPLName": "FAZ. MODELO II - LMT - IE. 15.417.503-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "22.ED",
+            "WarehouseName": "EXPEDICAO DIRETA - FAZ MODELO - LMT",
+            "BusinessPlaceID": 22
+        },
+        "ProductionUnit": {
+            "Code": "1",
+            "Name": "1 - MODELO / SANTA CARMEM"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 22,
+            "BPLName": "FAZ. MODELO II - LMT - IE. 15.417.503-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "22.COMB",
+            "WarehouseName": "TANQUE DE COMBUSTIVEIS - FAZ MODELO - LMT",
+            "BusinessPlaceID": 22
+        },
+        "ProductionUnit": {
+            "Code": "1",
+            "Name": "1 - MODELO / SANTA CARMEM"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 9,
+            "BPLName": "FAZ. MATA AZUL - BCT -  IE. 15.534.702-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "9.0001",
+            "WarehouseName": "DEPOSITO GERAL - FAZ MATA AZUL - BCT",
+            "BusinessPlaceID": 9
+        },
+        "ProductionUnit": {
+            "Code": "1",
+            "Name": "1 - MODELO / SANTA CARMEM"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 2,
+            "BPLName": "FAZ. MODELO III - IE. 15.490.345-0 - LUCAS"
+        },
+        "Warehouses": {
+            "WarehouseCode": "2.0001",
+            "WarehouseName": "DEPOSITO GERAL - FAZ. MODELO III - LUCAS",
+            "BusinessPlaceID": 2
+        },
+        "ProductionUnit": {
+            "Code": "1",
+            "Name": "1 - MODELO / SANTA CARMEM"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 2,
+            "BPLName": "FAZ. MODELO III - IE. 15.490.345-0 - LUCAS"
+        },
+        "Warehouses": {
+            "WarehouseCode": "2.COMB",
+            "WarehouseName": "TANQUE DE COMBUSTIVEL - FAZ. MODELO III - LUCAS",
+            "BusinessPlaceID": 2
+        },
+        "ProductionUnit": {
+            "Code": "1",
+            "Name": "1 - MODELO / SANTA CARMEM"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 9,
+            "BPLName": "FAZ. MATA AZUL - BCT -  IE. 15.534.702-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "9.COMB",
+            "WarehouseName": "TANQUE DE COMBUSTIVEL - FAZ MATA AZUL - BCT",
+            "BusinessPlaceID": 9
+        },
+        "ProductionUnit": {
+            "Code": "1",
+            "Name": "1 - MODELO / SANTA CARMEM"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 2,
+            "BPLName": "FAZ. MODELO III - IE. 15.490.345-0 - LUCAS"
+        },
+        "Warehouses": {
+            "WarehouseCode": "2.ED",
+            "WarehouseName": "EXPEDICAO DIRETA - FAZ. MODELO III - LUCAS",
+            "BusinessPlaceID": 2
+        },
+        "ProductionUnit": {
+            "Code": "1",
+            "Name": "1 - MODELO / SANTA CARMEM"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 9,
+            "BPLName": "FAZ. MATA AZUL - BCT -  IE. 15.534.702-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "9.BOV",
+            "WarehouseName": "BOVINO - FAZ MATA AZUL - BCT",
+            "BusinessPlaceID": 9
+        },
+        "ProductionUnit": {
+            "Code": "1",
+            "Name": "1 - MODELO / SANTA CARMEM"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 22,
+            "BPLName": "FAZ. MODELO II - LMT - IE. 15.417.503-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "22.T1002",
+            "WarehouseName": "ARMAZEM TELES & REIS CANARANA - FAZ MODELO - LMT",
+            "BusinessPlaceID": 22
+        },
+        "ProductionUnit": {
+            "Code": "1",
+            "Name": "1 - MODELO / SANTA CARMEM"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 13,
+            "BPLName": "FAZ. MODELO - FMT - IE. 15.417.501-3"
+        },
+        "Warehouses": {
+            "WarehouseCode": "13.0001",
+            "WarehouseName": "DEPOSITO GERAL",
+            "BusinessPlaceID": 13
+        },
+        "ProductionUnit": {
+            "Code": "1",
+            "Name": "1 - MODELO / SANTA CARMEM"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 10,
+            "BPLName": "FAZ. MATA AZUL IV - BCT - IE. 15.574.824-6"
+        },
+        "Warehouses": {
+            "WarehouseCode": "10.0001",
+            "WarehouseName": "DEPOSITO GERAL",
+            "BusinessPlaceID": 10
+        },
+        "ProductionUnit": {
+            "Code": "1",
+            "Name": "1 - MODELO / SANTA CARMEM"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 9,
+            "BPLName": "FAZ. MATA AZUL - BCT -  IE. 15.534.702-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "9.ED",
+            "WarehouseName": "EXPEDICAO DIRETA - FAZ MATA AZUL - BCT",
+            "BusinessPlaceID": 9
+        },
+        "ProductionUnit": {
+            "Code": "1",
+            "Name": "1 - MODELO / SANTA CARMEM"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 9,
+            "BPLName": "FAZ. MATA AZUL - BCT -  IE. 15.534.702-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "9.T1002",
+            "WarehouseName": "ARMAZEM TELES & REIS (CANARANA)- FAZ MATA AZUL - BCT",
+            "BusinessPlaceID": 9
+        },
+        "ProductionUnit": {
+            "Code": "1",
+            "Name": "1 - MODELO / SANTA CARMEM"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 9,
+            "BPLName": "FAZ. MATA AZUL - BCT -  IE. 15.534.702-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "9.T1001",
+            "WarehouseName": "TELES COMERCIO - FAZ MATA AZUL - BCT",
+            "BusinessPlaceID": 9
+        },
+        "ProductionUnit": {
+            "Code": "1",
+            "Name": "1 - MODELO / SANTA CARMEM"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 28,
+            "BPLName": "TELES COMERCIO DE CEREAIS LTDA - MATRIZ PA"
+        },
+        "Warehouses": {
+            "WarehouseCode": "28.0001",
+            "WarehouseName": "DEPOSITO GERAL",
+            "BusinessPlaceID": 28
+        },
+        "ProductionUnit": {
+            "Code": "14",
+            "Name": "Armazem Modelo"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 28,
+            "BPLName": "TELES COMERCIO DE CEREAIS LTDA - MATRIZ PA"
+        },
+        "Warehouses": {
+            "WarehouseCode": "28.T0001",
+            "WarehouseName": "DEPOSITO PRODUTOS DE TERCEIROS",
+            "BusinessPlaceID": 28
+        },
+        "ProductionUnit": {
+            "Code": "14",
+            "Name": "Armazem Modelo"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 28,
+            "BPLName": "TELES COMERCIO DE CEREAIS LTDA - MATRIZ PA"
+        },
+        "Warehouses": {
+            "WarehouseCode": "28.ED",
+            "WarehouseName": "EXPEDICAO DIRETA - TELES COMERCIO CEREAIS",
+            "BusinessPlaceID": 28
+        },
+        "ProductionUnit": {
+            "Code": "14",
+            "Name": "Armazem Modelo"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 35,
+            "BPLName": "T3 SEMENTES LTDA - MATRIZ GO"
+        },
+        "Warehouses": {
+            "WarehouseCode": "35.0001",
+            "WarehouseName": "DEPOSITO GERAL - T3 SEMENTES",
+            "BusinessPlaceID": 35
+        },
+        "ProductionUnit": {
+            "Code": "15",
+            "Name": "T3 SEMENTES"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 35,
+            "BPLName": "T3 SEMENTES LTDA - MATRIZ GO"
+        },
+        "Warehouses": {
+            "WarehouseCode": "35.ED",
+            "WarehouseName": "EXPEDICAO DIRETA - T3 SEMENTES",
+            "BusinessPlaceID": 35
+        },
+        "ProductionUnit": {
+            "Code": "15",
+            "Name": "T3 SEMENTES"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 35,
+            "BPLName": "T3 SEMENTES LTDA - MATRIZ GO"
+        },
+        "Warehouses": {
+            "WarehouseCode": "35.COMB",
+            "WarehouseName": "TANQUE DE COMBUSTIVEIS - T3 SEMENTES",
+            "BusinessPlaceID": 35
+        },
+        "ProductionUnit": {
+            "Code": "15",
+            "Name": "T3 SEMENTES"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 35,
+            "BPLName": "T3 SEMENTES LTDA - MATRIZ GO"
+        },
+        "Warehouses": {
+            "WarehouseCode": "35.GRAOS",
+            "WarehouseName": "DEPOSITO GRAOS TERCEIROS - T3 SEMENTES",
+            "BusinessPlaceID": 35
+        },
+        "ProductionUnit": {
+            "Code": "15",
+            "Name": "T3 SEMENTES"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 35,
+            "BPLName": "T3 SEMENTES LTDA - MATRIZ GO"
+        },
+        "Warehouses": {
+            "WarehouseCode": "35.0002",
+            "WarehouseName": "DEPOSITO ALMOXARIFADO - T3 SEMENTES",
+            "BusinessPlaceID": 35
+        },
+        "ProductionUnit": {
+            "Code": "15",
+            "Name": "T3 SEMENTES"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 17,
+            "BPLName": "FAZ. 3T - LMT - IE. 11.470.762-6"
+        },
+        "Warehouses": {
+            "WarehouseCode": "17.0001",
+            "WarehouseName": "3T - DEPOSITO GERAL",
+            "BusinessPlaceID": 17
+        },
+        "ProductionUnit": {
+            "Code": "15",
+            "Name": "T3 SEMENTES"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 35,
+            "BPLName": "T3 SEMENTES LTDA - MATRIZ GO"
+        },
+        "Warehouses": {
+            "WarehouseCode": "35.T001",
+            "WarehouseName": "DEPOSITO SEMENTES TERCEIROS - T3 SEMENTES",
+            "BusinessPlaceID": 35
+        },
+        "ProductionUnit": {
+            "Code": "15",
+            "Name": "T3 SEMENTES"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 35,
+            "BPLName": "T3 SEMENTES LTDA - MATRIZ GO"
+        },
+        "Warehouses": {
+            "WarehouseCode": "35.UNIGL",
+            "WarehouseName": "DEPOSITO SEMENTES UNIGGEL - T3 SEMENTES",
+            "BusinessPlaceID": 35
+        },
+        "ProductionUnit": {
+            "Code": "15",
+            "Name": "T3 SEMENTES"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 48,
+            "BPLName": "T3 SEMENTES FILIAL MT - 0002-17"
+        },
+        "Warehouses": {
+            "WarehouseCode": "48.ED",
+            "WarehouseName": "EXPEDICAO DIRETA - T3 SEMENTES - FILIAL 0002-17",
+            "BusinessPlaceID": 48
+        },
+        "ProductionUnit": {
+            "Code": "15",
+            "Name": "T3 SEMENTES"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 48,
+            "BPLName": "T3 SEMENTES FILIAL MT - 0002-17"
+        },
+        "Warehouses": {
+            "WarehouseCode": "48.0001",
+            "WarehouseName": "DEPOSITO GERAL - T3 SEMENTES - FILIAL 0002-17",
+            "BusinessPlaceID": 48
+        },
+        "ProductionUnit": {
+            "Code": "15",
+            "Name": "T3 SEMENTES"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 34,
+            "BPLName": "FAZ. SANTO ANTONIO - BCT - IE: 15.863.260-5"
+        },
+        "Warehouses": {
+            "WarehouseCode": "34.1001",
+            "WarehouseName": "DEPOSITO GERAL - FAZ. SANTO ANTONIO - BCT",
+            "BusinessPlaceID": 34
+        },
+        "ProductionUnit": {
+            "Code": "17",
+            "Name": "17 - SANTA MARIA / SANTO ANTONIO"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 36,
+            "BPLName": "FAZ. SANTA MARIA II- PA - BCT - IE: 15.917.968-8"
+        },
+        "Warehouses": {
+            "WarehouseCode": "36.LAV",
+            "WarehouseName": "COLHEITA LAVOURA - FAZ SANTA MARIA II - BCT",
+            "BusinessPlaceID": 36
+        },
+        "ProductionUnit": {
+            "Code": "17",
+            "Name": "17 - SANTA MARIA / SANTO ANTONIO"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 36,
+            "BPLName": "FAZ. SANTA MARIA II- PA - BCT - IE: 15.917.968-8"
+        },
+        "Warehouses": {
+            "WarehouseCode": "36.GRAOS",
+            "WarehouseName": "DEPOSITO GRAOS - FAZ SANTA MARIA II - BCT",
+            "BusinessPlaceID": 36
+        },
+        "ProductionUnit": {
+            "Code": "17",
+            "Name": "17 - SANTA MARIA / SANTO ANTONIO"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 43,
+            "BPLName": "FAZ. SANTA MARIA I- PA - BCT - IE: 15.918.399-5"
+        },
+        "Warehouses": {
+            "WarehouseCode": "43.0001",
+            "WarehouseName": "DEPOSITO GERAL - FAZ. SANTA MARIA I - BCT",
+            "BusinessPlaceID": 43
+        },
+        "ProductionUnit": {
+            "Code": "17",
+            "Name": "17 - SANTA MARIA / SANTO ANTONIO"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 36,
+            "BPLName": "FAZ. SANTA MARIA II- PA - BCT - IE: 15.917.968-8"
+        },
+        "Warehouses": {
+            "WarehouseCode": "36.COMB",
+            "WarehouseName": "TANQUE DE COMBUSTIVEIS - FAZ SANTA MARIA II- BCT",
+            "BusinessPlaceID": 36
+        },
+        "ProductionUnit": {
+            "Code": "17",
+            "Name": "17 - SANTA MARIA / SANTO ANTONIO"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 36,
+            "BPLName": "FAZ. SANTA MARIA II- PA - BCT - IE: 15.917.968-8"
+        },
+        "Warehouses": {
+            "WarehouseCode": "36.0001",
+            "WarehouseName": "DEPOSITO GERAL - FAZ. SANTA MARIA II - BCT",
+            "BusinessPlaceID": 36
+        },
+        "ProductionUnit": {
+            "Code": "17",
+            "Name": "17 - SANTA MARIA / SANTO ANTONIO"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 34,
+            "BPLName": "FAZ. SANTO ANTONIO - BCT - IE: 15.863.260-5"
+        },
+        "Warehouses": {
+            "WarehouseCode": "34.COMB",
+            "WarehouseName": "TANQUE DE COMBUSTIVEIS - FAZ. SANTO ANTONIO - BCT",
+            "BusinessPlaceID": 34
+        },
+        "ProductionUnit": {
+            "Code": "17",
+            "Name": "17 - SANTA MARIA / SANTO ANTONIO"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 34,
+            "BPLName": "FAZ. SANTO ANTONIO - BCT - IE: 15.863.260-5"
+        },
+        "Warehouses": {
+            "WarehouseCode": "34.GRAOS",
+            "WarehouseName": "DEPOSITO GRAOS - FAZ SANTO ANTONIO",
+            "BusinessPlaceID": 34
+        },
+        "ProductionUnit": {
+            "Code": "17",
+            "Name": "17 - SANTA MARIA / SANTO ANTONIO"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 34,
+            "BPLName": "FAZ. SANTO ANTONIO - BCT - IE: 15.863.260-5"
+        },
+        "Warehouses": {
+            "WarehouseCode": "34.ED1",
+            "WarehouseName": "EXPEDICAO DIRETA - FAZ. SANTO ANTONIO - BCT",
+            "BusinessPlaceID": 34
+        },
+        "ProductionUnit": {
+            "Code": "17",
+            "Name": "17 - SANTA MARIA / SANTO ANTONIO"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 43,
+            "BPLName": "FAZ. SANTA MARIA I- PA - BCT - IE: 15.918.399-5"
+        },
+        "Warehouses": {
+            "WarehouseCode": "43.COMB",
+            "WarehouseName": "TANQUE DE COMBUSTIVEIS - FAZ. SANTA MARIA I - BCT",
+            "BusinessPlaceID": 43
+        },
+        "ProductionUnit": {
+            "Code": "17",
+            "Name": "17 - SANTA MARIA / SANTO ANTONIO"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 43,
+            "BPLName": "FAZ. SANTA MARIA I- PA - BCT - IE: 15.918.399-5"
+        },
+        "Warehouses": {
+            "WarehouseCode": "43.GRAO",
+            "WarehouseName": "DEPOSITO GRAOS - FAZ SANTA MARIA I - BCT",
+            "BusinessPlaceID": 43
+        },
+        "ProductionUnit": {
+            "Code": "17",
+            "Name": "17 - SANTA MARIA / SANTO ANTONIO"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 43,
+            "BPLName": "FAZ. SANTA MARIA I- PA - BCT - IE: 15.918.399-5"
+        },
+        "Warehouses": {
+            "WarehouseCode": "43.LAV",
+            "WarehouseName": "COLHEITA LAVOURA - FAZ SANTA MARIA I - BCT",
+            "BusinessPlaceID": 43
+        },
+        "ProductionUnit": {
+            "Code": "17",
+            "Name": "17 - SANTA MARIA / SANTO ANTONIO"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 36,
+            "BPLName": "FAZ. SANTA MARIA II- PA - BCT - IE: 15.917.968-8"
+        },
+        "Warehouses": {
+            "WarehouseCode": "36.ED",
+            "WarehouseName": "EXPEDICAO DIRETA - FAZ. SANTA MARIA II - BCT",
+            "BusinessPlaceID": 36
+        },
+        "ProductionUnit": {
+            "Code": "17",
+            "Name": "17 - SANTA MARIA / SANTO ANTONIO"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 43,
+            "BPLName": "FAZ. SANTA MARIA I- PA - BCT - IE: 15.918.399-5"
+        },
+        "Warehouses": {
+            "WarehouseCode": "43.ED",
+            "WarehouseName": "EXPEDICAO DIRETA - FAZ. SANTA MARIA I - BCT",
+            "BusinessPlaceID": 43
+        },
+        "ProductionUnit": {
+            "Code": "17",
+            "Name": "17 - SANTA MARIA / SANTO ANTONIO"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 43,
+            "BPLName": "FAZ. SANTA MARIA I- PA - BCT - IE: 15.918.399-5"
+        },
+        "Warehouses": {
+            "WarehouseCode": "43.BOV",
+            "WarehouseName": "BOVINOS - FAZ. SANTA MARIA I - BCT",
+            "BusinessPlaceID": 43
+        },
+        "ProductionUnit": {
+            "Code": "17",
+            "Name": "17 - SANTA MARIA / SANTO ANTONIO"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 34,
+            "BPLName": "FAZ. SANTO ANTONIO - BCT - IE: 15.863.260-5"
+        },
+        "Warehouses": {
+            "WarehouseCode": "34.T1001",
+            "WarehouseName": "RURAL BRASIL LTDA - FAZ. SANTO ANTONIO - BCT",
+            "BusinessPlaceID": 34
+        },
+        "ProductionUnit": {
+            "Code": "17",
+            "Name": "17 - SANTA MARIA / SANTO ANTONIO"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 36,
+            "BPLName": "FAZ. SANTA MARIA II- PA - BCT - IE: 15.917.968-8"
+        },
+        "Warehouses": {
+            "WarehouseCode": "36.BOV",
+            "WarehouseName": "BOVINOS - FAZ SANTA MARIA II - BCT",
+            "BusinessPlaceID": 36
+        },
+        "ProductionUnit": {
+            "Code": "17",
+            "Name": "17 - SANTA MARIA / SANTO ANTONIO"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 25,
+            "BPLName": "FAZ. SANTA INES - PRSM - IE. 15.600.416-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "25.COMB",
+            "WarehouseName": "COMBUSTIVEIS - FAZ SANTA INES",
+            "BusinessPlaceID": 25
+        },
+        "ProductionUnit": {
+            "Code": "2",
+            "Name": "2 - SANTA INES"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 25,
+            "BPLName": "FAZ. SANTA INES - PRSM - IE. 15.600.416-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "25.ED",
+            "WarehouseName": "EXPEDICAO DIRETA - FAZ SANTA INES",
+            "BusinessPlaceID": 25
+        },
+        "ProductionUnit": {
+            "Code": "2",
+            "Name": "2 - SANTA INES"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 25,
+            "BPLName": "FAZ. SANTA INES - PRSM - IE. 15.600.416-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "25.T1005",
+            "WarehouseName": "25.T1005 - GRAO BRASIL LTDA - FAZ SANTA INES PRSM",
+            "BusinessPlaceID": 25
+        },
+        "ProductionUnit": {
+            "Code": "2",
+            "Name": "2 - SANTA INES"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 25,
+            "BPLName": "FAZ. SANTA INES - PRSM - IE. 15.600.416-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "25.T1001",
+            "WarehouseName": "ARMAZEM TELES COMERCIO - FAZ SANTA INES",
+            "BusinessPlaceID": 25
+        },
+        "ProductionUnit": {
+            "Code": "2",
+            "Name": "2 - SANTA INES"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 25,
+            "BPLName": "FAZ. SANTA INES - PRSM - IE. 15.600.416-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "25.LAV",
+            "WarehouseName": "LAVOURA COLHEITA - FAZ SANTA INES",
+            "BusinessPlaceID": 25
+        },
+        "ProductionUnit": {
+            "Code": "2",
+            "Name": "2 - SANTA INES"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 25,
+            "BPLName": "FAZ. SANTA INES - PRSM - IE. 15.600.416-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "25.0001",
+            "WarehouseName": "DEPOSIO GERAL - FAZ SANTA INES",
+            "BusinessPlaceID": 25
+        },
+        "ProductionUnit": {
+            "Code": "2",
+            "Name": "2 - SANTA INES"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 33,
+            "BPLName": "FAZ. SANTA INES - BCT - IE: 15.863.259-1"
+        },
+        "Warehouses": {
+            "WarehouseCode": "31.BOV",
+            "WarehouseName": "INATIVO-BOVINOS - FAZ. STA INES - BCT",
+            "BusinessPlaceID": 33
+        },
+        "ProductionUnit": {
+            "Code": "2",
+            "Name": "2 - SANTA INES"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 25,
+            "BPLName": "FAZ. SANTA INES - PRSM - IE. 15.600.416-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "25.T1004",
+            "WarehouseName": "RURAL BRASIL LTDA - FAZ SANTA INES PRSM",
+            "BusinessPlaceID": 25
+        },
+        "ProductionUnit": {
+            "Code": "2",
+            "Name": "2 - SANTA INES"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 25,
+            "BPLName": "FAZ. SANTA INES - PRSM - IE. 15.600.416-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "25.T1003",
+            "WarehouseName": "TRANSPORTES LUFT LTDA - FAZ SANTA INES",
+            "BusinessPlaceID": 25
+        },
+        "ProductionUnit": {
+            "Code": "2",
+            "Name": "2 - SANTA INES"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 25,
+            "BPLName": "FAZ. SANTA INES - PRSM - IE. 15.600.416-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "25.T1002",
+            "WarehouseName": "ARMAZEM TELES & REIS CANARANA - FAZ SANTA INES",
+            "BusinessPlaceID": 25
+        },
+        "ProductionUnit": {
+            "Code": "2",
+            "Name": "2 - SANTA INES"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 33,
+            "BPLName": "FAZ. SANTA INES - BCT - IE: 15.863.259-1"
+        },
+        "Warehouses": {
+            "WarehouseCode": "33.BOV",
+            "WarehouseName": "BOVINOS - FAZ. STA INES - BCT",
+            "BusinessPlaceID": 33
+        },
+        "ProductionUnit": {
+            "Code": "2",
+            "Name": "2 - SANTA INES"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 33,
+            "BPLName": "FAZ. SANTA INES - BCT - IE: 15.863.259-1"
+        },
+        "Warehouses": {
+            "WarehouseCode": "33.0002",
+            "WarehouseName": "DEPOSITO GERAL - FAZ. SANTA INES - BCT",
+            "BusinessPlaceID": 33
+        },
+        "ProductionUnit": {
+            "Code": "2",
+            "Name": "2 - SANTA INES"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 33,
+            "BPLName": "FAZ. SANTA INES - BCT - IE: 15.863.259-1"
+        },
+        "Warehouses": {
+            "WarehouseCode": "33.1ED",
+            "WarehouseName": "EXPEDICAO DIRETA - FAZ. SANTA INES- BCT",
+            "BusinessPlaceID": 33
+        },
+        "ProductionUnit": {
+            "Code": "2",
+            "Name": "2 - SANTA INES"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 25,
+            "BPLName": "FAZ. SANTA INES - PRSM - IE. 15.600.416-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "25.GRAOS",
+            "WarehouseName": "ARMAZEM - FAZ SANTA INES",
+            "BusinessPlaceID": 25
+        },
+        "ProductionUnit": {
+            "Code": "2",
+            "Name": "2 - SANTA INES"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 11,
+            "BPLName": "FAZ. BOA VISTA DA FELICIDADE - FMT - IE. 11.450.294-3"
+        },
+        "Warehouses": {
+            "WarehouseCode": "11.ED",
+            "WarehouseName": "EXPEDICAO DIRETA - FAZ. BOA VISTA DA FELICIDADE - FMT",
+            "BusinessPlaceID": 11
+        },
+        "ProductionUnit": {
+            "Code": "3",
+            "Name": "3 - FAZ BOA VISTA DA FELICIDADE"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 3,
+            "BPLName": "FAZ. BOA VISTA DA FELICIDADE - BCT - IE. 11.503.075-1"
+        },
+        "Warehouses": {
+            "WarehouseCode": "3.0001",
+            "WarehouseName": "DEPOSITO GERAL - BOA VISTA DA FELICIDADE",
+            "BusinessPlaceID": 3
+        },
+        "ProductionUnit": {
+            "Code": "3",
+            "Name": "3 - FAZ BOA VISTA DA FELICIDADE"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 19,
+            "BPLName": "FAZ. MUTUM - LMT - IE - 11.359.323-6"
+        },
+        "Warehouses": {
+            "WarehouseCode": "19.ED",
+            "WarehouseName": "EXPEDICAO DIRETA - FAZ. MUTUM - LMT",
+            "BusinessPlaceID": 19
+        },
+        "ProductionUnit": {
+            "Code": "3",
+            "Name": "3 - FAZ BOA VISTA DA FELICIDADE"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 16,
+            "BPLName": "FAZ. BOA VISTA DA FELICIDADE - LMT IE.11.450.008-8"
+        },
+        "Warehouses": {
+            "WarehouseCode": "41.T1001",
+            "WarehouseName": "INATIVO",
+            "BusinessPlaceID": 16
+        },
+        "ProductionUnit": {
+            "Code": "3",
+            "Name": "3 - FAZ BOA VISTA DA FELICIDADE"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 16,
+            "BPLName": "FAZ. BOA VISTA DA FELICIDADE - LMT IE.11.450.008-8"
+        },
+        "Warehouses": {
+            "WarehouseCode": "16.0001",
+            "WarehouseName": "DEPOSITO GERAL - FAZ. BOA VISTA DA FELICIDADE - LE.MT",
+            "BusinessPlaceID": 16
+        },
+        "ProductionUnit": {
+            "Code": "3",
+            "Name": "3 - FAZ BOA VISTA DA FELICIDADE"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 16,
+            "BPLName": "FAZ. BOA VISTA DA FELICIDADE - LMT IE.11.450.008-8"
+        },
+        "Warehouses": {
+            "WarehouseCode": "16.T1005",
+            "WarehouseName": "UBS - MICHEL MEKDESSI - FAZ. BOA VISTA DA FELICIDADE - LE.MT",
+            "BusinessPlaceID": 16
+        },
+        "ProductionUnit": {
+            "Code": "3",
+            "Name": "3 - FAZ BOA VISTA DA FELICIDADE"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 16,
+            "BPLName": "FAZ. BOA VISTA DA FELICIDADE - LMT IE.11.450.008-8"
+        },
+        "Warehouses": {
+            "WarehouseCode": "16.ED",
+            "WarehouseName": "EXPEDICAO DIRETA - FAZ. BOA VISTA DA FELICIDADE - LE.MT",
+            "BusinessPlaceID": 16
+        },
+        "ProductionUnit": {
+            "Code": "3",
+            "Name": "3 - FAZ BOA VISTA DA FELICIDADE"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 16,
+            "BPLName": "FAZ. BOA VISTA DA FELICIDADE - LMT IE.11.450.008-8"
+        },
+        "Warehouses": {
+            "WarehouseCode": "16.T1004",
+            "WarehouseName": "LDC JATAI- FAZ. BOA VISTA DA FELICIDADE - LE.MT",
+            "BusinessPlaceID": 16
+        },
+        "ProductionUnit": {
+            "Code": "3",
+            "Name": "3 - FAZ BOA VISTA DA FELICIDADE"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 3,
+            "BPLName": "FAZ. BOA VISTA DA FELICIDADE - BCT - IE. 11.503.075-1"
+        },
+        "Warehouses": {
+            "WarehouseCode": "3.ED",
+            "WarehouseName": "EXPEDICAO DIRETA - BOA VISTA DA FELICIDADE",
+            "BusinessPlaceID": 3
+        },
+        "ProductionUnit": {
+            "Code": "3",
+            "Name": "3 - FAZ BOA VISTA DA FELICIDADE"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 11,
+            "BPLName": "FAZ. BOA VISTA DA FELICIDADE - FMT - IE. 11.450.294-3"
+        },
+        "Warehouses": {
+            "WarehouseCode": "11.0001",
+            "WarehouseName": "DEPOSITO GERAL - FAZ. BOA VISTA DA FELICIDADE - FMT",
+            "BusinessPlaceID": 11
+        },
+        "ProductionUnit": {
+            "Code": "3",
+            "Name": "3 - FAZ BOA VISTA DA FELICIDADE"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 16,
+            "BPLName": "FAZ. BOA VISTA DA FELICIDADE - LMT IE.11.450.008-8"
+        },
+        "Warehouses": {
+            "WarehouseCode": "16.COMB",
+            "WarehouseName": "TANQUE DE COMBUSTIVEIS - FAZ. BOA VISTA DA FELICIDADE - LE.MT",
+            "BusinessPlaceID": 16
+        },
+        "ProductionUnit": {
+            "Code": "3",
+            "Name": "3 - FAZ BOA VISTA DA FELICIDADE"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 17,
+            "BPLName": "FAZ. 3T - LMT - IE. 11.470.762-6"
+        },
+        "Warehouses": {
+            "WarehouseCode": "17.ED",
+            "WarehouseName": "EXPEDICAO DIRETA - FAZ 3T",
+            "BusinessPlaceID": 17
+        },
+        "ProductionUnit": {
+            "Code": "3",
+            "Name": "3 - FAZ BOA VISTA DA FELICIDADE"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 16,
+            "BPLName": "FAZ. BOA VISTA DA FELICIDADE - LMT IE.11.450.008-8"
+        },
+        "Warehouses": {
+            "WarehouseCode": "16.T1010",
+            "WarehouseName": "16.T1010 - PARC. CELSO O. ASSIS - FAZ B V DA FELICIDADE",
+            "BusinessPlaceID": 16
+        },
+        "ProductionUnit": {
+            "Code": "3",
+            "Name": "3 - FAZ BOA VISTA DA FELICIDADE"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 16,
+            "BPLName": "FAZ. BOA VISTA DA FELICIDADE - LMT IE.11.450.008-8"
+        },
+        "Warehouses": {
+            "WarehouseCode": "16.T1011",
+            "WarehouseName": "16.T1011 - PARC. TANIA B. O. ASSIS - FAZ B V DA FELICIDADE",
+            "BusinessPlaceID": 16
+        },
+        "ProductionUnit": {
+            "Code": "3",
+            "Name": "3 - FAZ BOA VISTA DA FELICIDADE"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 41,
+            "BPLName": "FAZ. BOA VISTA DA FELICIDADE - LUCAS - IE. 11.533.726-1"
+        },
+        "Warehouses": {
+            "WarehouseCode": "41.ED",
+            "WarehouseName": "EXPEDICAO DIRETA - BOA VISTA DA FELICIDADE - LUCAS",
+            "BusinessPlaceID": 41
+        },
+        "ProductionUnit": {
+            "Code": "3",
+            "Name": "3 - FAZ BOA VISTA DA FELICIDADE"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 41,
+            "BPLName": "FAZ. BOA VISTA DA FELICIDADE - LUCAS - IE. 11.533.726-1"
+        },
+        "Warehouses": {
+            "WarehouseCode": "41.0001",
+            "WarehouseName": "DEPOSITO GERAL - BOA VISTA DA FELICIDADE - LUCAS",
+            "BusinessPlaceID": 41
+        },
+        "ProductionUnit": {
+            "Code": "3",
+            "Name": "3 - FAZ BOA VISTA DA FELICIDADE"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 16,
+            "BPLName": "FAZ. BOA VISTA DA FELICIDADE - LMT IE.11.450.008-8"
+        },
+        "Warehouses": {
+            "WarehouseCode": "16.T1009",
+            "WarehouseName": "TRANSPORTES LUFT LTDA - FAZ. BOA VISTA DA FELICIDADE",
+            "BusinessPlaceID": 16
+        },
+        "ProductionUnit": {
+            "Code": "3",
+            "Name": "3 - FAZ BOA VISTA DA FELICIDADE"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 16,
+            "BPLName": "FAZ. BOA VISTA DA FELICIDADE - LMT IE.11.450.008-8"
+        },
+        "Warehouses": {
+            "WarehouseCode": "16.LAV",
+            "WarehouseName": "LAVOURA COLHEITA - FAZ. BOA VISTA DA FELICIDADE - LE.MT",
+            "BusinessPlaceID": 16
+        },
+        "ProductionUnit": {
+            "Code": "3",
+            "Name": "3 - FAZ BOA VISTA DA FELICIDADE"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 16,
+            "BPLName": "FAZ. BOA VISTA DA FELICIDADE - LMT IE.11.450.008-8"
+        },
+        "Warehouses": {
+            "WarehouseCode": "16.T1008",
+            "WarehouseName": "COMIGO SERRANOPOLIS  - FAZ. BOA VISTA DA FELICIDADE",
+            "BusinessPlaceID": 16
+        },
+        "ProductionUnit": {
+            "Code": "3",
+            "Name": "3 - FAZ BOA VISTA DA FELICIDADE"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 18,
+            "BPLName": "FAZ. BOM JARDIM - LMT - IE. 11.359.322-8"
+        },
+        "Warehouses": {
+            "WarehouseCode": "18.ED",
+            "WarehouseName": "EXPEDIÇAO DIRETA - FAZ BOM JARDIM - LMT",
+            "BusinessPlaceID": 18
+        },
+        "ProductionUnit": {
+            "Code": "3",
+            "Name": "3 - FAZ BOA VISTA DA FELICIDADE"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 41,
+            "BPLName": "FAZ. BOA VISTA DA FELICIDADE - LUCAS - IE. 11.533.726-1"
+        },
+        "Warehouses": {
+            "WarehouseCode": "41.T1002",
+            "WarehouseName": "41.T1002 - T3 SEMENTES  - FAZ. BOA VISTA DA FELICIDADE LUCAS",
+            "BusinessPlaceID": 41
+        },
+        "ProductionUnit": {
+            "Code": "3",
+            "Name": "3 - FAZ BOA VISTA DA FELICIDADE"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 16,
+            "BPLName": "FAZ. BOA VISTA DA FELICIDADE - LMT IE.11.450.008-8"
+        },
+        "Warehouses": {
+            "WarehouseCode": "16.BOV",
+            "WarehouseName": "BOVINOS - FAZ. BOA VISTA DA FELICIDADE - LE.MT",
+            "BusinessPlaceID": 16
+        },
+        "ProductionUnit": {
+            "Code": "3",
+            "Name": "3 - FAZ BOA VISTA DA FELICIDADE"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 3,
+            "BPLName": "FAZ. BOA VISTA DA FELICIDADE - BCT - IE. 11.503.075-1"
+        },
+        "Warehouses": {
+            "WarehouseCode": "3.T0003",
+            "WarehouseName": "LDC - LOUIS DREYFUS COMPANY- BOA VISTA DA FELICIDADE BCT",
+            "BusinessPlaceID": 3
+        },
+        "ProductionUnit": {
+            "Code": "3",
+            "Name": "3 - FAZ BOA VISTA DA FELICIDADE"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 16,
+            "BPLName": "FAZ. BOA VISTA DA FELICIDADE - LMT IE.11.450.008-8"
+        },
+        "Warehouses": {
+            "WarehouseCode": "16.T1003",
+            "WarehouseName": "ARMAZEM BURITI- FAZ. BOA VISTA DA FELICIDADE - LE.MT",
+            "BusinessPlaceID": 16
+        },
+        "ProductionUnit": {
+            "Code": "3",
+            "Name": "3 - FAZ BOA VISTA DA FELICIDADE"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 3,
+            "BPLName": "FAZ. BOA VISTA DA FELICIDADE - BCT - IE. 11.503.075-1"
+        },
+        "Warehouses": {
+            "WarehouseCode": "3.T0002",
+            "WarehouseName": "LDC - PLANALTO VERDE - BOA VISTA DA FELICIDADE BCT",
+            "BusinessPlaceID": 3
+        },
+        "ProductionUnit": {
+            "Code": "3",
+            "Name": "3 - FAZ BOA VISTA DA FELICIDADE"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 16,
+            "BPLName": "FAZ. BOA VISTA DA FELICIDADE - LMT IE.11.450.008-8"
+        },
+        "Warehouses": {
+            "WarehouseCode": "16.T1006",
+            "WarehouseName": "RURAL BRASIL LTDA - FAZ. BOA VISTA DA FELICIDADE",
+            "BusinessPlaceID": 16
+        },
+        "ProductionUnit": {
+            "Code": "3",
+            "Name": "3 - FAZ BOA VISTA DA FELICIDADE"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 16,
+            "BPLName": "FAZ. BOA VISTA DA FELICIDADE - LMT IE.11.450.008-8"
+        },
+        "Warehouses": {
+            "WarehouseCode": "16.T1002",
+            "WarehouseName": "COMIGO JATAI- FAZ. BOA VISTA DA FELICIDADE - LE.MT",
+            "BusinessPlaceID": 16
+        },
+        "ProductionUnit": {
+            "Code": "3",
+            "Name": "3 - FAZ BOA VISTA DA FELICIDADE"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 3,
+            "BPLName": "FAZ. BOA VISTA DA FELICIDADE - BCT - IE. 11.503.075-1"
+        },
+        "Warehouses": {
+            "WarehouseCode": "3.LAV",
+            "WarehouseName": "DEPOSITO LAVOURA - BOA VISTA DA FELICIDADE",
+            "BusinessPlaceID": 3
+        },
+        "ProductionUnit": {
+            "Code": "3",
+            "Name": "3 - FAZ BOA VISTA DA FELICIDADE"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 3,
+            "BPLName": "FAZ. BOA VISTA DA FELICIDADE - BCT - IE. 11.503.075-1"
+        },
+        "Warehouses": {
+            "WarehouseCode": "3.T0001",
+            "WarehouseName": "UBS - MICHEL MEKDESSI  - BOA VISTA DA FELICIDADE",
+            "BusinessPlaceID": 3
+        },
+        "ProductionUnit": {
+            "Code": "3",
+            "Name": "3 - FAZ BOA VISTA DA FELICIDADE"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 16,
+            "BPLName": "FAZ. BOA VISTA DA FELICIDADE - LMT IE.11.450.008-8"
+        },
+        "Warehouses": {
+            "WarehouseCode": "16.T1007",
+            "WarehouseName": "16.T1007 - T3 SEMENTES  - FAZ. BOA VISTA DA FELICIDADE LMT",
+            "BusinessPlaceID": 16
+        },
+        "ProductionUnit": {
+            "Code": "3",
+            "Name": "3 - FAZ BOA VISTA DA FELICIDADE"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 16,
+            "BPLName": "FAZ. BOA VISTA DA FELICIDADE - LMT IE.11.450.008-8"
+        },
+        "Warehouses": {
+            "WarehouseCode": "16.T1001",
+            "WarehouseName": "CARGILL JATAI- FAZ. BOA VISTA DA FELICIDADE - LE.MT",
+            "BusinessPlaceID": 16
+        },
+        "ProductionUnit": {
+            "Code": "3",
+            "Name": "3 - FAZ BOA VISTA DA FELICIDADE"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 20,
+            "BPLName": "FAZ. NOSSA SENHORA APARECIDA - LMT - IE.11.428.903-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "20.T1001",
+            "WarehouseName": "LOUIS DREYFUS COMPANY BRASIL - FAZ. NOSSA SENHORA APARECIDA",
+            "BusinessPlaceID": 20
+        },
+        "ProductionUnit": {
+            "Code": "4",
+            "Name": "4 - FAZ NOSSA SENHORA APARECIDA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 20,
+            "BPLName": "FAZ. NOSSA SENHORA APARECIDA - LMT - IE.11.428.903-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "20.T1006",
+            "WarehouseName": "DEPOSITO EM PODER DE TERCEIROS - FAZ. NOSSA SENHORA APARECIDA",
+            "BusinessPlaceID": 20
+        },
+        "ProductionUnit": {
+            "Code": "4",
+            "Name": "4 - FAZ NOSSA SENHORA APARECIDA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 20,
+            "BPLName": "FAZ. NOSSA SENHORA APARECIDA - LMT - IE.11.428.903-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "20.T1010",
+            "WarehouseName": "RURAL BRASIL LTDA - FAZ. NOSSA SENHORA APARECIDA",
+            "BusinessPlaceID": 20
+        },
+        "ProductionUnit": {
+            "Code": "4",
+            "Name": "4 - FAZ NOSSA SENHORA APARECIDA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 20,
+            "BPLName": "FAZ. NOSSA SENHORA APARECIDA - LMT - IE.11.428.903-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "20.T1007",
+            "WarehouseName": "SERTAO AGRICOLA - FAZ. NOSSA SENHORA APARECIDA",
+            "BusinessPlaceID": 20
+        },
+        "ProductionUnit": {
+            "Code": "4",
+            "Name": "4 - FAZ NOSSA SENHORA APARECIDA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 20,
+            "BPLName": "FAZ. NOSSA SENHORA APARECIDA - LMT - IE.11.428.903-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "20.T1008",
+            "WarehouseName": "T3 SEMENTES - FAZ. NOSSA SENHORA APARECIDA",
+            "BusinessPlaceID": 20
+        },
+        "ProductionUnit": {
+            "Code": "4",
+            "Name": "4 - FAZ NOSSA SENHORA APARECIDA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 20,
+            "BPLName": "FAZ. NOSSA SENHORA APARECIDA - LMT - IE.11.428.903-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "20.T1011",
+            "WarehouseName": "20.T1011 - PARC. JOAQUIM A. C. FURQUIM - FAZ NSA",
+            "BusinessPlaceID": 20
+        },
+        "ProductionUnit": {
+            "Code": "4",
+            "Name": "4 - FAZ NOSSA SENHORA APARECIDA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 20,
+            "BPLName": "FAZ. NOSSA SENHORA APARECIDA - LMT - IE.11.428.903-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "20.T1009",
+            "WarehouseName": "TRANSPORTES LUFT LTDA - FAZ. NOSSA SENHORA APARECIDA",
+            "BusinessPlaceID": 20
+        },
+        "ProductionUnit": {
+            "Code": "4",
+            "Name": "4 - FAZ NOSSA SENHORA APARECIDA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 20,
+            "BPLName": "FAZ. NOSSA SENHORA APARECIDA - LMT - IE.11.428.903-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "20.LAV",
+            "WarehouseName": "LAVOURA COLHEITA - FAZ. NOSSA SENHORA APARECIDA",
+            "BusinessPlaceID": 20
+        },
+        "ProductionUnit": {
+            "Code": "4",
+            "Name": "4 - FAZ NOSSA SENHORA APARECIDA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 20,
+            "BPLName": "FAZ. NOSSA SENHORA APARECIDA - LMT - IE.11.428.903-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "20.T1005",
+            "WarehouseName": "ARMAZEM CARGILL - FAZ. NOSSA SENHORA APARECIDA",
+            "BusinessPlaceID": 20
+        },
+        "ProductionUnit": {
+            "Code": "4",
+            "Name": "4 - FAZ NOSSA SENHORA APARECIDA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 20,
+            "BPLName": "FAZ. NOSSA SENHORA APARECIDA - LMT - IE.11.428.903-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "20.0001",
+            "WarehouseName": "DEPOSITO GERAL - FAZ. NOSSA SENHORA APARECIDA",
+            "BusinessPlaceID": 20
+        },
+        "ProductionUnit": {
+            "Code": "4",
+            "Name": "4 - FAZ NOSSA SENHORA APARECIDA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 20,
+            "BPLName": "FAZ. NOSSA SENHORA APARECIDA - LMT - IE.11.428.903-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "20.T1004",
+            "WarehouseName": "UBS - MICHEL MEKDESSI - FAZ. NOSSA SENHORA APARECIDA",
+            "BusinessPlaceID": 20
+        },
+        "ProductionUnit": {
+            "Code": "4",
+            "Name": "4 - FAZ NOSSA SENHORA APARECIDA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 20,
+            "BPLName": "FAZ. NOSSA SENHORA APARECIDA - LMT - IE.11.428.903-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "20.T1003",
+            "WarehouseName": "ARMAZEM COMIGO - FAZ. NOSSA SENHORA APARECIDA",
+            "BusinessPlaceID": 20
+        },
+        "ProductionUnit": {
+            "Code": "4",
+            "Name": "4 - FAZ NOSSA SENHORA APARECIDA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 20,
+            "BPLName": "FAZ. NOSSA SENHORA APARECIDA - LMT - IE.11.428.903-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "20.V0001",
+            "WarehouseName": "VIRTUAL - FAZ. NOSSA SENHORA APARECIDA",
+            "BusinessPlaceID": 20
+        },
+        "ProductionUnit": {
+            "Code": "4",
+            "Name": "4 - FAZ NOSSA SENHORA APARECIDA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 20,
+            "BPLName": "FAZ. NOSSA SENHORA APARECIDA - LMT - IE.11.428.903-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "20.T1002",
+            "WarehouseName": "ARMAZEM CHAPADAO - FAZ. NOSSA SENHORA APARECIDA",
+            "BusinessPlaceID": 20
+        },
+        "ProductionUnit": {
+            "Code": "4",
+            "Name": "4 - FAZ NOSSA SENHORA APARECIDA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 20,
+            "BPLName": "FAZ. NOSSA SENHORA APARECIDA - LMT - IE.11.428.903-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "20.ED",
+            "WarehouseName": "EXPEDICAO DIRETA - FAZ. NOSSA SENHORA APARECIDA",
+            "BusinessPlaceID": 20
+        },
+        "ProductionUnit": {
+            "Code": "4",
+            "Name": "4 - FAZ NOSSA SENHORA APARECIDA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 20,
+            "BPLName": "FAZ. NOSSA SENHORA APARECIDA - LMT - IE.11.428.903-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "20.COMB",
+            "WarehouseName": "TANQUE DE COMBUSTIVEIS - FAZ. NOSSA SENHORA APARECIDA",
+            "BusinessPlaceID": 20
+        },
+        "ProductionUnit": {
+            "Code": "4",
+            "Name": "4 - FAZ NOSSA SENHORA APARECIDA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 8,
+            "BPLName": "FAZ. 2T - BCT - IE. 13.683.018-8"
+        },
+        "Warehouses": {
+            "WarehouseCode": "8.0001",
+            "WarehouseName": "DEPOSITO GERAL - FAZ 2T - BCT",
+            "BusinessPlaceID": 8
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 39,
+            "BPLName": "FAZ. FORMOSA II - RSR -  13.540.419-3"
+        },
+        "Warehouses": {
+            "WarehouseCode": "39.ED",
+            "WarehouseName": "EXPEDICAO DIRETA - FAZ. FORMOSA II - RSR",
+            "BusinessPlaceID": 39
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 7,
+            "BPLName": "FAZ. ANA PAULA -BCT -  IE. 13.582.698-5"
+        },
+        "Warehouses": {
+            "WarehouseCode": "7.0001",
+            "WarehouseName": "DEPOSITO GERAL - FAZ. ANA PAULA - BCT",
+            "BusinessPlaceID": 7
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 26,
+            "BPLName": "FAZ. ANA PAULA - RSR - 13.540.419-3"
+        },
+        "Warehouses": {
+            "WarehouseCode": "26.GRAOS",
+            "WarehouseName": "ARMAZEM - FAZ. ANA PAULA - RSR",
+            "BusinessPlaceID": 26
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 27,
+            "BPLName": "FAZ. ARCO VERDE - RSR - IE. 13.579.666-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "27.T1006",
+            "WarehouseName": "27.T1006 -  LDC LOUIS DREYFUS COMPANY  - FAZ ARCO VERDE - RSR",
+            "BusinessPlaceID": 27
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 40,
+            "BPLName": "FAZ. ESTANCIA BAHIA - RSR - IE. 13.579.666-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "40.0001",
+            "WarehouseName": "DEPOSITO GERAL - FAZ. ESTANCIA BAHIA",
+            "BusinessPlaceID": 40
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 40,
+            "BPLName": "FAZ. ESTANCIA BAHIA - RSR - IE. 13.579.666-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "40.ED",
+            "WarehouseName": "EXPEDIÇÃO DIRETA - FAZ. ESTANCIA BAHIA",
+            "BusinessPlaceID": 40
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 39,
+            "BPLName": "FAZ. FORMOSA II - RSR -  13.540.419-3"
+        },
+        "Warehouses": {
+            "WarehouseCode": "39.LAV",
+            "WarehouseName": "COLHEITA LAVOURA - FAZ FORMOSA II - RSR",
+            "BusinessPlaceID": 39
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 27,
+            "BPLName": "FAZ. ARCO VERDE - RSR - IE. 13.579.666-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "27.COMB",
+            "WarehouseName": "TANQUE DE COMBUSTIVEIS - FAZ ARCO VERDE - RSR",
+            "BusinessPlaceID": 27
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 27,
+            "BPLName": "FAZ. ARCO VERDE - RSR - IE. 13.579.666-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "27.LAV",
+            "WarehouseName": "27.LAV - COLHEITA LAVOURA - FAZ ARCO VERDE - RSR",
+            "BusinessPlaceID": 27
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 27,
+            "BPLName": "FAZ. ARCO VERDE - RSR - IE. 13.579.666-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "27.ED",
+            "WarehouseName": "EXPEDICAO DIRETA - FAZ ARCO VERDE - RSR",
+            "BusinessPlaceID": 27
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 26,
+            "BPLName": "FAZ. ANA PAULA - RSR - 13.540.419-3"
+        },
+        "Warehouses": {
+            "WarehouseCode": "26.ED",
+            "WarehouseName": "EXPEDICAO DIRETA - FAZ. ANA PAULA - RSR",
+            "BusinessPlaceID": 26
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 8,
+            "BPLName": "FAZ. 2T - BCT - IE. 13.683.018-8"
+        },
+        "Warehouses": {
+            "WarehouseCode": "8.ED",
+            "WarehouseName": "EXPEDICAO DIRETA - FAZ. 2T - BCT",
+            "BusinessPlaceID": 8
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 27,
+            "BPLName": "FAZ. ARCO VERDE - RSR - IE. 13.579.666-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "27.0001",
+            "WarehouseName": "DEPOSITO GERAL - FAZ ARCO VERDE - RSR",
+            "BusinessPlaceID": 27
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 8,
+            "BPLName": "FAZ. 2T - BCT - IE. 13.683.018-8"
+        },
+        "Warehouses": {
+            "WarehouseCode": "8.T1001",
+            "WarehouseName": "8.T1001 - LDC LOUIS DREYFUS COMPANY - FAZ 2T - BCT",
+            "BusinessPlaceID": 8
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 26,
+            "BPLName": "FAZ. ANA PAULA - RSR - 13.540.419-3"
+        },
+        "Warehouses": {
+            "WarehouseCode": "26.LAV",
+            "WarehouseName": "LAVOURA COLHEITA - FAZ. ANA PAULA - RSR",
+            "BusinessPlaceID": 26
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 26,
+            "BPLName": "FAZ. ANA PAULA - RSR - 13.540.419-3"
+        },
+        "Warehouses": {
+            "WarehouseCode": "26.T1006",
+            "WarehouseName": "26.T1006 - COFCO CANARANA - FAZ ANA PAULA",
+            "BusinessPlaceID": 26
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 7,
+            "BPLName": "FAZ. ANA PAULA -BCT -  IE. 13.582.698-5"
+        },
+        "Warehouses": {
+            "WarehouseCode": "7.ED",
+            "WarehouseName": "EXPEDICAO DIRETA - FAZ ANA PAULA - BCT",
+            "BusinessPlaceID": 7
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 26,
+            "BPLName": "FAZ. ANA PAULA - RSR - 13.540.419-3"
+        },
+        "Warehouses": {
+            "WarehouseCode": "26.0001",
+            "WarehouseName": "DEPOSITO GERAL - FAZ. ANA PAULA - RSR",
+            "BusinessPlaceID": 26
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 8,
+            "BPLName": "FAZ. 2T - BCT - IE. 13.683.018-8"
+        },
+        "Warehouses": {
+            "WarehouseCode": "8.GRAOS",
+            "WarehouseName": "8.GRAOS - ARMAZEM - FAZ 2T - BCT",
+            "BusinessPlaceID": 8
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 27,
+            "BPLName": "FAZ. ARCO VERDE - RSR - IE. 13.579.666-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "27.T1005",
+            "WarehouseName": "27.T1005 -COFCO ARMAZEM CANARANA- FAZ ARCO VERDE - RSR",
+            "BusinessPlaceID": 27
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 26,
+            "BPLName": "FAZ. ANA PAULA - RSR - 13.540.419-3"
+        },
+        "Warehouses": {
+            "WarehouseCode": "26.T1003",
+            "WarehouseName": "TRANSCAMILA CARGAS E ARMAZENS GERAIS LTDA - RONDONOPOLIS - FAZ ANA PAULA",
+            "BusinessPlaceID": 26
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 26,
+            "BPLName": "FAZ. ANA PAULA - RSR - 13.540.419-3"
+        },
+        "Warehouses": {
+            "WarehouseCode": "26.T1014",
+            "WarehouseName": "26.T1014 - PARC. CIRILO STRAPASSON - FAZ ANA PAULA",
+            "BusinessPlaceID": 26
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 38,
+            "BPLName": "FAZ. FORMOSA - BCT -  13.582.698-5"
+        },
+        "Warehouses": {
+            "WarehouseCode": "38.0001",
+            "WarehouseName": "DEPOSITO GERAL - FAZ. FORMOSA - BCT",
+            "BusinessPlaceID": 38
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 26,
+            "BPLName": "FAZ. ANA PAULA - RSR - 13.540.419-3"
+        },
+        "Warehouses": {
+            "WarehouseCode": "26.T1013",
+            "WarehouseName": "26.T1013 - PARC. GUILHERME AUGUSTO FRERING - FAZ ANA PAULA",
+            "BusinessPlaceID": 26
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 7,
+            "BPLName": "FAZ. ANA PAULA -BCT -  IE. 13.582.698-5"
+        },
+        "Warehouses": {
+            "WarehouseCode": "7.V0001",
+            "WarehouseName": "VIRTUAL - FAZ. ANA PAULA - BCT",
+            "BusinessPlaceID": 7
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 26,
+            "BPLName": "FAZ. ANA PAULA - RSR - 13.540.419-3"
+        },
+        "Warehouses": {
+            "WarehouseCode": "26.T1012",
+            "WarehouseName": "26.T1012 - PARC. GILDO BERTONI LEITE- FAZ ANA PAULA",
+            "BusinessPlaceID": 26
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 7,
+            "BPLName": "FAZ. ANA PAULA -BCT -  IE. 13.582.698-5"
+        },
+        "Warehouses": {
+            "WarehouseCode": "26.T1011",
+            "WarehouseName": "26.T1011 - PARC. FAZ JATOBA LTDA - FAZ ANA PAULA",
+            "BusinessPlaceID": 7
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 26,
+            "BPLName": "FAZ. ANA PAULA - RSR - 13.540.419-3"
+        },
+        "Warehouses": {
+            "WarehouseCode": "26.T1010",
+            "WarehouseName": "26.T1010 - PARC. S&A EMPREENDIMENTOS E AGROPEC. LTDA - FAZ ANA  PAULA",
+            "BusinessPlaceID": 26
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 26,
+            "BPLName": "FAZ. ANA PAULA - RSR - 13.540.419-3"
+        },
+        "Warehouses": {
+            "WarehouseCode": "26.T1002",
+            "WarehouseName": "AGRICOLA ALVORADA - FAZ ANA PAULA - RSR",
+            "BusinessPlaceID": 26
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 27,
+            "BPLName": "FAZ. ARCO VERDE - RSR - IE. 13.579.666-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "27.T1002",
+            "WarehouseName": "CARGILL AGUA BOA- FAZ ARCO VERDE - RSR",
+            "BusinessPlaceID": 27
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 27,
+            "BPLName": "FAZ. ARCO VERDE - RSR - IE. 13.579.666-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "27.T1004",
+            "WarehouseName": "AGRICOLA ALVORADA (Canarana) - FAZ ARCO VERDE - RSR",
+            "BusinessPlaceID": 27
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 26,
+            "BPLName": "FAZ. ANA PAULA - RSR - 13.540.419-3"
+        },
+        "Warehouses": {
+            "WarehouseCode": "26.T1004",
+            "WarehouseName": "AGRICOLA FERRARI LTDA - FAZ ANA PAULA",
+            "BusinessPlaceID": 26
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 27,
+            "BPLName": "FAZ. ARCO VERDE - RSR - IE. 13.579.666-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "27.T1003",
+            "WarehouseName": "AGRICOLA FERRARI LTDA - FAZ ARCO VERDE - RSR",
+            "BusinessPlaceID": 27
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 26,
+            "BPLName": "FAZ. ANA PAULA - RSR - 13.540.419-3"
+        },
+        "Warehouses": {
+            "WarehouseCode": "26.COMB",
+            "WarehouseName": "TANQUE DE COMBUSTIVEIS - FAZ. ANA PAULA - RSR",
+            "BusinessPlaceID": 26
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 27,
+            "BPLName": "FAZ. ARCO VERDE - RSR - IE. 13.579.666-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "27.T1001",
+            "WarehouseName": "AGRICOLA ALVORADA (Agua Boa)- FAZ ARCO VERDE - RSR",
+            "BusinessPlaceID": 27
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 26,
+            "BPLName": "FAZ. ANA PAULA - RSR - 13.540.419-3"
+        },
+        "Warehouses": {
+            "WarehouseCode": "26.T1007",
+            "WarehouseName": "26.T1007 - PARC. ANA PAULA DALLPIZZOL - FAZ ANA PAULA",
+            "BusinessPlaceID": 26
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 26,
+            "BPLName": "FAZ. ANA PAULA - RSR - 13.540.419-3"
+        },
+        "Warehouses": {
+            "WarehouseCode": "26.BOV",
+            "WarehouseName": "BOVINOS - FAZ. ANA PAULA - RSR",
+            "BusinessPlaceID": 26
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 26,
+            "BPLName": "FAZ. ANA PAULA - RSR - 13.540.419-3"
+        },
+        "Warehouses": {
+            "WarehouseCode": "26.T1001",
+            "WarehouseName": "TRANSPORTES LUFT LTDA - QUERENCIA -  FAZ. ANA PAULA - RSR",
+            "BusinessPlaceID": 26
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 39,
+            "BPLName": "FAZ. FORMOSA II - RSR -  13.540.419-3"
+        },
+        "Warehouses": {
+            "WarehouseCode": "39.0001",
+            "WarehouseName": "DEPOSITO GERAL - FAZ. FORMOSA II - RSR",
+            "BusinessPlaceID": 39
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 26,
+            "BPLName": "FAZ. ANA PAULA - RSR - 13.540.419-3"
+        },
+        "Warehouses": {
+            "WarehouseCode": "26.T1008",
+            "WarehouseName": "26.T1008 - PARC. SEILA A. DA SILVA - FAZ ANA PAULA",
+            "BusinessPlaceID": 26
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 26,
+            "BPLName": "FAZ. ANA PAULA - RSR - 13.540.419-3"
+        },
+        "Warehouses": {
+            "WarehouseCode": "26.T1009",
+            "WarehouseName": "26.T1009 - PARC. VALACIR VICENTE DE BONA - FAZ ANA PAULA",
+            "BusinessPlaceID": 26
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 27,
+            "BPLName": "FAZ. ARCO VERDE - RSR - IE. 13.579.666-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "27.BOV",
+            "WarehouseName": "BOVINOS - FAZ ARCO VERDE - RSR",
+            "BusinessPlaceID": 27
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 7,
+            "BPLName": "FAZ. ANA PAULA -BCT -  IE. 13.582.698-5"
+        },
+        "Warehouses": {
+            "WarehouseCode": "7.LAV",
+            "WarehouseName": "LAVOURA - FAZ. ANA PAULA - BCT",
+            "BusinessPlaceID": 7
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 8,
+            "BPLName": "FAZ. 2T - BCT - IE. 13.683.018-8"
+        },
+        "Warehouses": {
+            "WarehouseCode": "8.LAV",
+            "WarehouseName": "LAVOURA COLHEITA - FAZ 2T - BCT",
+            "BusinessPlaceID": 8
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 27,
+            "BPLName": "FAZ. ARCO VERDE - RSR - IE. 13.579.666-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "27.GRAOS",
+            "WarehouseName": "27.GRAOS - ARMAZEM - FAZ ARCO VERDE - RSR",
+            "BusinessPlaceID": 27
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 26,
+            "BPLName": "FAZ. ANA PAULA - RSR - 13.540.419-3"
+        },
+        "Warehouses": {
+            "WarehouseCode": "26.T1005",
+            "WarehouseName": "RURAL BRASIL LTDA - FAZ ANA PAULA",
+            "BusinessPlaceID": 26
+        },
+        "ProductionUnit": {
+            "Code": "5",
+            "Name": "5 - CANARANA-ANA PAULA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 15,
+            "BPLName": "FAZ. MR - JR IE. 13.877.776-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "15.T1006",
+            "WarehouseName": "15.T1006 - AGRICOLA ALVORADA (Canarana)  - FAZ MR",
+            "BusinessPlaceID": 15
+        },
+        "ProductionUnit": {
+            "Code": "6",
+            "Name": "6 - CANARANA-MR"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 15,
+            "BPLName": "FAZ. MR - JR IE. 13.877.776-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "15.T1005",
+            "WarehouseName": "15.T1005 - COFCO CANARANA - FAZ MR",
+            "BusinessPlaceID": 15
+        },
+        "ProductionUnit": {
+            "Code": "6",
+            "Name": "6 - CANARANA-MR"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 15,
+            "BPLName": "FAZ. MR - JR IE. 13.877.776-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "15.T1007",
+            "WarehouseName": "15.T1007 - LDC LOUIS DREYFUS COMPANY - FAZ MR",
+            "BusinessPlaceID": 15
+        },
+        "ProductionUnit": {
+            "Code": "6",
+            "Name": "6 - CANARANA-MR"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 15,
+            "BPLName": "FAZ. MR - JR IE. 13.877.776-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "15.T1008",
+            "WarehouseName": "15.T1008 - PARC. MARCELO P. AGUIAR - FAZ MR",
+            "BusinessPlaceID": 15
+        },
+        "ProductionUnit": {
+            "Code": "6",
+            "Name": "6 - CANARANA-MR"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 15,
+            "BPLName": "FAZ. MR - JR IE. 13.877.776-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "15.T1009",
+            "WarehouseName": "15.T1009 - PARC. FAZ JATOBA LTDA- FAZ MR",
+            "BusinessPlaceID": 15
+        },
+        "ProductionUnit": {
+            "Code": "6",
+            "Name": "6 - CANARANA-MR"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 15,
+            "BPLName": "FAZ. MR - JR IE. 13.877.776-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "15.T1010",
+            "WarehouseName": "15.T1010 - PARC. VALTINHO CARVALHO FRANCA - FAZ MR",
+            "BusinessPlaceID": 15
+        },
+        "ProductionUnit": {
+            "Code": "6",
+            "Name": "6 - CANARANA-MR"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 15,
+            "BPLName": "FAZ. MR - JR IE. 13.877.776-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "15.T1002",
+            "WarehouseName": "TRANSCAMILA CARGAS E ARMAZENS GERAIS LTDA - RONDONOPOLIS - FAZ MR",
+            "BusinessPlaceID": 15
+        },
+        "ProductionUnit": {
+            "Code": "6",
+            "Name": "6 - CANARANA-MR"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 15,
+            "BPLName": "FAZ. MR - JR IE. 13.877.776-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "15.V0001",
+            "WarehouseName": "VIRTUAL - FAZ MR",
+            "BusinessPlaceID": 15
+        },
+        "ProductionUnit": {
+            "Code": "6",
+            "Name": "6 - CANARANA-MR"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 15,
+            "BPLName": "FAZ. MR - JR IE. 13.877.776-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "15.T1003",
+            "WarehouseName": "AGRICOLA FERRARI LTDA - FAZ MR",
+            "BusinessPlaceID": 15
+        },
+        "ProductionUnit": {
+            "Code": "6",
+            "Name": "6 - CANARANA-MR"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 15,
+            "BPLName": "FAZ. MR - JR IE. 13.877.776-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "15.T1001",
+            "WarehouseName": "TRANSPORTE LUFT LTDA - FAZ MR",
+            "BusinessPlaceID": 15
+        },
+        "ProductionUnit": {
+            "Code": "6",
+            "Name": "6 - CANARANA-MR"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 15,
+            "BPLName": "FAZ. MR - JR IE. 13.877.776-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "15.COMB",
+            "WarehouseName": "TANQUE DE COMBUSTIVEIS - FAZ MR",
+            "BusinessPlaceID": 15
+        },
+        "ProductionUnit": {
+            "Code": "6",
+            "Name": "6 - CANARANA-MR"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 15,
+            "BPLName": "FAZ. MR - JR IE. 13.877.776-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "15.LAV",
+            "WarehouseName": "LAVOURA COLHEITA - FAZ MR",
+            "BusinessPlaceID": 15
+        },
+        "ProductionUnit": {
+            "Code": "6",
+            "Name": "6 - CANARANA-MR"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 15,
+            "BPLName": "FAZ. MR - JR IE. 13.877.776-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "15.ED",
+            "WarehouseName": "EXPEDIÇAO DIRETA - FAZ MR",
+            "BusinessPlaceID": 15
+        },
+        "ProductionUnit": {
+            "Code": "6",
+            "Name": "6 - CANARANA-MR"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 15,
+            "BPLName": "FAZ. MR - JR IE. 13.877.776-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "15.0001",
+            "WarehouseName": "DEPOSITO GERAL - FAZ MR",
+            "BusinessPlaceID": 15
+        },
+        "ProductionUnit": {
+            "Code": "6",
+            "Name": "6 - CANARANA-MR"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 15,
+            "BPLName": "FAZ. MR - JR IE. 13.877.776-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "15.BOV",
+            "WarehouseName": "BOVINOS - FAZ MR",
+            "BusinessPlaceID": 15
+        },
+        "ProductionUnit": {
+            "Code": "6",
+            "Name": "6 - CANARANA-MR"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 15,
+            "BPLName": "FAZ. MR - JR IE. 13.877.776-4"
+        },
+        "Warehouses": {
+            "WarehouseCode": "15.T1004",
+            "WarehouseName": "RURAL BRASIL LTDA - FAZ MR",
+            "BusinessPlaceID": 15
+        },
+        "ProductionUnit": {
+            "Code": "6",
+            "Name": "6 - CANARANA-MR"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 1,
+            "BPLName": "FAZ. POMPEIA - IE. 13.441.051-3 - LUCAS"
+        },
+        "Warehouses": {
+            "WarehouseCode": "1.0001",
+            "WarehouseName": "DEPOSITO GERAL - FAZ. POMPEIA",
+            "BusinessPlaceID": 1
+        },
+        "ProductionUnit": {
+            "Code": "7",
+            "Name": "7 - XINGU-POMPEIA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 1,
+            "BPLName": "FAZ. POMPEIA - IE. 13.441.051-3 - LUCAS"
+        },
+        "Warehouses": {
+            "WarehouseCode": "1.T1007",
+            "WarehouseName": "TRANSCAMILA CARGAS E ARMAZENS GERAIS LTDA - RONDONOPOLIS - FAZ POMPEIA",
+            "BusinessPlaceID": 1
+        },
+        "ProductionUnit": {
+            "Code": "7",
+            "Name": "7 - XINGU-POMPEIA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 1,
+            "BPLName": "FAZ. POMPEIA - IE. 13.441.051-3 - LUCAS"
+        },
+        "Warehouses": {
+            "WarehouseCode": "1.T1006",
+            "WarehouseName": "GRAO BRASIL - CANARANA - FAZ POMPEIA",
+            "BusinessPlaceID": 1
+        },
+        "ProductionUnit": {
+            "Code": "7",
+            "Name": "7 - XINGU-POMPEIA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 1,
+            "BPLName": "FAZ. POMPEIA - IE. 13.441.051-3 - LUCAS"
+        },
+        "Warehouses": {
+            "WarehouseCode": "1.T1005",
+            "WarehouseName": "VERDELOG ARMAZENS GERAIS LTDA - QUERENCIA - FAZ. POMPEIA",
+            "BusinessPlaceID": 1
+        },
+        "ProductionUnit": {
+            "Code": "7",
+            "Name": "7 - XINGU-POMPEIA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 1,
+            "BPLName": "FAZ. POMPEIA - IE. 13.441.051-3 - LUCAS"
+        },
+        "Warehouses": {
+            "WarehouseCode": "1.LAV",
+            "WarehouseName": "LAVOURA COLHEITA - FAZ. POMPEIA",
+            "BusinessPlaceID": 1
+        },
+        "ProductionUnit": {
+            "Code": "7",
+            "Name": "7 - XINGU-POMPEIA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 1,
+            "BPLName": "FAZ. POMPEIA - IE. 13.441.051-3 - LUCAS"
+        },
+        "Warehouses": {
+            "WarehouseCode": "1.T1008",
+            "WarehouseName": "RURAL BRASIL LTDA - FAZ POMPEIA",
+            "BusinessPlaceID": 1
+        },
+        "ProductionUnit": {
+            "Code": "7",
+            "Name": "7 - XINGU-POMPEIA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 1,
+            "BPLName": "FAZ. POMPEIA - IE. 13.441.051-3 - LUCAS"
+        },
+        "Warehouses": {
+            "WarehouseCode": "1.BOV",
+            "WarehouseName": "BOVINOS - FAZ POMPEIA",
+            "BusinessPlaceID": 1
+        },
+        "ProductionUnit": {
+            "Code": "7",
+            "Name": "7 - XINGU-POMPEIA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 1,
+            "BPLName": "FAZ. POMPEIA - IE. 13.441.051-3 - LUCAS"
+        },
+        "Warehouses": {
+            "WarehouseCode": "1.T1009",
+            "WarehouseName": "GOLDEN CARGO TRANSPORTES E LOGISTICA - FAZ POMPEIA",
+            "BusinessPlaceID": 1
+        },
+        "ProductionUnit": {
+            "Code": "7",
+            "Name": "7 - XINGU-POMPEIA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 1,
+            "BPLName": "FAZ. POMPEIA - IE. 13.441.051-3 - LUCAS"
+        },
+        "Warehouses": {
+            "WarehouseCode": "1.T1004",
+            "WarehouseName": "TRANSPORTE LUFT - QUERENCIA - FAZ. POMPEIA",
+            "BusinessPlaceID": 1
+        },
+        "ProductionUnit": {
+            "Code": "7",
+            "Name": "7 - XINGU-POMPEIA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 21,
+            "BPLName": "FAZ. RENATA/AIDA - LMT - IE. 13.724.477-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "21.0001",
+            "WarehouseName": "DEPOSITO GERAL - FAZ. RENATA/AIDA",
+            "BusinessPlaceID": 21
+        },
+        "ProductionUnit": {
+            "Code": "7",
+            "Name": "7 - XINGU-POMPEIA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 1,
+            "BPLName": "FAZ. POMPEIA - IE. 13.441.051-3 - LUCAS"
+        },
+        "Warehouses": {
+            "WarehouseCode": "1.T1011",
+            "WarehouseName": "1.T1011 - PARC. ALBERTO C. MACCHERONI - FAZ POMPEIA",
+            "BusinessPlaceID": 1
+        },
+        "ProductionUnit": {
+            "Code": "7",
+            "Name": "7 - XINGU-POMPEIA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 5,
+            "BPLName": "FAZ. MARILIA - BCT - IE. 13.724.479-7"
+        },
+        "Warehouses": {
+            "WarehouseCode": "5.GRAOS",
+            "WarehouseName": "5.GRAOS - ARMAZEM - FAZ. MARILIA",
+            "BusinessPlaceID": 5
+        },
+        "ProductionUnit": {
+            "Code": "7",
+            "Name": "7 - XINGU-POMPEIA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 1,
+            "BPLName": "FAZ. POMPEIA - IE. 13.441.051-3 - LUCAS"
+        },
+        "Warehouses": {
+            "WarehouseCode": "1.COMB",
+            "WarehouseName": "TANQUE DE COMBUSTIVEIS - FAZ. POMPEIA",
+            "BusinessPlaceID": 1
+        },
+        "ProductionUnit": {
+            "Code": "7",
+            "Name": "7 - XINGU-POMPEIA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 1,
+            "BPLName": "FAZ. POMPEIA - IE. 13.441.051-3 - LUCAS"
+        },
+        "Warehouses": {
+            "WarehouseCode": "1.ED",
+            "WarehouseName": "EXPEDICAO DIRETA - FAZ. POMPEIA",
+            "BusinessPlaceID": 1
+        },
+        "ProductionUnit": {
+            "Code": "7",
+            "Name": "7 - XINGU-POMPEIA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 1,
+            "BPLName": "FAZ. POMPEIA - IE. 13.441.051-3 - LUCAS"
+        },
+        "Warehouses": {
+            "WarehouseCode": "1.T1010",
+            "WarehouseName": "1.T1010 - PARC. RICARDO OLIVEIRA SELMI - FAZ POMPEIA",
+            "BusinessPlaceID": 1
+        },
+        "ProductionUnit": {
+            "Code": "7",
+            "Name": "7 - XINGU-POMPEIA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 21,
+            "BPLName": "FAZ. RENATA/AIDA - LMT - IE. 13.724.477-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "21.ED",
+            "WarehouseName": "EXPEDICAO DIRETA - FAZ. RENATA/AIDA",
+            "BusinessPlaceID": 21
+        },
+        "ProductionUnit": {
+            "Code": "7",
+            "Name": "7 - XINGU-POMPEIA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 21,
+            "BPLName": "FAZ. RENATA/AIDA - LMT - IE. 13.724.477-0"
+        },
+        "Warehouses": {
+            "WarehouseCode": "21.COMB",
+            "WarehouseName": "TANQUE DE COMBUSTIVEIS - FAZ. RENATA/AIDA",
+            "BusinessPlaceID": 21
+        },
+        "ProductionUnit": {
+            "Code": "7",
+            "Name": "7 - XINGU-POMPEIA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 5,
+            "BPLName": "FAZ. MARILIA - BCT - IE. 13.724.479-7"
+        },
+        "Warehouses": {
+            "WarehouseCode": "5.0001",
+            "WarehouseName": "DEPOSITO GERAL - FAZ. MARILIA",
+            "BusinessPlaceID": 5
+        },
+        "ProductionUnit": {
+            "Code": "7",
+            "Name": "7 - XINGU-POMPEIA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 1,
+            "BPLName": "FAZ. POMPEIA - IE. 13.441.051-3 - LUCAS"
+        },
+        "Warehouses": {
+            "WarehouseCode": "1.T1003",
+            "WarehouseName": "ARMAZEM TELES REIS - CANARANA - FAZ. POMPEIA",
+            "BusinessPlaceID": 1
+        },
+        "ProductionUnit": {
+            "Code": "7",
+            "Name": "7 - XINGU-POMPEIA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 1,
+            "BPLName": "FAZ. POMPEIA - IE. 13.441.051-3 - LUCAS"
+        },
+        "Warehouses": {
+            "WarehouseCode": "1.T1002",
+            "WarehouseName": "CABECA BRANCA - AGUA BOA - FAZ. POMPEIA",
+            "BusinessPlaceID": 1
+        },
+        "ProductionUnit": {
+            "Code": "7",
+            "Name": "7 - XINGU-POMPEIA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 1,
+            "BPLName": "FAZ. POMPEIA - IE. 13.441.051-3 - LUCAS"
+        },
+        "Warehouses": {
+            "WarehouseCode": "1.T1001",
+            "WarehouseName": "AMAGGI - SAO FELIX - FAZ. POMPEIA",
+            "BusinessPlaceID": 1
+        },
+        "ProductionUnit": {
+            "Code": "7",
+            "Name": "7 - XINGU-POMPEIA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 5,
+            "BPLName": "FAZ. MARILIA - BCT - IE. 13.724.479-7"
+        },
+        "Warehouses": {
+            "WarehouseCode": "5.ED",
+            "WarehouseName": "EXPEDICAO DIRETA - FAZ. MARILIA",
+            "BusinessPlaceID": 5
+        },
+        "ProductionUnit": {
+            "Code": "7",
+            "Name": "7 - XINGU-POMPEIA"
+        }
+    },
+    {
+        "BusinessPlaces": {
+            "BPLID": 1,
+            "BPLName": "FAZ. POMPEIA - IE. 13.441.051-3 - LUCAS"
+        },
+        "Warehouses": {
+            "WarehouseCode": "1.GRAOS",
+            "WarehouseName": "ARMAZEM - FAZ. POMPEIA",
+            "BusinessPlaceID": 1
+        },
+        "ProductionUnit": {
+            "Code": "7",
+            "Name": "7 - XINGU-POMPEIA"
+        }
+    }
+]
