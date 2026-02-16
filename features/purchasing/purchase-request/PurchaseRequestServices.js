@@ -265,16 +265,16 @@ export async function createAlternateCatNum(cardCode, vendorItemCode, itemCode) 
         })
         .get()
 
-    try {
-        const response = await axios.request(query)
-        return response.data
-    } catch (error) {
-        const sapMessage = error.response?.data?.message?.value || ''
+    const result = await doApiCall(query)
+    if (result.status === 400) {
+        const sapMessage = result?.data?.message?.value || ''
         if (sapMessage.includes('already exists') || sapMessage.includes('já existe') || sapMessage.includes('1320000205')) {
             return { success: true, alreadyExists: true }
         }
-        throw error
+        const errorMessage = sapMessage || 'Erro ao criar vínculo no SAP.'
+        throw new Error(errorMessage)
     }
+    return result
 }
 
 function formatCNPJ(cnpj) {
@@ -334,17 +334,13 @@ export async function getItemDetailsByCode(itemCode) {
         })
         .get()
 
-    try {
-        const result = await doApiCall(query)
-        if (result.status === 400 || !result.ItemCode) {
-            return { itemName: itemCode, measureUnit: '', uoMEntry: null }
-        }
-        return {
-            itemName: result.ItemName || itemCode,
-            measureUnit: result.InventoryUOM || '',
-            uoMEntry: result.DefaultPurchasingUoMEntry || result.InventoryUoMEntry || null,
-        }
-    } catch (err) {
+    const result = await doApiCall(query)
+    if (result.status === 400 || !result.ItemCode) {
         return { itemName: itemCode, measureUnit: '', uoMEntry: null }
+    }
+    return {
+        itemName: result.ItemName || itemCode,
+        measureUnit: result.InventoryUOM || '',
+        uoMEntry: result.DefaultPurchasingUoMEntry || result.InventoryUoMEntry || null,
     }
 }

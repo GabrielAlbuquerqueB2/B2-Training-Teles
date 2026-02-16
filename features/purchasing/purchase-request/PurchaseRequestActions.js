@@ -48,7 +48,6 @@ export default function PurchaseRequestActions({ data, setData, requester, vendo
 
             await fileList.forEach((file, index) => {
                 if(file.size > 0) {
-                    console.log(file);
                     formData.append(`file_${index}`, file, file.name);
                 }
             })
@@ -130,7 +129,6 @@ export default function PurchaseRequestActions({ data, setData, requester, vendo
     async function handlePurchaseOrder() {
         try {
             const submitData = createPurchaseOrderModel(data, requester, vendor, equipment)
-            console.log(submitData)
             const result = await createPurchaseOrder(submitData)
             alert('Pedido de compras criado com sucesso')
             router.push('/purchasing/purchase-request/list')
