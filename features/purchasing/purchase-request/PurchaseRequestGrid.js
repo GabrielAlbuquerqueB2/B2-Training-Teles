@@ -28,6 +28,10 @@ export default function PurchaseRequestGrid(props) {
     }
 
     function showLinkButton(item) {
+        return !!item.VendorItemCode
+    }
+
+    function isLinkEnabled(item) {
         return item.xmlMatchStatus === 'nao_encontrado'
             && item.Item?.id
             && item.Item?.id !== GENERIC_ITEM_CODE
@@ -75,7 +79,7 @@ export default function PurchaseRequestGrid(props) {
                                     props.data.DocumentLines?.map((item, index) => {
                                         return (
                                             <TableRow sx={{ backgroundColor: getRowBackgroundColor(item) }}>
-                                                <TableCell width="8%" sx={{ padding: '3px' }}>
+                                                <TableCell width="7%" sx={{ padding: '3px' }}>
                                                     <TextField
                                                         type="text"
                                                         value={props.data.DocumentLines[index]?.VendorItemCode ?? ''}
@@ -84,7 +88,7 @@ export default function PurchaseRequestGrid(props) {
                                                         size="small"
                                                     />
                                                 </TableCell>
-                                                <TableCell width="15%" sx={{ padding: '3px' }}>
+                                                <TableCell width="17%" sx={{ padding: '3px' }}>
                                                     <TextField
                                                         type="text"
                                                         value={props.data.DocumentLines[index]?.XmlDescription ?? ''}
@@ -93,33 +97,25 @@ export default function PurchaseRequestGrid(props) {
                                                         size="small"
                                                     />
                                                 </TableCell>
-                                                <TableCell width="5%" sx={{ padding: '3px' }}>
-                                                    <Box sx={{
-                                                        border: '1px solid rgba(0, 0, 0, 0.23)',
-                                                        borderRadius: '4px',
-                                                        display: 'flex',
-                                                        alignItems: 'center',
-                                                        justifyContent: 'center',
-                                                        minHeight: '40px',
-                                                    }}>
-                                                        {showLinkButton(item) ? (
-                                                            <Tooltip title="Vincular item ao catálogo do fornecedor" arrow>
-                                                                <span>
-                                                                    <Button
-                                                                        variant='outlined'
-                                                                        color='primary'
-                                                                        onClick={() => handleCreateLink(item, index)}
-                                                                        disabled={savingIndex === index}
-                                                                        size='small'
-                                                                    >
-                                                                        {savingIndex === index ? <CircularProgress size={20} /> : <LinkIcon />}
-                                                                    </Button>
-                                                                </span>
-                                                            </Tooltip>
-                                                        ) : null}
-                                                    </Box>
+                                                <TableCell width="3%" sx={{ padding: '3px' }}>
+                                                    {showLinkButton(item) ? (
+                                                        <Tooltip title="Vincular item ao catálogo do fornecedor" arrow>
+                                                            <span>
+                                                                <Button
+                                                                    variant='outlined'
+                                                                    color='primary'
+                                                                    onClick={() => handleCreateLink(item, index)}
+                                                                    disabled={!isLinkEnabled(item) || savingIndex === index}
+                                                                    size='small'
+                                                                    sx={{ minHeight: '40px', width: '100%' }}
+                                                                >
+                                                                    {savingIndex === index ? <CircularProgress size={20} /> : <LinkIcon />}
+                                                                </Button>
+                                                            </span>
+                                                        </Tooltip>
+                                                    ) : null}
                                                 </TableCell>
-                                                <TableCell width="18%" sx={{ padding: '3px' }}>
+                                                <TableCell width="17%" sx={{ padding: '3px' }}>
                                                     <Tooltip
                                                         title={
                                                             item.xmlMatchStatus === 'generic'
@@ -146,14 +142,14 @@ export default function PurchaseRequestGrid(props) {
                                                         </div>
                                                     </Tooltip>
                                                 </TableCell>
-                                                <TableCell width="13%" sx={{ padding: '3px' }}>
+                                                <TableCell width="17%" sx={{ padding: '3px' }}>
                                                     <TextField
                                                         type="text"
                                                         value={props.data.DocumentLines[index]?.FreeText}
                                                         onChange={evt => props.setChildField('DocumentLines', 'FreeText', index, evt.target.value)}
                                                     />
                                                 </TableCell>
-                                                <TableCell width="12%" sx={{ padding: '3px' }}>
+                                                <TableCell width="8%" sx={{ padding: '3px' }}>
                                                     <CurrencyTextField
                                                         value={props.data.DocumentLines[index]?.Quantity}
                                                         onChange={(evt, newValue) => {
@@ -162,7 +158,7 @@ export default function PurchaseRequestGrid(props) {
                                                         onBlur={() => { handleLineBlur(index) }}
                                                     />
                                                 </TableCell>
-                                                <TableCell width= "12%" sx={{ padding: '3px' }}>
+                                                <TableCell width="10%" sx={{ padding: '3px' }}>
                                                     <WarehouseByBranchSelect
                                                         index={index}
                                                         name="WarehouseCode"
@@ -173,7 +169,7 @@ export default function PurchaseRequestGrid(props) {
                                                         branch={props.data.BPL_IDAssignedToInvoice}
                                                     />
                                                 </TableCell>
-                                                <TableCell width="12%" sx={{ padding: '3px' }}>
+                                                <TableCell width="8%" sx={{ padding: '3px' }}>
                                                     <CurrencyTextField
                                                         value={props.data.DocumentLines[index]?.UnitPrice}
                                                         onChange={(evt, newValue) => {
@@ -181,7 +177,7 @@ export default function PurchaseRequestGrid(props) {
                                                         }}
                                                     />
                                                 </TableCell>
-                                                <TableCell width="5%" sx={{ padding: '3px' }}>
+                                                <TableCell width="3%" sx={{ padding: '3px' }}>
                                                     <Button
                                                         variant='outlined'
                                                         onClick={() => { props.handleDeleteLine(index) }}
