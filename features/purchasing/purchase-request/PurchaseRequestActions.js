@@ -13,7 +13,10 @@ export default function PurchaseRequestActions({ data, setData, requester, vendo
     const [isCancelLoading, setIsCancelLoading] = useState(false)
 
     async function handleSubmit() {
-        const unmatchedItems = data.DocumentLines.filter(line => line.xmlMatchStatus === 'nao_encontrado')
+        // Itens com status 'generic' são tratados como resolvidos (não entram no warning)
+        const unmatchedItems = data.DocumentLines.filter(line =>
+            line.xmlMatchStatus === 'nao_encontrado' && line.Item?.id
+        )
         if (unmatchedItems.length > 0) {
             const proceed = window.confirm(
                 `Existem ${unmatchedItems.length} item(ns) não encontrado(s) no catálogo do fornecedor (destacados em vermelho). Deseja continuar mesmo assim?`

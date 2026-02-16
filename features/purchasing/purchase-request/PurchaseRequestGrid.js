@@ -7,6 +7,8 @@ import ItemAutocomplete from '../../../components/ui/Autocomplete/ItemAutocomple
 import WarehouseByBranchSelect from '../../../components/ui/Select/WarehousesByBranchSelect'
 import { createAlternateCatNum } from './PurchaseRequestServices'
 
+const GENERIC_ITEM_CODE = 'GENERICO'
+
 export default function PurchaseRequestGrid(props) {
 
     const [savingIndex, setSavingIndex] = useState(null)
@@ -19,6 +21,7 @@ export default function PurchaseRequestGrid(props) {
     }
 
     function getRowBackgroundColor(item) {
+        if (item.xmlMatchStatus === 'generic') return '#E3F2FD'
         if (item.catalogCreated || item.xmlMatchStatus === 'vinculado') return '#E8F5E9'
         if (item.xmlMatchStatus === 'nao_encontrado') return '#FFEBEE'
         return undefined
@@ -27,6 +30,7 @@ export default function PurchaseRequestGrid(props) {
     function showLinkButton(item) {
         return item.xmlMatchStatus === 'nao_encontrado'
             && item.Item?.id
+            && item.Item?.id !== GENERIC_ITEM_CODE
             && item.VendorItemCode
             && props.vendor?.id
             && !item.catalogCreated
@@ -56,12 +60,12 @@ export default function PurchaseRequestGrid(props) {
                             <TableRow>
                                 <TableCell>Cód. Item XML</TableCell>
                                 <TableCell>Desc. Item XML</TableCell>
+                                <TableCell>Vincular</TableCell>
                                 <TableCell>Item</TableCell>
                                 <TableCell>Desc. Complementar</TableCell>
                                 <TableCell>Quantidade</TableCell>
                                 <TableCell>Depósito</TableCell>
                                 <TableCell>Preço Unitário</TableCell>
-                                <TableCell>Vincular</TableCell>
                                 <TableCell>Excluir</TableCell>
                             </TableRow>
                         </TableHead>
@@ -89,9 +93,39 @@ export default function PurchaseRequestGrid(props) {
                                                         size="small"
                                                     />
                                                 </TableCell>
+                                                <TableCell width="5%" sx={{ padding: '3px' }}>
+                                                    <Box sx={{
+                                                        border: '1px solid rgba(0, 0, 0, 0.23)',
+                                                        borderRadius: '4px',
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                        minHeight: '40px',
+                                                    }}>
+                                                        {showLinkButton(item) ? (
+                                                            <Tooltip title="Vincular item ao catálogo do fornecedor" arrow>
+                                                                <span>
+                                                                    <Button
+                                                                        variant='outlined'
+                                                                        color='primary'
+                                                                        onClick={() => handleCreateLink(item, index)}
+                                                                        disabled={savingIndex === index}
+                                                                        size='small'
+                                                                    >
+                                                                        {savingIndex === index ? <CircularProgress size={20} /> : <LinkIcon />}
+                                                                    </Button>
+                                                                </span>
+                                                            </Tooltip>
+                                                        ) : null}
+                                                    </Box>
+                                                </TableCell>
                                                 <TableCell width="18%" sx={{ padding: '3px' }}>
                                                     <Tooltip
-                                                        title={item.xmlMatchStatus === 'nao_encontrado' ? 'Item não encontrado no catálogo do fornecedor' : ''}
+                                                        title={
+                                                            item.xmlMatchStatus === 'generic'
+                                                                ? 'Item genérico — descrição XML aplicada'
+                                                                : ''
+                                                        }
                                                         arrow
                                                     >
                                                         <div>
@@ -102,6 +136,11 @@ export default function PurchaseRequestGrid(props) {
                                                                 setValue={(newValue) => {
                                                                     props.setChildField('DocumentLines', 'Item', index, newValue)
                                                                     props.setChildField('DocumentLines', 'UoMEntry', index, newValue?.UoMEntry || null)
+                                                                    if (newValue?.id === GENERIC_ITEM_CODE) {
+                                                                        props.setChildField('DocumentLines', 'FreeText', index, item.XmlDescription || '')
+                                                                        props.setChildField('DocumentLines', 'xmlMatchStatus', index, 'generic')
+                                                                        props.setChildField('DocumentLines', 'catalogCreated', index, true)
+                                                                    }
                                                                 }}
                                                             />
                                                         </div>
@@ -141,23 +180,6 @@ export default function PurchaseRequestGrid(props) {
                                                             props.setChildField('DocumentLines', 'UnitPrice', index, newValue)
                                                         }}
                                                     />
-                                                </TableCell>
-                                                <TableCell width="5%" sx={{ padding: '3px' }}>
-                                                    {showLinkButton(item) ? (
-                                                        <Tooltip title="Vincular item ao catálogo do fornecedor" arrow>
-                                                            <span>
-                                                                <Button
-                                                                    variant='outlined'
-                                                                    color='primary'
-                                                                    onClick={() => handleCreateLink(item, index)}
-                                                                    disabled={savingIndex === index}
-                                                                    size='small'
-                                                                >
-                                                                    {savingIndex === index ? <CircularProgress size={20} /> : <LinkIcon />}
-                                                                </Button>
-                                                            </span>
-                                                        </Tooltip>
-                                                    ) : null}
                                                 </TableCell>
                                                 <TableCell width="5%" sx={{ padding: '3px' }}>
                                                     <Button

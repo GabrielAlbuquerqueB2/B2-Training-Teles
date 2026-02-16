@@ -1,5 +1,6 @@
 import axios from 'axios'
 import Api from '../../../lib/api'
+import { normalizeCatalogCode } from '../../../utils/normalizeCatalogCode'
 
 async function doApiCall(query) {
 
@@ -252,9 +253,98 @@ export async function getItemByCode(itemCode) {
 }
 
 export async function createAlternateCatNum(cardCode, vendorItemCode, itemCode) {
-    return axios.post('/api/purchase-request/create-alternate-catnum', {
-        cardCode,
-        vendorItemCode,
-        itemCode,
-    })
+    const normalizedCode = normalizeCatalogCode(vendorItemCode)
+
+    const query = new Api()
+        .setMethod('POST')
+        .setUrl('/AlternateCatNum')
+        .setData({
+            ItemCode: itemCode,
+            CardCode: cardCode,
+            Substitute: normalizedCode,
+        })
+        .get()
+
+    try {
+        const response = await axios.request(query)
+        return response.data
+    } catch (error) {
+        const sapMessage = error.response?.data?.message?.value || ''
+        if (sapMessage.includes('already exists') || sapMessage.includes('já existe') || sapMessage.includes('1320000205')) {
+            return { success: true, alreadyExists: true }
+        }
+        throw error
+    }
+}
+
+function formatCNPJ(cnpj) {
+    const digits = cnpj.replace(/\D/g, '')
+    if (digits.length === 14) {
+        return `${digits.slice(0,2)}.${digits.slice(2,5)}.${digits.slice(5,8)}/${digits.slice(8,12)}-${digits.slice(12,14)}`
+    }
+    return digits
+}
+
+function stripCNPJ(cnpj) {
+    return cnpj.replace(/\D/g, '')
+}
+
+export async function findVendorByCNPJ(cnpj) {
+    const raw = stripCNPJ(cnpj)
+    const formatted = formatCNPJ(cnpj)
+
+    const query = new Api()
+        .setMethod('GET')
+        .setUrl('/BusinessPartners')
+        .setParams({
+            $select: 'CardCode,CardName,FederalTaxID',
+            $filter: `CardType eq 'cSupplier' and (FederalTaxID eq '${raw}' or FederalTaxID eq '${formatted}')`
+        })
+        .get()
+
+    const result = await doApiCall(query)
+    if (result.value && result.value.length > 0) {
+        return result.value[0]
+    }
+    return null
+}
+
+export async function getVendorCatalog(cardCode) {
+    const normalizedCardCode = String(cardCode).trim()
+
+    const query = new Api()
+        .setMethod('GET')
+        .setUrl('/AlternateCatNum')
+        .setParams({
+            $filter: `CardCode eq '${normalizedCardCode}'`,
+            $select: 'ItemCode,Substitute'
+        })
+        .get()
+
+    const result = await doApiCall(query)
+    return result.value || []
+}
+
+export async function getItemDetailsByCode(itemCode) {
+    const query = new Api()
+        .setMethod('GET')
+        .setUrl(`/Items('${itemCode}')`)
+        .setParams({
+            $select: 'ItemCode,ItemName,InventoryUOM,DefaultPurchasingUoMEntry,InventoryUoMEntry'
+        })
+        .get()
+
+    try {
+        const result = await doApiCall(query)
+        if (result.status === 400 || !result.ItemCode) {
+            return { itemName: itemCode, measureUnit: '', uoMEntry: null }
+        }
+        return {
+            itemName: result.ItemName || itemCode,
+            measureUnit: result.InventoryUOM || '',
+            uoMEntry: result.DefaultPurchasingUoMEntry || result.InventoryUoMEntry || null,
+        }
+    } catch (err) {
+        return { itemName: itemCode, measureUnit: '', uoMEntry: null }
+    }
 }
