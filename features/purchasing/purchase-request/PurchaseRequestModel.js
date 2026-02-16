@@ -27,6 +27,7 @@ function mapDocumentLines(lines, vendor, usage) {
             FreeText: item.FreeText,
             Quantity: item.Quantity,
             UnitPrice: item.UnitPrice,
+            UoMEntry: item.UoMEntry || undefined,
             LineVendor: vendor.id,
             Usage: usage,
             WarehouseCode: item.WarehouseCode

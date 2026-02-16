@@ -55,6 +55,7 @@ export default function PurchaseRequest() {
                         Quantity: item.Quantity,
                         UnitPrice: item.UnitPrice,
                         WarehouseCode: item.WarehouseCode,
+                        UoMEntry: item.UoMEntry,
                         LineNum: item.LineNum,
                         LineVendor: item.LineVendor
                     }
@@ -172,6 +173,8 @@ export default function PurchaseRequest() {
                             setChildField={setChildField}
                             handleNewLine={handleNewLine}
                             handleDeleteLine={handleDeleteLine}
+                            vendor={vendor}
+                            setAlert={setAlert}
                         />
                         <br />
                         <TextField
@@ -210,6 +213,7 @@ export default function PurchaseRequest() {
                 setAlert={setAlert}
                 setField={setField}
                 fileList={fileList}
+                setVendor={setVendor}
             />
             <Box hidden={!alert.visible}>
                 <AlertMessage

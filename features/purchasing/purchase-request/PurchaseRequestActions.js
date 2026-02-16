@@ -7,12 +7,20 @@ import { createPurchaseRequest, editPurchaseRequest, cancelPurchaseRequest, crea
 import { createAttachment, updateAttachment } from '../../../lib/attachments/AttachmentsService'
 import PurchaseRequestXmlImport from './PurchaseRequestXmlImport'
 
-export default function PurchaseRequestActions({ data, setData, requester, vendor, router, status, equipment, setAlert, setField, setIsPurchaseMade, fileList }) {
+export default function PurchaseRequestActions({ data, setData, requester, vendor, router, status, equipment, setAlert, setField, setIsPurchaseMade, fileList, setVendor }) {
 
     const [isLoading, setIsLoading] = useState(false)
     const [isCancelLoading, setIsCancelLoading] = useState(false)
 
     async function handleSubmit() {
+        const unmatchedItems = data.DocumentLines.filter(line => line.xmlMatchStatus === 'nao_encontrado')
+        if (unmatchedItems.length > 0) {
+            const proceed = window.confirm(
+                `Existem ${unmatchedItems.length} item(ns) não encontrado(s) no catálogo do fornecedor (destacados em vermelho). Deseja continuar mesmo assim?`
+            )
+            if (!proceed) return
+        }
+
         setIsLoading(true)
         if (status === 'CREATE') {
             const attEntry = await handleAttachments()
@@ -189,6 +197,7 @@ export default function PurchaseRequestActions({ data, setData, requester, vendo
                         setIsPurchaseMade={setIsPurchaseMade}
                         setField={setField}
                         setAlert={setAlert}
+                        setVendor={setVendor}
                     />
                 )}
             </Stack>

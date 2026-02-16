@@ -13,7 +13,7 @@ export async function getItemListByDescription(description, groupCode) {
         .setMethod('GET')
         .setUrl('/Items')
         .setParams({
-            $select: 'ItemCode,ItemName,InventoryUOM',
+            $select: 'ItemCode,ItemName,InventoryUOM,DefaultPurchasingUoMEntry,InventoryUoMEntry',
             $filter: filter,
             $orderby: 'ItemName'
         })
@@ -33,7 +33,8 @@ function mapItemListToAutocompleteOptions(itemList) {
         return {
             id: item.ItemCode,
             label: item.ItemName,
-            InventoryUOM: item.InventoryUOM
+            InventoryUOM: item.InventoryUOM,
+            UoMEntry: item.DefaultPurchasingUoMEntry || item.InventoryUoMEntry || null,
         }
     })   
 

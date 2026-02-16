@@ -28,6 +28,7 @@
     "crypto": "^1.0.1",
     "crypto-js": "^4.1.1",
     "directory-tree": "^3.3.0",
+    "fast-xml-parser": "^5.3.6",
     "form-data": "^4.0.0",
     "multiparty": "^4.2.3",
     "next": "12.1.0",

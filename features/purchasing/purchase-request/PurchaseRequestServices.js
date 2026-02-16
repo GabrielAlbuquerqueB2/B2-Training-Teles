@@ -234,43 +234,6 @@ export async function getPurchaseRequestReport(id) {
     return response.data
 }
 
-export async function getVendorByCNPJ(cnpj) {
-    const query = new Api()
-        .setMethod('GET')
-        .setUrl('/BusinessPartners')
-        .setParams({
-            $select: 'CardCode,CardName,FederalTaxID',
-            $filter: `CardType eq 'cSupplier' and FederalTaxID eq '${cnpj}'`
-        })
-        .get()
-
-    const result = await doApiCall(query)
-    if (result.value && result.value.length > 0) {
-        return result.value[0]
-    }
-    return null
-}
-
-export async function getVendorCatalogNumbers(cardCode) {
-    const query = new Api()
-        .setMethod('GET')
-        .setUrl('/BusinessPartnerItemNumbers')
-        .setParams({
-            $filter: `CardCode eq '${cardCode}'`
-        })
-        .get()
-
-    const result = await doApiCall(query)
-    if (result.value) {
-        return result.value.map(item => ({
-            sapItemCode: item.ItemCode,
-            vendorItemCode: item.SubstituteVendor,
-            sapItemName: item.ItemName || ''
-        }))
-    }
-    return []
-}
-
 export async function getItemByCode(itemCode) {
     const query = new Api()
         .setMethod('GET')
@@ -286,4 +249,12 @@ export async function getItemByCode(itemCode) {
         return result.value[0]
     }
     return null
+}
+
+export async function createAlternateCatNum(cardCode, vendorItemCode, itemCode) {
+    return axios.post('/api/purchase-request/create-alternate-catnum', {
+        cardCode,
+        vendorItemCode,
+        itemCode,
+    })
 }
