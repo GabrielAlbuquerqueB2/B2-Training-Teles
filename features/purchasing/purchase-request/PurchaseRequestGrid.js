@@ -13,6 +13,8 @@ export default function PurchaseRequestGrid(props) {
 
     const [savingIndex, setSavingIndex] = useState(null)
 
+    const showXmlColumns = props.data.DocumentLines?.some(item => item.VendorItemCode || item.XmlDescription)
+
     function handleLineBlur(index) {
         const lastIndex = props.data.DocumentLines.length - 1
         if (props.data.DocumentLines[lastIndex]?.Quantity) {
@@ -62,9 +64,9 @@ export default function PurchaseRequestGrid(props) {
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell>Cód. Item XML</TableCell>
-                                <TableCell>Desc. Item XML</TableCell>
-                                <TableCell>Vincular</TableCell>
+                                {showXmlColumns && <TableCell>Cód. Item XML</TableCell>}
+                                {showXmlColumns && <TableCell>Desc. Item XML</TableCell>}
+                                {showXmlColumns && <TableCell>Vincular</TableCell>}
                                 <TableCell>Item</TableCell>
                                 <TableCell>Desc. Complementar</TableCell>
                                 <TableCell>Quantidade</TableCell>
@@ -79,26 +81,30 @@ export default function PurchaseRequestGrid(props) {
                                     props.data.DocumentLines?.map((item, index) => {
                                         return (
                                             <TableRow sx={{ backgroundColor: getRowBackgroundColor(item) }}>
-                                                <TableCell width="7%" sx={{ padding: '3px' }}>
-                                                    <TextField
-                                                        type="text"
-                                                        value={props.data.DocumentLines[index]?.VendorItemCode ?? ''}
-                                                        InputProps={{ readOnly: true }}
-                                                        placeholder="-"
-                                                        size="small"
-                                                    />
-                                                </TableCell>
-                                                <TableCell width="17%" sx={{ padding: '3px' }}>
-                                                    <TextField
-                                                        type="text"
-                                                        value={props.data.DocumentLines[index]?.XmlDescription ?? ''}
-                                                        InputProps={{ readOnly: true }}
-                                                        placeholder="-"
-                                                        size="small"
-                                                    />
-                                                </TableCell>
-                                                <TableCell width="3%" sx={{ padding: '3px' }}>
-                                                    {showLinkButton(item) ? (
+                                                {showXmlColumns && (
+                                                    <TableCell width="6.8%" sx={{ padding: '3px' }}>
+                                                        <TextField
+                                                            type="text"
+                                                            value={props.data.DocumentLines[index]?.VendorItemCode ?? ''}
+                                                            InputProps={{ readOnly: true }}
+                                                            placeholder="-"
+                                                            size="small"
+                                                        />
+                                                    </TableCell>
+                                                )}
+                                                {showXmlColumns && (
+                                                    <TableCell width="18%" sx={{ padding: '3px' }}>
+                                                        <TextField
+                                                            type="text"
+                                                            value={props.data.DocumentLines[index]?.XmlDescription ?? ''}
+                                                            InputProps={{ readOnly: true }}
+                                                            placeholder="-"
+                                                            size="small"
+                                                        />
+                                                    </TableCell>
+                                                )}
+                                                {showXmlColumns && (
+                                                    <TableCell width="3%" sx={{ padding: '3px' }}>
                                                         <Tooltip title="Vincular item ao catálogo do fornecedor" arrow>
                                                             <span>
                                                                 <Button
@@ -113,43 +119,34 @@ export default function PurchaseRequestGrid(props) {
                                                                 </Button>
                                                             </span>
                                                         </Tooltip>
-                                                    ) : null}
+                                                    </TableCell>
+                                                )}
+                                                <TableCell width={showXmlColumns ? "20%" : "25%"} sx={{ padding: '3px' }}>
+                                                    <div>
+                                                        <ItemAutocomplete
+                                                            name="Item"
+                                                            itemGroup={props.data.ItemGroup}
+                                                            value={props.data.DocumentLines[index]?.Item}
+                                                            setValue={(newValue) => {
+                                                                props.setChildField('DocumentLines', 'Item', index, newValue)
+                                                                props.setChildField('DocumentLines', 'UoMEntry', index, newValue?.UoMEntry || null)
+                                                                if (newValue?.id === GENERIC_ITEM_CODE) {
+                                                                    props.setChildField('DocumentLines', 'FreeText', index, item.XmlDescription || '')
+                                                                    props.setChildField('DocumentLines', 'xmlMatchStatus', index, 'generic')
+                                                                    props.setChildField('DocumentLines', 'catalogCreated', index, true)
+                                                                }
+                                                            }}
+                                                        />
+                                                    </div>
                                                 </TableCell>
-                                                <TableCell width="17%" sx={{ padding: '3px' }}>
-                                                    <Tooltip
-                                                        title={
-                                                            item.xmlMatchStatus === 'generic'
-                                                                ? 'Item genérico — descrição XML aplicada'
-                                                                : ''
-                                                        }
-                                                        arrow
-                                                    >
-                                                        <div>
-                                                            <ItemAutocomplete
-                                                                name="Item"
-                                                                itemGroup={props.data.ItemGroup}
-                                                                value={props.data.DocumentLines[index]?.Item}
-                                                                setValue={(newValue) => {
-                                                                    props.setChildField('DocumentLines', 'Item', index, newValue)
-                                                                    props.setChildField('DocumentLines', 'UoMEntry', index, newValue?.UoMEntry || null)
-                                                                    if (newValue?.id === GENERIC_ITEM_CODE) {
-                                                                        props.setChildField('DocumentLines', 'FreeText', index, item.XmlDescription || '')
-                                                                        props.setChildField('DocumentLines', 'xmlMatchStatus', index, 'generic')
-                                                                        props.setChildField('DocumentLines', 'catalogCreated', index, true)
-                                                                    }
-                                                                }}
-                                                            />
-                                                        </div>
-                                                    </Tooltip>
-                                                </TableCell>
-                                                <TableCell width="17%" sx={{ padding: '3px' }}>
+                                                <TableCell width={showXmlColumns ? "18%" : "25%"} sx={{ padding: '3px' }}>
                                                     <TextField
                                                         type="text"
                                                         value={props.data.DocumentLines[index]?.FreeText}
                                                         onChange={evt => props.setChildField('DocumentLines', 'FreeText', index, evt.target.value)}
                                                     />
                                                 </TableCell>
-                                                <TableCell width="8%" sx={{ padding: '3px' }}>
+                                                <TableCell width={showXmlColumns ? "8%" : "15%"} sx={{ padding: '3px' }}>
                                                     <CurrencyTextField
                                                         value={props.data.DocumentLines[index]?.Quantity}
                                                         onChange={(evt, newValue) => {
@@ -158,7 +155,7 @@ export default function PurchaseRequestGrid(props) {
                                                         onBlur={() => { handleLineBlur(index) }}
                                                     />
                                                 </TableCell>
-                                                <TableCell width="10%" sx={{ padding: '3px' }}>
+                                                <TableCell width={showXmlColumns ? "12%" : "15%"} sx={{ padding: '3px' }}>
                                                     <WarehouseByBranchSelect
                                                         index={index}
                                                         name="WarehouseCode"
@@ -169,7 +166,7 @@ export default function PurchaseRequestGrid(props) {
                                                         branch={props.data.BPL_IDAssignedToInvoice}
                                                     />
                                                 </TableCell>
-                                                <TableCell width="8%" sx={{ padding: '3px' }}>
+                                                <TableCell width={showXmlColumns ? "8%" : "15%"} sx={{ padding: '3px' }}>
                                                     <CurrencyTextField
                                                         value={props.data.DocumentLines[index]?.UnitPrice}
                                                         onChange={(evt, newValue) => {
@@ -177,7 +174,7 @@ export default function PurchaseRequestGrid(props) {
                                                         }}
                                                     />
                                                 </TableCell>
-                                                <TableCell width="3%" sx={{ padding: '3px' }}>
+                                                <TableCell width={showXmlColumns ? "3%" : "5%"} sx={{ padding: '3px' }}>
                                                     <Button
                                                         variant='outlined'
                                                         onClick={() => { props.handleDeleteLine(index) }}
