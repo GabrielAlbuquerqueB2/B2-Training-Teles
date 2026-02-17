@@ -155,7 +155,7 @@ export default function PurchaseRequestGrid(props) {
                                                         onBlur={() => { handleLineBlur(index) }}
                                                     />
                                                 </TableCell>
-                                                <TableCell width={showXmlColumns ? "12%" : "15%"} sx={{ padding: '3px' }}>
+                                                <TableCell width={showXmlColumns ? "12%" : "16%"} sx={{ padding: '3px' }}>
                                                     <WarehouseByBranchSelect
                                                         index={index}
                                                         name="WarehouseCode"
