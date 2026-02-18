@@ -59,10 +59,14 @@ export default function PurchaseRequestXmlImport(props) {
                     const match = findItemInCatalog(item.cProd, catalog)
                     if (match) {
                         itemCodeSAP = match.ItemCode
-                        const details = await getItemDetailsByCode(match.ItemCode)
-                        itemNameSAP = details.itemName
-                        measureUnit = details.measureUnit
-                        uoMEntry = details.uoMEntry
+                        try {
+                            const details = await getItemDetailsByCode(match.ItemCode)
+                            itemNameSAP = details.itemName
+                            measureUnit = details.measureUnit
+                            uoMEntry = details.uoMEntry
+                        } catch {
+                            itemNameSAP = match.ItemCode
+                        }
                         status = 'encontrado'
                     }
                 }

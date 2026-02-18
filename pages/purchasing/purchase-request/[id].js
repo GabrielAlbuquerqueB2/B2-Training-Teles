@@ -43,7 +43,7 @@ export default function PurchaseRequest() {
                 const result = await getPurchaseRequestById(id)
                 if (result.AttachmentEntry) {
                     const attach = await getAttachmentsById(result.AttachmentEntry)
-                    if (attach) {
+                    if (attach?.Attachments2_Lines) {
                         setAttachList(attach.Attachments2_Lines)
                     }
                 }
@@ -102,8 +102,9 @@ export default function PurchaseRequest() {
         fetchData()
     }, [id])
 
-    // Re-verifica o catálogo do fornecedor quando o vendor muda e existem linhas de XML
     useEffect(() => {
+        let cancelled = false
+
         async function recheckVendorCatalog() {
             const hasXmlLines = data.DocumentLines.some(line => line.VendorItemCode)
             if (!hasXmlLines) return
@@ -115,6 +116,8 @@ export default function PurchaseRequest() {
             try {
                 const { updatedLines, matchedCount, unmatchedCount, totalXmlLines } = 
                     await recheckCatalogForVendor(vendor.id, data.DocumentLines)
+
+                if (cancelled) return
 
                 setData(prevData => ({
                     ...prevData,
@@ -132,6 +135,7 @@ export default function PurchaseRequest() {
                     message
                 })
             } catch (error) {
+                if (cancelled) return
                 setAlert({
                     visible: true,
                     type: 'error',
@@ -141,6 +145,7 @@ export default function PurchaseRequest() {
         }
 
         recheckVendorCatalog()
+        return () => { cancelled = true }
     }, [vendor])
 
     function setField(field, newValue) {

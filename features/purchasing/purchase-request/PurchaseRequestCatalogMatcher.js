@@ -34,12 +34,22 @@ export async function recheckCatalogForVendor(cardCode, documentLines) {
         const match = findItemInCatalog(line.VendorItemCode, catalog)
 
         if (match) {
-            const details = await getItemDetailsByCode(match.ItemCode)
+            let itemName = match.ItemCode
+            let uoMEntry = null
+            let measureUnit = ''
+            try {
+                const details = await getItemDetailsByCode(match.ItemCode)
+                itemName = details.itemName || match.ItemCode
+                uoMEntry = details.uoMEntry || null
+                measureUnit = details.measureUnit || ''
+            } catch {
+                
+            }
             updatedLines.push({
                 ...line,
-                Item: { id: match.ItemCode, label: details.itemName || match.ItemCode },
-                UoMEntry: details.uoMEntry || null,
-                MeasureUnit: details.measureUnit || '',
+                Item: { id: match.ItemCode, label: itemName },
+                UoMEntry: uoMEntry,
+                MeasureUnit: measureUnit,
                 xmlMatchStatus: 'encontrado',
                 catalogCreated: false
             })

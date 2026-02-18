@@ -13,7 +13,6 @@ export default function PurchaseRequestActions({ data, setData, requester, vendo
     const [isCancelLoading, setIsCancelLoading] = useState(false)
 
     async function handleSubmit() {
-        // Itens com status 'generic' são tratados como resolvidos (não entram no warning)
         const unmatchedItems = data.DocumentLines.filter(line =>
             line.xmlMatchStatus === 'nao_encontrado' && line.Item?.id
         )
@@ -28,7 +27,7 @@ export default function PurchaseRequestActions({ data, setData, requester, vendo
         if (status === 'CREATE') {
             const attEntry = await handleAttachments()
             await handlePurchaseRequestCreation(attEntry)
-        } else { // EDICAO
+        } else {
             let attEntry;
             if(data.AttachmentEntry) {
                 attEntry = await handleAttachmentsUpdate()
