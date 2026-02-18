@@ -9,6 +9,7 @@ import getTranslation from '../../../locales/getTranslation'
 import PurchaseRequestHeader from '../../../features/purchasing/purchase-request/PurchaseRequestHeader'
 import { getYearMonthDateFormat } from '../../../utils/formatDate'
 import PurchaseRequestActions from '../../../features/purchasing/purchase-request/PurchaseRequestActions'
+import { recheckCatalogForVendor } from '../../../features/purchasing/purchase-request/PurchaseRequestCatalogMatcher'
 import { TextField, Box } from '@mui/material'
 import Attachment from '../../../components/ui/Attachment'
 
@@ -29,6 +30,7 @@ export default function PurchaseRequest() {
     const [itemGroups, setItemGroups] = useState([])
 
     const [fileList, setFileList] = useState([]);
+    const [lastCheckedVendorId, setLastCheckedVendorId] = useState(null);
     
     useEffect(() => {
         async function fetchData() {
@@ -99,6 +101,47 @@ export default function PurchaseRequest() {
 
         fetchData()
     }, [id])
+
+    // Re-verifica o catálogo do fornecedor quando o vendor muda e existem linhas de XML
+    useEffect(() => {
+        async function recheckVendorCatalog() {
+            const hasXmlLines = data.DocumentLines.some(line => line.VendorItemCode)
+            if (!hasXmlLines) return
+            if (!vendor?.id) return
+            if (vendor.id === lastCheckedVendorId) return
+
+            setLastCheckedVendorId(vendor.id)
+
+            try {
+                const { updatedLines, matchedCount, unmatchedCount, totalXmlLines } = 
+                    await recheckCatalogForVendor(vendor.id, data.DocumentLines)
+
+                setData(prevData => ({
+                    ...prevData,
+                    DocumentLines: updatedLines
+                }))
+
+                let message = `Catálogo do fornecedor verificado: ${matchedCount} de ${totalXmlLines} item(ns) encontrado(s).`
+                if (unmatchedCount > 0) {
+                    message += ` ${unmatchedCount} item(ns) não encontrado(s) no catálogo.`
+                }
+
+                setAlert({
+                    visible: true,
+                    type: unmatchedCount > 0 ? 'warning' : 'success',
+                    message
+                })
+            } catch (error) {
+                setAlert({
+                    visible: true,
+                    type: 'error',
+                    message: 'Erro ao verificar catálogo do fornecedor.'
+                })
+            }
+        }
+
+        recheckVendorCatalog()
+    }, [vendor])
 
     function setField(field, newValue) {
         let newData = { ...data }

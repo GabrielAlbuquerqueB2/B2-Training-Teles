@@ -3,16 +3,9 @@ import { Box, Button, CircularProgress, Typography } from '@mui/material'
 import UploadFileIcon from '@mui/icons-material/UploadFile'
 import { parseXmlContent } from './PurchaseRequestXmlParser'
 import { findVendorByCNPJ, getVendorCatalog, getItemDetailsByCode } from './PurchaseRequestServices'
-import { normalizeCatalogCode } from '../../../utils/normalizeCatalogCode'
+import { findItemInCatalog } from './PurchaseRequestCatalogMatcher'
 
-export default function PurchaseRequestXmlImport({
-    setData,
-    data,
-    setIsPurchaseMade,
-    setField,
-    setAlert,
-    setVendor
-}) {
+export default function PurchaseRequestXmlImport(props) {
     const [isLoading, setIsLoading] = useState(false)
     const fileInputRef = useRef(null)
 
@@ -27,12 +20,6 @@ export default function PurchaseRequestXmlImport({
             reader.onerror = () => reject(new Error('Erro ao ler arquivo.'))
             reader.readAsText(file, 'UTF-8')
         })
-    }
-
-    function findItemInCatalog(cProd, catalog) {
-        const normalizedCProd = normalizeCatalogCode(cProd)
-        const match = catalog.find(entry => normalizeCatalogCode(entry.Substitute) === normalizedCProd)
-        return match ? { ItemCode: match.ItemCode } : null
     }
 
     async function handleFileSelect(event) {
@@ -83,6 +70,7 @@ export default function PurchaseRequestXmlImport({
                 processedItems.push({
                     cProd: item.cProd,
                     xProd: item.xProd,
+                    NCM: item.NCM,
                     qCom: item.qCom,
                     vUnCom: item.vUnCom,
                     itemCodeSAP,
@@ -94,7 +82,7 @@ export default function PurchaseRequestXmlImport({
             }
 
             if (cardCode) {
-                setVendor({ id: cardCode, label: cardName })
+                props.setVendor({ id: cardCode, label: cardName })
             }
 
             const unmatchedCount = processedItems.filter(i => i.status === 'nao_encontrado').length
@@ -109,16 +97,17 @@ export default function PurchaseRequestXmlImport({
                 MeasureUnit: item.measureUnit || '',
                 VendorItemCode: item.cProd,
                 XmlDescription: item.xProd,
+                XmlNCM: item.NCM || '',
                 xmlMatchStatus: item.status
             }))
 
-            setData(prevData => ({
+            props.setData(prevData => ({
                 ...prevData,
                 U_TX_NDfe: nNF,
                 DocumentLines: lines.length > 0 ? lines : [{ Item: '', WarehouseCode: '', FreeText: '' }]
             }))
 
-            setIsPurchaseMade(true)
+            props.setIsPurchaseMade(true)
 
             let message = 'XML importado com sucesso!'
             if (!cardCode) {
@@ -128,17 +117,17 @@ export default function PurchaseRequestXmlImport({
                 message += ` ${unmatchedCount} de ${processedItems.length} item(ns) não encontrado(s) no catálogo do fornecedor.`
             }
 
-            setAlert({
+            props.setAlert({
                 visible: true,
                 type: unmatchedCount > 0 || !cardCode ? 'warning' : 'success',
                 message
             })
 
         } catch (error) {
-            setAlert({
+            props.setAlert({
                 visible: true,
                 type: 'error',
-                message: `Erro ao importar XML: ${error.message || 'Erro desconhecido'}`
+                message: `${error}`
             })
         } finally {
             setIsLoading(false)

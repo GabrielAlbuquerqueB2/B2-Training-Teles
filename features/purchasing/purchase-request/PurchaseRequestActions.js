@@ -117,10 +117,12 @@ export default function PurchaseRequestActions({ data, setData, requester, vendo
     async function handleCancel() {
         try {
             await cancelPurchaseRequest(data.DocEntry)
-            alert('Solicitação de compras cancelada com sucesso')
-            router.push('/purchasing/purchase-request/list')
+            setAlert({ visible: true, type: 'success', message: 'Solicitação de compras cancelada com sucesso' })
+            setTimeout(() => {
+                router.push('/purchasing/purchase-request/list')
+            }, 3000)
         } catch (error) {
-            alert(error)
+            setAlert({ visible: true, type: 'error', message: `${error}` })
         } finally {
             setIsLoading(false)
         }
@@ -130,10 +132,12 @@ export default function PurchaseRequestActions({ data, setData, requester, vendo
         try {
             const submitData = createPurchaseOrderModel(data, requester, vendor, equipment)
             const result = await createPurchaseOrder(submitData)
-            alert('Pedido de compras criado com sucesso')
-            router.push('/purchasing/purchase-request/list')
+            setAlert({ visible: true, type: 'success', message: 'Pedido de compras criado com sucesso' })
+            setTimeout(() => {
+                router.push('/purchasing/purchase-request/list')
+            }, 3000)
         } catch (error) {
-            alert(error)
+            setAlert({ visible: true, type: 'error', message: `${error}` })
         } finally {
             setIsLoading(false)
         }

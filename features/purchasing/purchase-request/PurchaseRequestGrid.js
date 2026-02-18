@@ -50,7 +50,7 @@ export default function PurchaseRequestGrid(props) {
             props.setChildField('DocumentLines', 'catalogCreated', index, true)
             props.setAlert({ visible: true, type: 'success', message: 'Vínculo criado com sucesso no catálogo do fornecedor.' })
         } catch (error) {
-            const msg = error.response?.data?.error || 'Erro ao criar vínculo.'
+            const msg = error.message || 'Erro ao criar vínculo.'
             props.setAlert({ visible: true, type: 'error', message: msg })
         } finally {
             setSavingIndex(null)
@@ -131,9 +131,14 @@ export default function PurchaseRequestGrid(props) {
                                                                 props.setChildField('DocumentLines', 'Item', index, newValue)
                                                                 props.setChildField('DocumentLines', 'UoMEntry', index, newValue?.UoMEntry || null)
                                                                 if (newValue?.id === GENERIC_ITEM_CODE) {
-                                                                    props.setChildField('DocumentLines', 'FreeText', index, item.XmlDescription || '')
+                                                                    const ncmText = item.XmlNCM ? ` | NCM: ${item.XmlNCM}` : ''
+                                                                    props.setChildField('DocumentLines', 'FreeText', index, (item.XmlDescription || '') + ncmText)
                                                                     props.setChildField('DocumentLines', 'xmlMatchStatus', index, 'generic')
                                                                     props.setChildField('DocumentLines', 'catalogCreated', index, true)
+                                                                } else if (item.VendorItemCode && (item.xmlMatchStatus === 'generic' || item.catalogCreated)) {
+                                                                    props.setChildField('DocumentLines', 'xmlMatchStatus', index, 'nao_encontrado')
+                                                                    props.setChildField('DocumentLines', 'catalogCreated', index, false)
+                                                                    props.setChildField('DocumentLines', 'FreeText', index, '')
                                                                 }
                                                             }}
                                                         />
