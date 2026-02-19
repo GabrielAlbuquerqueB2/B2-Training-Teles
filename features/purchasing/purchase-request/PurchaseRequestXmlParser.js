@@ -4,7 +4,8 @@ export function parseXmlContent(xmlString) {
     const parser = new XMLParser({
         ignoreAttributes: false,
         attributeNamePrefix: '@_',
-        removeNSPrefix: true
+        removeNSPrefix: true,
+        parseTagValue: false
     })
     const parsed = parser.parse(xmlString)
 
