@@ -17,8 +17,7 @@ export default function PurchaseDeliveryNotesListFilters(props) {
 
     return (
         <>
-            <Typography variant="h6" className={styles.title}>Filtros</Typography>
-            <Box sx={{ flexGrow: 1 }}>
+            <Box className={styles.filtersContainer}>
                 <Grid container spacing={2}>
                     <Grid item xs={3}>
                         <TextField
