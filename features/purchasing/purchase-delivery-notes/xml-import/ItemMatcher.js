@@ -99,45 +99,17 @@ export async function matchXmlItemsWithOrder(xmlItems, orderLines, catalog) {
         })
     }
 
-    const unmatchedOrderLines = orderLines.filter(line => 
-        !matchedOrderLineNums.has(line.LineNum) && 
-        line.RemainingOpenQuantity > 0
-    )
-
-    const missingInXml = unmatchedOrderLines.map(line => ({
-        xmlItem: null,
-        sapItem: {
-            ItemCode: line.ItemCode,
-            ItemName: line.ItemDescription,
-            MeasureUnit: line.MeasureUnit
-        },
-        orderLine: {
-            LineNum: line.LineNum,
-            ItemCode: line.ItemCode,
-            ItemDescription: line.ItemDescription,
-            Quantity: line.Quantity,
-            RemainingOpenQuantity: line.RemainingOpenQuantity,
-            Price: line.Price,
-            WarehouseCode: line.WarehouseCode,
-            UoMEntry: line.UoMEntry
-        },
-        status: MATCH_STATUS.NOT_IN_XML,
-        matchMethod: MATCH_METHOD.NONE,
-        matched: false
-    }))
-
     const stats = {
         totalXmlItems: xmlItems.length,
         totalOrderItems: orderLines.length,
         matchedCount: comparisonResults.filter(r => r.status === MATCH_STATUS.MATCHED).length,
-        notInOrderCount: comparisonResults.filter(r => r.status === MATCH_STATUS.NOT_IN_ORDER).length,
-        notInXmlCount: missingInXml.length
+        notInOrderCount: comparisonResults.filter(r => r.status === MATCH_STATUS.NOT_IN_ORDER).length
     }
 
     return {
-        comparisonResults: [...comparisonResults, ...missingInXml],
+        comparisonResults,
         xmlItemsResults: comparisonResults,
-        missingInXml,
+        missingInXml: [],
         stats
     }
 }
@@ -163,10 +135,6 @@ export function checkCriticalDivergences(stats) {
 
     if (stats.notInOrderCount > 0) {
         warnings.push(`${stats.notInOrderCount} item(ns) do XML não encontrado(s) no Pedido de Compras`)
-    }
-
-    if (stats.notInXmlCount > 0) {
-        warnings.push(`${stats.notInXmlCount} item(ns) do Pedido não vieram no XML (entrega parcial)`)
     }
 
     if (stats.matchedCount === 0 && stats.totalXmlItems > 0) {

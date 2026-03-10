@@ -19,8 +19,7 @@ export default function DivergenceSummary({
         totalXmlItems = 0, 
         totalOrderItems = 0, 
         matchedCount = 0, 
-        notInOrderCount = 0, 
-        notInXmlCount = 0 
+        notInOrderCount = 0 
     } = stats
 
     const { hasErrors, hasWarnings, errors = [], warnings = [], canProceed } = divergenceCheck
@@ -149,16 +148,6 @@ export default function DivergenceSummary({
                     <Typography variant="body2">
                         Os {notInOrderCount} item(ns) do XML que não foram encontrados no Pedido de Compras 
                         <strong> não serão incluídos</strong> no Recebimento de Mercadoria.
-                    </Typography>
-                </Alert>
-            )}
-
-            {notInXmlCount > 0 && (
-                <Alert severity="info" sx={{ mb: 3 }}>
-                    <AlertTitle>Entrega Parcial</AlertTitle>
-                    <Typography variant="body2">
-                        Existem {notInXmlCount} item(ns) no Pedido que não vieram nesta entrega. 
-                        O Pedido permanecerá aberto para recebimentos futuros.
                     </Typography>
                 </Alert>
             )}

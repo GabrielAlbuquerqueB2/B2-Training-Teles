@@ -195,11 +195,15 @@ export default function XmlImportPage() {
             return updated
         })
 
-        setStats(prev => ({
-            ...prev,
-            matched: (prev.matched || 0) + 1,
-            notInOrder: Math.max((prev.notInOrder || 0) - 1, 0)
-        }))
+        setStats(prev => {
+            const nextStats = {
+                ...prev,
+                matchedCount: (prev.matchedCount || 0) + 1,
+                notInOrderCount: Math.max((prev.notInOrderCount || 0) - 1, 0)
+            }
+            setDivergenceCheck(checkCriticalDivergences(nextStats))
+            return nextStats
+        })
     }
 
     function handleReset() {
