@@ -1,5 +1,6 @@
 import axios from 'axios'
 import Api from '../../../../lib/api'
+import { normalizeCatalogCode } from '../../../../utils/normalizeCatalogCode'
 
 async function doApiCall(query) {
     return axios.request(query)
@@ -118,6 +119,31 @@ export async function createPurchaseDeliveryNote(purchaseDeliveryNote) {
     const result = await doApiCall(query)
     if (result.status === 400) {
         const errorMessage = result?.data?.message?.value || 'Erro desconhecido'
+        throw new Error(errorMessage)
+    }
+    return result
+}
+
+export async function createAlternateCatNum(cardCode, vendorItemCode, itemCode) {
+    const normalizedCode = normalizeCatalogCode(vendorItemCode)
+
+    const query = new Api()
+        .setMethod('POST')
+        .setUrl('/AlternateCatNum')
+        .setData({
+            ItemCode: itemCode,
+            CardCode: cardCode,
+            Substitute: normalizedCode,
+        })
+        .get()
+
+    const result = await doApiCall(query)
+    if (result.status === 400) {
+        const sapMessage = result?.data?.message?.value || ''
+        if (sapMessage.includes('already exists') || sapMessage.includes('já existe') || sapMessage.includes('1320000205')) {
+            return { success: true, alreadyExists: true }
+        }
+        const errorMessage = sapMessage || 'Erro ao criar vínculo no SAP.'
         throw new Error(errorMessage)
     }
     return result

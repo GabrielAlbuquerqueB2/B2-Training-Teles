@@ -1,9 +1,13 @@
-import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper,Chip, Tooltip } from '@mui/material'
+import { useState } from 'react'
+import { Box, Typography, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Button, CircularProgress, TextField, Grid } from '@mui/material'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import ErrorIcon from '@mui/icons-material/Error'
 import WarningIcon from '@mui/icons-material/Warning'
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
-import { MATCH_STATUS, STATUS_COLORS } from './ItemMatcher'
+import LinkIcon from '@mui/icons-material/Link'
+import ItemAutocomplete from '../../../../components/ui/Autocomplete/ItemAutocomplete'
+import { MATCH_STATUS, STATUS_COLORS, MATCH_METHOD_LABELS, MATCH_METHOD } from './ItemMatcher'
+import { createAlternateCatNum } from './XmlImportServices'
 
 function formatCurrency(value) {
     return new Intl.NumberFormat('pt-BR', {
@@ -22,187 +26,204 @@ function formatNumber(value, decimals = 2) {
 function getStatusInfo(status) {
     switch (status) {
         case MATCH_STATUS.MATCHED:
-            return {
-                icon: <CheckCircleIcon sx={{ color: '#4CAF50' }} fontSize="small" />,
-                label: 'Encontrado',
-                color: 'success'
-            }
+            return { icon: <CheckCircleIcon sx={{ color: '#4CAF50' }} fontSize="small" />, label: 'Encontrado', color: 'success' }
+        case MATCH_STATUS.LINKED:
+            return { icon: <LinkIcon sx={{ color: '#305E79' }} fontSize="small" />, label: 'Vinculado', color: 'info' }
         case MATCH_STATUS.NOT_IN_ORDER:
-            return {
-                icon: <ErrorIcon sx={{ color: '#F44336' }} fontSize="small" />,
-                label: 'Não está no Pedido',
-                color: 'error'
-            }
+            return { icon: <ErrorIcon sx={{ color: '#F44336' }} fontSize="small" />, label: 'Não está no Pedido', color: 'error' }
         case MATCH_STATUS.NOT_IN_XML:
-            return {
-                icon: <RemoveCircleIcon sx={{ color: '#9E9E9E' }} fontSize="small" />,
-                label: 'Não veio no XML',
-                color: 'default'
-            }
+            return { icon: <RemoveCircleIcon sx={{ color: '#9E9E9E' }} fontSize="small" />, label: 'Não veio no XML', color: 'default' }
         default:
-            return {
-                icon: <WarningIcon sx={{ color: '#FF9800' }} fontSize="small" />,
-                label: 'Pendente',
-                color: 'warning'
-            }
+            return { icon: <WarningIcon sx={{ color: '#FF9800' }} fontSize="small" />, label: 'Pendente', color: 'warning' }
     }
 }
 
-export default function ItemComparisonGrid({ comparisonResults = [], stats = {} }) {
+export default function ItemComparisonGrid({ comparisonResults = [], stats = {}, vendor = null, onItemLinked = () => {}, setAlert = () => {} }) {
     
+    const [linkingIndex, setLinkingIndex] = useState(null)
+    const [selectedItems, setSelectedItems] = useState({})
+
+    function canLink(item, index) {
+        const selectedItem = selectedItems[index]
+        return item.status === MATCH_STATUS.NOT_IN_ORDER 
+            && item.xmlItem?.cProd 
+            && vendor?.CardCode
+            && selectedItem?.id
+            && linkingIndex !== index
+    }
+
+    async function handleCreateLink(item, index) {
+        const selectedItem = selectedItems[index]
+        if (!selectedItem?.id || !item.xmlItem?.cProd || !vendor?.CardCode) return
+
+        setLinkingIndex(index)
+        try {
+            await createAlternateCatNum(vendor.CardCode, item.xmlItem.cProd, selectedItem.id)
+            onItemLinked(index, selectedItem)
+            setAlert({ visible: true, type: 'success', message: `Item "${item.xmlItem.xProd}" vinculado ao código SAP "${selectedItem.id}" com sucesso.` })
+        } catch (error) {
+            const msg = error.message || 'Erro ao criar vínculo.'
+            setAlert({ visible: true, type: 'error', message: msg })
+        } finally {
+            setLinkingIndex(null)
+        }
+    }
+
+    function handleItemSelect(index, newValue) {
+        setSelectedItems(prev => ({
+            ...prev,
+            [index]: newValue
+        }))
+    }
+
     return (
-        <Box>
-            <Box sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap' }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                    <Box sx={{ width: 16, height: 16, backgroundColor: STATUS_COLORS[MATCH_STATUS.MATCHED], borderRadius: 1 }} />
-                    <Typography variant="caption">Item encontrado no Pedido</Typography>
-                </Box>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                    <Box sx={{ width: 16, height: 16, backgroundColor: STATUS_COLORS[MATCH_STATUS.NOT_IN_ORDER], borderRadius: 1 }} />
-                    <Typography variant="caption">Item do XML não está no Pedido</Typography>
-                </Box>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                    <Box sx={{ width: 16, height: 16, backgroundColor: STATUS_COLORS[MATCH_STATUS.NOT_IN_XML], borderRadius: 1 }} />
-                    <Typography variant="caption">Item do Pedido não veio no XML</Typography>
-                </Box>
-            </Box>
-
-            <TableContainer component={Paper}>
-                <Table size="small">
-                    <TableHead>
-                        <TableRow sx={{ backgroundColor: '#1976d2' }}>
-                            <TableCell colSpan={4} sx={{ color: 'white', fontWeight: 'bold' }}>
-                                Dados do XML (NF-e)
-                            </TableCell>
-                            <TableCell colSpan={3} sx={{ color: 'white', fontWeight: 'bold', borderLeft: '2px solid white' }}>
-                                Dados do Pedido de Compras
-                            </TableCell>
-                            <TableCell sx={{ color: 'white', fontWeight: 'bold', borderLeft: '2px solid white' }}>
-                                Status
-                            </TableCell>
-                        </TableRow>
-                        <TableRow sx={{ backgroundColor: '#e3f2fd' }}>
-                            <TableCell>Cód. Fornec.</TableCell>
-                            <TableCell>Descrição XML</TableCell>
-                            <TableCell align="right">Qtd XML</TableCell>
-                            <TableCell align="right">Preço XML</TableCell>
-                            <TableCell sx={{ borderLeft: '2px solid #1976d2' }}>Item SAP</TableCell>
-                            <TableCell align="right">Qtd Pedido</TableCell>
-                            <TableCell align="right">Preço Pedido</TableCell>
-                            <TableCell sx={{ borderLeft: '2px solid #1976d2' }} />
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {comparisonResults.map((item, index) => {
-                            const statusInfo = getStatusInfo(item.status)
-                            
-                            return (
-                                <TableRow 
-                                    key={index}
-                                    sx={{ 
-                                        backgroundColor: STATUS_COLORS[item.status] || 'inherit',
-                                        '&:hover': { opacity: 0.9 }
-                                    }}
-                                >
-                                    <TableCell>
-                                        <Typography variant="body2" fontFamily="monospace">
-                                            {item.xmlItem?.cProd || '-'}
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Tooltip title={item.xmlItem?.xProd || '-'} arrow>
-                                            <Typography 
-                                                variant="body2" 
-                                                sx={{ 
-                                                    maxWidth: 250, 
-                                                    overflow: 'hidden', 
-                                                    textOverflow: 'ellipsis',
-                                                    whiteSpace: 'nowrap'
-                                                }}
-                                            >
-                                                {item.xmlItem?.xProd || '-'}
-                                            </Typography>
-                                        </Tooltip>
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        <Typography variant="body2" fontWeight="bold">
-                                            {item.xmlItem ? formatNumber(item.xmlItem.qCom) : '-'}
-                                        </Typography>
-                                        {item.xmlItem?.uCom && (
-                                            <Typography variant="caption" color="text.secondary">
-                                                {item.xmlItem.uCom}
-                                            </Typography>
-                                        )}
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        {item.xmlItem ? formatCurrency(item.xmlItem.vUnCom) : '-'}
-                                    </TableCell>
-
-                                    <TableCell sx={{ borderLeft: '2px solid #1976d2' }}>
-                                        {item.sapItem ? (
-                                            <Box>
-                                                <Typography variant="body2" fontWeight="bold">
-                                                    {item.sapItem.ItemCode}
-                                                </Typography>
-                                                <Tooltip title={item.sapItem.ItemName || item.orderLine?.ItemDescription || ''} arrow>
-                                                    <Typography 
-                                                        variant="caption" 
-                                                        color="text.secondary"
-                                                        sx={{ 
-                                                            display: 'block',
-                                                            maxWidth: 200, 
-                                                            overflow: 'hidden', 
-                                                            textOverflow: 'ellipsis',
-                                                            whiteSpace: 'nowrap'
-                                                        }}
-                                                    >
-                                                        {item.sapItem.ItemName || item.orderLine?.ItemDescription}
-                                                    </Typography>
-                                                </Tooltip>
-                                            </Box>
-                                        ) : '-'}
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        {item.orderLine ? (
-                                            <Box>
-                                                <Typography variant="body2" fontWeight="bold">
-                                                    {formatNumber(item.orderLine.RemainingOpenQuantity || item.orderLine.Quantity)}
-                                                </Typography>
-                                                <Typography variant="caption" color="text.secondary">
-                                                    (Total: {formatNumber(item.orderLine.Quantity)})
-                                                </Typography>
-                                            </Box>
-                                        ) : '-'}
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        {item.orderLine ? formatCurrency(item.orderLine.Price) : '-'}
-                                    </TableCell>
-
-                                    <TableCell sx={{ borderLeft: '2px solid #1976d2' }}>
-                                        <Chip
-                                            icon={statusInfo.icon}
-                                            label={statusInfo.label}
-                                            size="small"
-                                            color={statusInfo.color}
-                                            variant="outlined"
-                                        />
-                                    </TableCell>
-                                </TableRow>
-                            )
-                        })}
-
-                        {comparisonResults.length === 0 && (
+        <Box sx={{ flexGrow: 1 }}>
+            <Grid container spacing={2}>
+                <Grid item xs={12}>
+                    <Table>
+                        <TableHead>
                             <TableRow>
-                                <TableCell colSpan={8} align="center" sx={{ py: 4 }}>
-                                    <Typography color="text.secondary">
-                                        Nenhum item para exibir
-                                    </Typography>
-                                </TableCell>
+                                <TableCell>Cód. Fornec.</TableCell>
+                                <TableCell>Descrição XML</TableCell>
+                                <TableCell>Qtd XML</TableCell>
+                                <TableCell>Preço XML</TableCell>
+                                <TableCell>Vincular</TableCell>
+                                <TableCell>Item SAP</TableCell>
+                                <TableCell>Qtd Pedido</TableCell>
+                                <TableCell>Preço Pedido</TableCell>
+                                {/* <TableCell>Status</TableCell> */}
                             </TableRow>
-                        )}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                        </TableHead>
+                <TableBody>
+                    {comparisonResults.map((item, index) => {
+                        const statusInfo = getStatusInfo(item.status)
+                        
+                        return (
+                            <TableRow 
+                                key={index}
+                                sx={{ backgroundColor: STATUS_COLORS[item.status] || 'inherit' }}
+                            >
+                                <TableCell width="6.8%" sx={{ padding: '3px' }}>
+                                    <TextField
+                                        type="text"
+                                        value={item.xmlItem?.cProd ?? ''}
+                                        InputProps={{ readOnly: true }}
+                                        placeholder="-"
+                                        size="small"
+                                    />
+                                </TableCell>
+                                <TableCell width="18%" sx={{ padding: '3px' }}>
+                                    <Tooltip title={item.xmlItem?.xProd || '-'} arrow>
+                                        <TextField
+                                            type="text"
+                                            value={item.xmlItem?.xProd ?? ''}
+                                            InputProps={{ readOnly: true }}
+                                            placeholder="-"
+                                            size="small"
+                                        />
+                                    </Tooltip>
+                                </TableCell>
+                                <TableCell width="7%" sx={{ padding: '3px' }}>
+                                    <TextField
+                                        type="text"
+                                        value={item.xmlItem ? formatNumber(item.xmlItem.qCom) : ''}
+                                        InputProps={{ readOnly: true }}
+                                        placeholder="-"
+                                        size="small"
+                                    />
+                                </TableCell>
+                                <TableCell width="8%" sx={{ padding: '3px' }}>
+                                    <TextField
+                                        type="text"
+                                        value={item.xmlItem ? formatCurrency(item.xmlItem.vUnCom) : ''}
+                                        InputProps={{ readOnly: true }}
+                                        placeholder="-"
+                                        size="small"
+                                    />
+                                </TableCell>
+                                <TableCell width="3%" sx={{ padding: '3px' }}>
+                                    {item.status === MATCH_STATUS.NOT_IN_ORDER && item.xmlItem?.cProd ? (
+                                        <Tooltip title="Vincular item ao catálogo do fornecedor" arrow>
+                                            <span>
+                                                <Button
+                                                    variant='outlined'
+                                                    color='primary'
+                                                    onClick={() => handleCreateLink(item, index)}
+                                                    disabled={!canLink(item, index)}
+                                                    size='small'
+                                                    sx={{ minHeight: '40px', width: '100%' }}
+                                                >
+                                                    {linkingIndex === index ? <CircularProgress size={20} /> : <LinkIcon />}
+                                                </Button>
+                                            </span>
+                                        </Tooltip>
+                                    ) : null}
+                                </TableCell>
+                                <TableCell width="20%" sx={{ padding: '3px' }}>
+                                    {item.status === MATCH_STATUS.NOT_IN_ORDER && item.xmlItem?.cProd ? (
+                                        <div>
+                                            <ItemAutocomplete
+                                                name={`Item`}
+                                                value={selectedItems[index] || null}
+                                                setValue={(newValue) => handleItemSelect(index, newValue)}
+                                                disabled={linkingIndex === index}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <Tooltip title={item.sapItem ? (item.sapItem.ItemName || item.orderLine?.ItemDescription || '') : ''} arrow>
+                                            <TextField
+                                                type="text"
+                                                value={item.sapItem ? `${item.sapItem.ItemCode} - ${item.sapItem.ItemName || item.orderLine?.ItemDescription || ''}` : ''}
+                                                InputProps={{ readOnly: true }}
+                                                placeholder="-"
+                                                size="small"
+                                            />
+                                        </Tooltip>
+                                    )}
+                                </TableCell>
+                                <TableCell width="8%" sx={{ padding: '3px' }}>
+                                    <TextField
+                                        type="text"
+                                        value={item.orderLine ? formatNumber(item.orderLine.RemainingOpenQuantity || item.orderLine.Quantity) : ''}
+                                        InputProps={{ readOnly: true }}
+                                        placeholder="-"
+                                        size="small"
+                                    />
+                                </TableCell>
+                                <TableCell width="8%" sx={{ padding: '3px' }}>
+                                    <TextField
+                                        type="text"
+                                        value={item.orderLine ? formatCurrency(item.orderLine.Price) : ''}
+                                        InputProps={{ readOnly: true }}
+                                        placeholder="-"
+                                        size="small"
+                                    />
+                                </TableCell>
+                                {/* <TableCell width="13%" sx={{ padding: '3px' }}>
+                                    <TextField
+                                        type="text"
+                                        value={statusInfo.label}
+                                        InputProps={{ readOnly: true, startAdornment: statusInfo.icon }}
+                                        size="small"
+                                    />
+                                </TableCell> */}
+                            </TableRow>
+                        )
+                    })}
+
+                    {comparisonResults.length === 0 && (
+                        <TableRow>
+                            <TableCell colSpan={9} align="center" sx={{ py: 4 }}>
+                                <Typography color="text.secondary">
+                                    Nenhum item para exibir
+                                </Typography>
+                            </TableCell>
+                        </TableRow>
+                    )}
+                        </TableBody>
+                    </Table>
+                </Grid>
+            </Grid>
         </Box>
     )
 }

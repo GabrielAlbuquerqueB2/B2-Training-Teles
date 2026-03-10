@@ -1,27 +1,15 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-import { Box, Stepper, Step, StepLabel, Paper, Typography, Alert } from '@mui/material'
+import { Box, Stepper, Step, StepLabel, Paper, Typography, Alert, Button } from '@mui/material'
 import PageHeader from '../../../../components/ui/PageHeader'
 import AlertMessage from '../../../../components/ui/AlertMessage'
-
 import XmlUploader from '../../../../features/purchasing/purchase-delivery-notes/xml-import/XmlUploader'
 import PurchaseOrderSelector from '../../../../features/purchasing/purchase-delivery-notes/xml-import/PurchaseOrderSelector'
 import ItemComparisonGrid from '../../../../features/purchasing/purchase-delivery-notes/xml-import/ItemComparisonGrid'
 import DivergenceSummary from '../../../../features/purchasing/purchase-delivery-notes/xml-import/DivergenceSummary'
-
 import { parseXmlContent } from '../../../../features/purchasing/purchase-delivery-notes/xml-import/XmlParser'
-import { 
-    findVendorByCNPJ, 
-    getOpenPurchaseOrdersByVendor, 
-    getPurchaseOrderByDocEntry,
-    getVendorCatalog,
-    createPurchaseDeliveryNote
-} from '../../../../features/purchasing/purchase-delivery-notes/xml-import/XmlImportServices'
-import { 
-    matchXmlItemsWithOrder, 
-    prepareDeliveryNoteLines,
-    checkCriticalDivergences 
-} from '../../../../features/purchasing/purchase-delivery-notes/xml-import/ItemMatcher'
+import { findVendorByCNPJ, getOpenPurchaseOrdersByVendor, getPurchaseOrderByDocEntry, getVendorCatalog, createPurchaseDeliveryNote } from '../../../../features/purchasing/purchase-delivery-notes/xml-import/XmlImportServices'
+import { matchXmlItemsWithOrder, prepareDeliveryNoteLines, checkCriticalDivergences, MATCH_STATUS, MATCH_METHOD } from '../../../../features/purchasing/purchase-delivery-notes/xml-import/ItemMatcher'
 
 const STEPS = [
     'Importar XML',
@@ -32,21 +20,17 @@ const STEPS = [
 
 export default function XmlImportPage() {
     const router = useRouter()
-
     const [activeStep, setActiveStep] = useState(0)
     const [isLoading, setIsLoading] = useState(false)
-
     const [xmlData, setXmlData] = useState(null)
     const [vendor, setVendor] = useState(null)
     const [purchaseOrders, setPurchaseOrders] = useState([])
     const [selectedOrder, setSelectedOrder] = useState(null)
     const [orderDetails, setOrderDetails] = useState(null)
     const [catalog, setCatalog] = useState([])
-    
     const [comparisonResults, setComparisonResults] = useState([])
     const [stats, setStats] = useState({})
     const [divergenceCheck, setDivergenceCheck] = useState({})
-
     const [alert, setAlert] = useState({ visible: false, type: '', message: '' })
 
     function readFileAsText(file) {
@@ -196,6 +180,28 @@ export default function XmlImportPage() {
         }
     }
 
+    function handleItemLinked(index, selectedItem) {
+        setComparisonResults(prev => {
+            const updated = [...prev]
+            updated[index] = {
+                ...updated[index],
+                status: MATCH_STATUS.LINKED,
+                matchMethod: MATCH_METHOD.BY_MANUAL_LINK,
+                sapItem: {
+                    ItemCode: selectedItem.id,
+                    ItemName: selectedItem.label || selectedItem.id
+                }
+            }
+            return updated
+        })
+
+        setStats(prev => ({
+            ...prev,
+            matched: (prev.matched || 0) + 1,
+            notInOrder: Math.max((prev.notInOrder || 0) - 1, 0)
+        }))
+    }
+
     function handleReset() {
         setActiveStep(0)
         setXmlData(null)
@@ -239,33 +245,17 @@ export default function XmlImportPage() {
                         <ItemComparisonGrid 
                             comparisonResults={comparisonResults}
                             stats={stats}
+                            vendor={vendor}
+                            onItemLinked={handleItemLinked}
+                            setAlert={setAlert}
                         />
                         <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end', mt: 3 }}>
-                            <button 
-                                onClick={handleBack}
-                                style={{ 
-                                    padding: '8px 16px', 
-                                    cursor: 'pointer',
-                                    border: '1px solid #ccc',
-                                    borderRadius: 4,
-                                    backgroundColor: 'white'
-                                }}
-                            >
+                            <Button variant='outlined' onClick={handleBack}>
                                 Voltar
-                            </button>
-                            <button 
-                                onClick={handleGoToConfirm}
-                                style={{ 
-                                    padding: '8px 16px', 
-                                    cursor: 'pointer',
-                                    border: 'none',
-                                    borderRadius: 4,
-                                    backgroundColor: '#1976d2',
-                                    color: 'white'
-                                }}
-                            >
+                            </Button>
+                            <Button variant='contained' onClick={handleGoToConfirm}>
                                 Próximo
-                            </button>
+                            </Button>
                         </Box>
                     </Box>
                 )

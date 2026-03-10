@@ -68,7 +68,8 @@ export function parseXmlContent(xmlString) {
             cEANTrib: String(prod.cEANTrib || ''),
             uTrib: String(prod.uTrib || ''),
             qTrib: parseFloat(prod.qTrib) || 0,
-            vUnTrib: parseFloat(prod.vUnTrib) || 0
+            vUnTrib: parseFloat(prod.vUnTrib) || 0,
+            nItemPed: prod.nItemPed ? parseInt(prod.nItemPed, 10) : null
         }
     }).filter(Boolean)
 

@@ -5,14 +5,27 @@ export const MATCH_STATUS = {
     MATCHED: 'matched',
     NOT_IN_ORDER: 'not_in_order',
     NOT_IN_XML: 'not_in_xml',
-    PENDING: 'pending'
+    PENDING: 'pending',
+    LINKED: 'linked'
+}
+
+export const MATCH_METHOD = {
+    BY_CATALOG: 'catalogo',
+    BY_MANUAL_LINK: 'vinculo_manual',
+    NONE: null
 }
 
 export const STATUS_COLORS = {
     [MATCH_STATUS.MATCHED]: '#E8F5E9',
     [MATCH_STATUS.NOT_IN_ORDER]: '#FFEBEE',
     [MATCH_STATUS.NOT_IN_XML]: '#ECEFF1',
-    [MATCH_STATUS.PENDING]: '#FFF8E1'
+    [MATCH_STATUS.PENDING]: '#FFF8E1',
+    [MATCH_STATUS.LINKED]: '#E3F2FD'
+}
+
+export const MATCH_METHOD_LABELS = {
+    [MATCH_METHOD.BY_CATALOG]: 'Catálogo',
+    [MATCH_METHOD.BY_MANUAL_LINK]: 'Vínculo Manual'
 }
 
 export function findItemInCatalog(cProd, catalog) {
@@ -28,15 +41,17 @@ export async function matchXmlItemsWithOrder(xmlItems, orderLines, catalog) {
     const matchedOrderLineNums = new Set()
 
     for (const xmlItem of xmlItems) {
-        const catalogMatch = findItemInCatalog(xmlItem.cProd, catalog)
-        
         let status = MATCH_STATUS.NOT_IN_ORDER
         let matchedOrderLine = null
         let itemDetails = null
+        let matchMethod = MATCH_METHOD.NONE
 
+        // ========== ESTRATÉGIA: Por Catálogo (AlternateCatNum) ==========
+        const catalogMatch = findItemInCatalog(xmlItem.cProd, catalog)
+        
         if (catalogMatch) {
             itemDetails = await getItemDetailsByCode(catalogMatch.ItemCode)
-
+            
             matchedOrderLine = orderLines.find(line => 
                 line.ItemCode === catalogMatch.ItemCode && 
                 !matchedOrderLineNums.has(line.LineNum)
@@ -44,6 +59,7 @@ export async function matchXmlItemsWithOrder(xmlItems, orderLines, catalog) {
 
             if (matchedOrderLine) {
                 status = MATCH_STATUS.MATCHED
+                matchMethod = MATCH_METHOD.BY_CATALOG
                 matchedOrderLineNums.add(matchedOrderLine.LineNum)
             }
         }
@@ -52,15 +68,17 @@ export async function matchXmlItemsWithOrder(xmlItems, orderLines, catalog) {
             xmlItem: {
                 nItem: xmlItem.nItem,
                 cProd: xmlItem.cProd,
+                cEAN: xmlItem.cEAN,
                 xProd: xmlItem.xProd,
                 NCM: xmlItem.NCM,
                 qCom: xmlItem.qCom,
                 vUnCom: xmlItem.vUnCom,
                 vProd: xmlItem.vProd,
-                uCom: xmlItem.uCom
+                uCom: xmlItem.uCom,
+                nItemPed: xmlItem.nItemPed
             },
             sapItem: itemDetails ? {
-                ItemCode: itemDetails.itemCode || catalogMatch?.ItemCode,
+                ItemCode: itemDetails.itemCode,
                 ItemName: itemDetails.itemName,
                 MeasureUnit: itemDetails.measureUnit,
                 UoMEntry: itemDetails.uoMEntry
@@ -76,6 +94,7 @@ export async function matchXmlItemsWithOrder(xmlItems, orderLines, catalog) {
                 UoMEntry: matchedOrderLine.UoMEntry
             } : null,
             status,
+            matchMethod,
             matched: status === MATCH_STATUS.MATCHED
         })
     }
@@ -103,6 +122,7 @@ export async function matchXmlItemsWithOrder(xmlItems, orderLines, catalog) {
             UoMEntry: line.UoMEntry
         },
         status: MATCH_STATUS.NOT_IN_XML,
+        matchMethod: MATCH_METHOD.NONE,
         matched: false
     }))
 
