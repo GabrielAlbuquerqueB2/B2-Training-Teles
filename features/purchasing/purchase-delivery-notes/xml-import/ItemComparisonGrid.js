@@ -1,11 +1,12 @@
 import { useState } from 'react'
-import { Box, Typography, Table, TableBody, TableCell, TableHead, TableRow, Tooltip, Button, CircularProgress, TextField, Grid } from '@mui/material'
+import { Box, Typography, Table, TableBody, TableCell, TableHead, TableRow, Button, CircularProgress, TextField, Grid } from '@mui/material'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import ErrorIcon from '@mui/icons-material/Error'
 import WarningIcon from '@mui/icons-material/Warning'
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 import LinkIcon from '@mui/icons-material/Link'
 import ItemAutocomplete from '../../../../components/ui/Autocomplete/ItemAutocomplete'
+import CurrencyTextField from '../../../../components/ui/CurrencyTextField/CurrencyTextField'
 import { MATCH_STATUS, STATUS_COLORS, MATCH_METHOD_LABELS, MATCH_METHOD } from './ItemMatcher'
 import { createAlternateCatNum } from './XmlImportServices'
 
@@ -26,9 +27,9 @@ function formatNumber(value, decimals = 2) {
 function getStatusInfo(status) {
     switch (status) {
         case MATCH_STATUS.MATCHED:
-            return { icon: <CheckCircleIcon sx={{ color: '#4CAF50' }} fontSize="small" />, label: 'Encontrado', color: 'success' }
+            return { icon: <CheckCircleIcon sx={{ color: '#ffffff' }} fontSize="small" />, label: 'Encontrado', color: 'success' }
         case MATCH_STATUS.LINKED:
-            return { icon: <LinkIcon sx={{ color: '#305E79' }} fontSize="small" />, label: 'Vinculado', color: 'info' }
+            return { icon: <LinkIcon sx={{ color: '#4CAF50' }} fontSize="small" />, label: 'Vinculado', color: 'info' }
         case MATCH_STATUS.NOT_IN_ORDER:
             return { icon: <ErrorIcon sx={{ color: '#F44336' }} fontSize="small" />, label: 'Não está no Pedido', color: 'error' }
         case MATCH_STATUS.NOT_IN_XML:
@@ -38,7 +39,7 @@ function getStatusInfo(status) {
     }
 }
 
-export default function ItemComparisonGrid({ comparisonResults = [], stats = {}, vendor = null, onItemLinked = () => {}, setAlert = () => {} }) {
+export default function ItemComparisonGrid({ comparisonResults = [], stats = {}, vendor = null, onItemLinked = () => {}, onOrderFieldChange = () => {}, setAlert = () => {} }) {
     
     const [linkingIndex, setLinkingIndex] = useState(null)
     const [selectedItems, setSelectedItems] = useState({})
@@ -113,15 +114,13 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                     />
                                 </TableCell>
                                 <TableCell width="18%" sx={{ padding: '3px' }}>
-                                    <Tooltip title={item.xmlItem?.xProd || '-'} arrow>
-                                        <TextField
-                                            type="text"
-                                            value={item.xmlItem?.xProd ?? ''}
-                                            InputProps={{ readOnly: true }}
-                                            placeholder="-"
-                                            size="small"
-                                        />
-                                    </Tooltip>
+                                    <TextField
+                                        type="text"
+                                        value={item.xmlItem?.xProd ?? ''}
+                                        InputProps={{ readOnly: true }}
+                                        placeholder="-"
+                                        size="small"
+                                    />
                                 </TableCell>
                                 <TableCell width="7%" sx={{ padding: '3px' }}>
                                     <TextField
@@ -143,20 +142,18 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                 </TableCell>
                                 <TableCell width="3%" sx={{ padding: '3px' }}>
                                     {item.status === MATCH_STATUS.NOT_IN_ORDER && item.xmlItem?.cProd ? (
-                                        <Tooltip title="Vincular item ao catálogo do fornecedor" arrow>
-                                            <span>
-                                                <Button
-                                                    variant='outlined'
-                                                    color='primary'
-                                                    onClick={() => handleCreateLink(item, index)}
-                                                    disabled={!canLink(item, index)}
-                                                    size='small'
-                                                    sx={{ minHeight: '40px', width: '100%' }}
-                                                >
-                                                    {linkingIndex === index ? <CircularProgress size={20} /> : <LinkIcon />}
-                                                </Button>
-                                            </span>
-                                        </Tooltip>
+                                        <span>
+                                            <Button
+                                                variant='outlined'
+                                                color='primary'
+                                                onClick={() => handleCreateLink(item, index)}
+                                                disabled={!canLink(item, index)}
+                                                size='small'
+                                                sx={{ minHeight: '40px', width: '100%' }}
+                                            >
+                                                {linkingIndex === index ? <CircularProgress size={20} /> : <LinkIcon />}
+                                            </Button>
+                                        </span>
                                     ) : null}
                                 </TableCell>
                                 <TableCell width="20%" sx={{ padding: '3px' }}>
@@ -170,34 +167,50 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                             />
                                         </div>
                                     ) : (
-                                        <Tooltip title={item.sapItem ? (item.sapItem.ItemName || item.orderLine?.ItemDescription || '') : ''} arrow>
-                                            <TextField
-                                                type="text"
-                                                value={item.sapItem ? `${item.sapItem.ItemCode} - ${item.sapItem.ItemName || item.orderLine?.ItemDescription || ''}` : ''}
-                                                InputProps={{ readOnly: true }}
-                                                placeholder="-"
-                                                size="small"
-                                            />
-                                        </Tooltip>
+                                        <TextField
+                                            type="text"
+                                            value={item.sapItem ? `${item.sapItem.ItemCode} - ${item.sapItem.ItemName || item.orderLine?.ItemDescription || ''}` : ''}
+                                            InputProps={{ readOnly: true }}
+                                            placeholder="-"
+                                            size="small"
+                                        />
                                     )}
                                 </TableCell>
                                 <TableCell width="8%" sx={{ padding: '3px' }}>
-                                    <TextField
-                                        type="text"
-                                        value={item.orderLine ? formatNumber(item.orderLine.RemainingOpenQuantity || item.orderLine.Quantity) : ''}
-                                        InputProps={{ readOnly: true }}
-                                        placeholder="-"
-                                        size="small"
-                                    />
+                                    {item.orderLine ? (
+                                        <CurrencyTextField
+                                            value={item.orderLine.RemainingOpenQuantity ?? item.orderLine.Quantity ?? 0}
+                                            onChange={(evt, newValue) => {
+                                                onOrderFieldChange(index, 'RemainingOpenQuantity', newValue)
+                                            }}
+                                        />
+                                    ) : (
+                                        <TextField
+                                            type="text"
+                                            value=""
+                                            InputProps={{ readOnly: true }}
+                                            placeholder="-"
+                                            size="small"
+                                        />
+                                    )}
                                 </TableCell>
                                 <TableCell width="8%" sx={{ padding: '3px' }}>
-                                    <TextField
-                                        type="text"
-                                        value={item.orderLine ? formatCurrency(item.orderLine.Price) : ''}
-                                        InputProps={{ readOnly: true }}
-                                        placeholder="-"
-                                        size="small"
-                                    />
+                                    {item.orderLine ? (
+                                        <CurrencyTextField
+                                            value={item.orderLine.Price ?? 0}
+                                            onChange={(evt, newValue) => {
+                                                onOrderFieldChange(index, 'Price', newValue)
+                                            }}
+                                        />
+                                    ) : (
+                                        <TextField
+                                            type="text"
+                                            value=""
+                                            InputProps={{ readOnly: true }}
+                                            placeholder="-"
+                                            size="small"
+                                        />
+                                    )}
                                 </TableCell>
                                 {/* <TableCell width="13%" sx={{ padding: '3px' }}>
                                     <TextField

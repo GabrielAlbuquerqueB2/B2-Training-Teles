@@ -206,6 +206,25 @@ export default function XmlImportPage() {
         })
     }
 
+    function handleOrderFieldChange(index, field, value) {
+        setComparisonResults(prev => {
+            const updated = [...prev]
+            const currentItem = updated[index]
+
+            if (!currentItem?.orderLine) return prev
+
+            updated[index] = {
+                ...currentItem,
+                orderLine: {
+                    ...currentItem.orderLine,
+                    [field]: value
+                }
+            }
+
+            return updated
+        })
+    }
+
     function handleReset() {
         setActiveStep(0)
         setXmlData(null)
@@ -251,6 +270,7 @@ export default function XmlImportPage() {
                             stats={stats}
                             vendor={vendor}
                             onItemLinked={handleItemLinked}
+                            onOrderFieldChange={handleOrderFieldChange}
                             setAlert={setAlert}
                         />
                         <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end', mt: 3 }}>
