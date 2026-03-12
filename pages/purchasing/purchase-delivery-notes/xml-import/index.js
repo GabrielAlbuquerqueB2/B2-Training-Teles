@@ -284,6 +284,7 @@ export default function XmlImportPage() {
                             comparisonResults={comparisonResults}
                             stats={stats}
                             vendor={vendor}
+                            orderDetails={orderDetails}
                             onItemLinked={handleItemLinked}
                             onReceivedQuantityChange={handleReceivedQuantityChange}
                             setAlert={setAlert}

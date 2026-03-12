@@ -1,11 +1,10 @@
 import { useState } from 'react'
-import { Box, Typography, Table, TableBody, TableCell, TableHead, TableRow, Button, CircularProgress, TextField, Grid } from '@mui/material'
+import { Box, Typography, Table, TableBody, TableCell, TableHead, TableRow, Button, CircularProgress, TextField, Grid, Autocomplete as MuiAutocomplete } from '@mui/material'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import ErrorIcon from '@mui/icons-material/Error'
 import WarningIcon from '@mui/icons-material/Warning'
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 import LinkIcon from '@mui/icons-material/Link'
-import ItemAutocomplete from '../../../../components/ui/Autocomplete/ItemAutocomplete'
 import CurrencyTextField from '../../../../components/ui/CurrencyTextField/CurrencyTextField'
 import { MATCH_STATUS, STATUS_COLORS, MATCH_METHOD_LABELS, MATCH_METHOD } from './ItemMatcher'
 import { createAlternateCatNum } from './XmlImportServices'
@@ -39,10 +38,15 @@ function getStatusInfo(status) {
     }
 }
 
-export default function ItemComparisonGrid({ comparisonResults = [], stats = {}, vendor = null, onItemLinked = () => {}, onReceivedQuantityChange = () => {}, setAlert = () => {} }) {
+export default function ItemComparisonGrid({ comparisonResults = [], stats = {}, vendor = null, orderDetails = null, onItemLinked = () => {}, onReceivedQuantityChange = () => {}, setAlert = () => {} }) {
     
     const [linkingIndex, setLinkingIndex] = useState(null)
     const [selectedItems, setSelectedItems] = useState({})
+
+    const orderItemOptions = (orderDetails?.DocumentLines || []).map(line => ({
+        id: line.ItemCode,
+        label: line.ItemDescription
+    }))
 
     function canLink(item, index) {
         const selectedItem = selectedItems[index]
@@ -84,7 +88,7 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell>Cód. Fornec.</TableCell>
+                                <TableCell>Cód. Item XML</TableCell>
                                 <TableCell>Descrição XML</TableCell>
                                 <TableCell>Qtd XML</TableCell>
                                 <TableCell>Preço XML</TableCell>
@@ -158,14 +162,16 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                 </TableCell>
                                 <TableCell width="20%" sx={{ padding: '3px' }}>
                                     {item.status === MATCH_STATUS.NOT_IN_ORDER && item.xmlItem?.cProd ? (
-                                        <div>
-                                            <ItemAutocomplete
-                                                name={`Item`}
-                                                value={selectedItems[index] || null}
-                                                setValue={(newValue) => handleItemSelect(index, newValue)}
-                                                disabled={linkingIndex === index}
-                                            />
-                                        </div>
+                                        <MuiAutocomplete
+                                            options={orderItemOptions}
+                                            getOptionLabel={(option) => option.id ? `${option.id} - ${option.label}` : ''}
+                                            value={selectedItems[index] || null}
+                                            onChange={(event, newValue) => handleItemSelect(index, newValue)}
+                                            disabled={linkingIndex === index}
+                                            size="small"
+                                            isOptionEqualToValue={(option, value) => option.id === value.id}
+                                            renderInput={(params) => <TextField {...params} label="Item" />}
+                                        />
                                     ) : (
                                         <TextField
                                             type="text"
