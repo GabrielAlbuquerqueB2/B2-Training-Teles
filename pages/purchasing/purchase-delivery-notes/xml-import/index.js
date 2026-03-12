@@ -127,6 +127,29 @@ export default function XmlImportPage() {
     }
 
     function handleGoToConfirm() {
+        const overflowItem = comparisonResults.find(item =>
+            item.status === MATCH_STATUS.MATCHED
+            && item.orderLine
+            && item.receivedQuantity > item.orderLine.RemainingOpenQuantity
+        )
+
+        if (overflowItem) {
+            setAlert({
+                visible: true,
+                type: 'error',
+                message: `O item "${overflowItem.xmlItem.xProd}" tem quantidade a receber maior que o saldo do pedido.`
+            })
+            return
+        }
+
+        const effectiveMatchedCount = comparisonResults.filter(
+            item => item.status === MATCH_STATUS.MATCHED && item.receivedQuantity > 0
+        ).length
+
+        const updatedStats = { ...stats, matchedCount: effectiveMatchedCount }
+        setStats(updatedStats)
+        setDivergenceCheck(checkCriticalDivergences(updatedStats))
+
         setActiveStep(3)
     }
 
@@ -206,21 +229,13 @@ export default function XmlImportPage() {
         })
     }
 
-    function handleOrderFieldChange(index, field, value) {
+    function handleReceivedQuantityChange(index, value) {
         setComparisonResults(prev => {
             const updated = [...prev]
-            const currentItem = updated[index]
-
-            if (!currentItem?.orderLine) return prev
-
             updated[index] = {
-                ...currentItem,
-                orderLine: {
-                    ...currentItem.orderLine,
-                    [field]: value
-                }
+                ...updated[index],
+                receivedQuantity: value
             }
-
             return updated
         })
     }
@@ -270,7 +285,7 @@ export default function XmlImportPage() {
                             stats={stats}
                             vendor={vendor}
                             onItemLinked={handleItemLinked}
-                            onOrderFieldChange={handleOrderFieldChange}
+                            onReceivedQuantityChange={handleReceivedQuantityChange}
                             setAlert={setAlert}
                         />
                         <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end', mt: 3 }}>

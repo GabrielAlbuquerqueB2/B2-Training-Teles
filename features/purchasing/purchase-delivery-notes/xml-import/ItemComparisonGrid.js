@@ -27,7 +27,7 @@ function formatNumber(value, decimals = 2) {
 function getStatusInfo(status) {
     switch (status) {
         case MATCH_STATUS.MATCHED:
-            return { icon: <CheckCircleIcon sx={{ color: '#ffffff' }} fontSize="small" />, label: 'Encontrado', color: 'success' }
+            return { icon: <CheckCircleIcon sx={{ color: '#4CAF50' }} fontSize="small" />, label: 'Encontrado', color: 'success' }
         case MATCH_STATUS.LINKED:
             return { icon: <LinkIcon sx={{ color: '#4CAF50' }} fontSize="small" />, label: 'Vinculado', color: 'info' }
         case MATCH_STATUS.NOT_IN_ORDER:
@@ -39,7 +39,7 @@ function getStatusInfo(status) {
     }
 }
 
-export default function ItemComparisonGrid({ comparisonResults = [], stats = {}, vendor = null, onItemLinked = () => {}, onOrderFieldChange = () => {}, setAlert = () => {} }) {
+export default function ItemComparisonGrid({ comparisonResults = [], stats = {}, vendor = null, onItemLinked = () => {}, onReceivedQuantityChange = () => {}, setAlert = () => {} }) {
     
     const [linkingIndex, setLinkingIndex] = useState(null)
     const [selectedItems, setSelectedItems] = useState({})
@@ -89,10 +89,10 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                 <TableCell>Qtd XML</TableCell>
                                 <TableCell>Preço XML</TableCell>
                                 <TableCell>Vincular</TableCell>
-                                <TableCell>Item SAP</TableCell>
+                                <TableCell>Item</TableCell>
                                 <TableCell>Qtd Pedido</TableCell>
                                 <TableCell>Preço Pedido</TableCell>
-                                {/* <TableCell>Status</TableCell> */}
+                                <TableCell>Qtd Parcial</TableCell>
                             </TableRow>
                         </TableHead>
                 <TableBody>
@@ -177,49 +177,42 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                     )}
                                 </TableCell>
                                 <TableCell width="8%" sx={{ padding: '3px' }}>
-                                    {item.orderLine ? (
-                                        <CurrencyTextField
-                                            value={item.orderLine.RemainingOpenQuantity ?? item.orderLine.Quantity ?? 0}
-                                            onChange={(evt, newValue) => {
-                                                onOrderFieldChange(index, 'RemainingOpenQuantity', newValue)
-                                            }}
-                                        />
-                                    ) : (
-                                        <TextField
-                                            type="text"
-                                            value=""
-                                            InputProps={{ readOnly: true }}
-                                            placeholder="-"
-                                            size="small"
-                                        />
-                                    )}
-                                </TableCell>
-                                <TableCell width="8%" sx={{ padding: '3px' }}>
-                                    {item.orderLine ? (
-                                        <CurrencyTextField
-                                            value={item.orderLine.Price ?? 0}
-                                            onChange={(evt, newValue) => {
-                                                onOrderFieldChange(index, 'Price', newValue)
-                                            }}
-                                        />
-                                    ) : (
-                                        <TextField
-                                            type="text"
-                                            value=""
-                                            InputProps={{ readOnly: true }}
-                                            placeholder="-"
-                                            size="small"
-                                        />
-                                    )}
-                                </TableCell>
-                                {/* <TableCell width="13%" sx={{ padding: '3px' }}>
                                     <TextField
                                         type="text"
-                                        value={statusInfo.label}
-                                        InputProps={{ readOnly: true, startAdornment: statusInfo.icon }}
+                                        value={item.orderLine ? formatNumber(item.orderLine.RemainingOpenQuantity) : ''}
+                                        InputProps={{ readOnly: true }}
+                                        placeholder="-"
                                         size="small"
                                     />
-                                </TableCell> */}
+                                </TableCell>
+                                <TableCell width="8%" sx={{ padding: '3px' }}>
+                                    <TextField
+                                        type="text"
+                                        value={item.orderLine ? formatCurrency(item.orderLine.Price ?? 0) : ''}
+                                        InputProps={{ readOnly: true }}
+                                        placeholder="-"
+                                        size="small"
+                                    />
+                                </TableCell>
+                                <TableCell width="8%" sx={{ padding: '3px' }}>
+                                    {item.status === MATCH_STATUS.MATCHED ? (
+                                        <CurrencyTextField
+                                            value={item.receivedQuantity ?? 0}
+                                            onChange={(evt, newValue) => {
+                                                onReceivedQuantityChange(index, newValue)
+                                            }}
+                                            error={item.orderLine && item.receivedQuantity > item.orderLine.RemainingOpenQuantity}
+                                        />
+                                    ) : (
+                                        <TextField
+                                            type="text"
+                                            value=""
+                                            InputProps={{ readOnly: true }}
+                                            placeholder="-"
+                                            size="small"
+                                        />
+                                    )}
+                                </TableCell>
                             </TableRow>
                         )
                     })}

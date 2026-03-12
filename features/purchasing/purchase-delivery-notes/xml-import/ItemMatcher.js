@@ -88,11 +88,12 @@ export async function matchXmlItemsWithOrder(xmlItems, orderLines, catalog) {
                 ItemCode: matchedOrderLine.ItemCode,
                 ItemDescription: matchedOrderLine.ItemDescription,
                 Quantity: matchedOrderLine.Quantity,
-                RemainingOpenQuantity: matchedOrderLine.RemainingOpenQuantity,
+                RemainingOpenQuantity: matchedOrderLine.RemainingOpenQuantity || matchedOrderLine.Quantity,
                 Price: matchedOrderLine.Price,
                 WarehouseCode: matchedOrderLine.WarehouseCode,
                 UoMEntry: matchedOrderLine.UoMEntry
             } : null,
+            receivedQuantity: xmlItem.qCom,
             status,
             matchMethod,
             matched: status === MATCH_STATUS.MATCHED
@@ -116,10 +117,10 @@ export async function matchXmlItemsWithOrder(xmlItems, orderLines, catalog) {
 
 export function prepareDeliveryNoteLines(comparisonResults, orderDocEntry) {
     return comparisonResults
-        .filter(item => item.status === MATCH_STATUS.MATCHED && item.orderLine)
+        .filter(item => item.status === MATCH_STATUS.MATCHED && item.orderLine && item.receivedQuantity > 0)
         .map(item => ({
             ItemCode: item.sapItem.ItemCode,
-            Quantity: item.xmlItem.qCom,
+            Quantity: item.receivedQuantity,
             UnitPrice: item.xmlItem.vUnCom,
             WarehouseCode: item.orderLine.WarehouseCode,
             UoMEntry: item.orderLine.UoMEntry,
@@ -134,7 +135,7 @@ export function checkCriticalDivergences(stats) {
     const errors = []
 
     if (stats.notInOrderCount > 0) {
-        warnings.push(`${stats.notInOrderCount} item(ns) do XML não encontrado(s) no Pedido de Compras`)
+        errors.push(`${stats.notInOrderCount} item(ns) do XML não vinculado(s). Vincule todos os itens antes de prosseguir.`)
     }
 
     if (stats.matchedCount === 0 && stats.totalXmlItems > 0) {
