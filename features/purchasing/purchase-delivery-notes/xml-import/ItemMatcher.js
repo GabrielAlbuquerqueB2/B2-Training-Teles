@@ -93,7 +93,6 @@ export async function matchXmlItemsWithOrder(xmlItems, orderLines, catalog) {
                 WarehouseCode: matchedOrderLine.WarehouseCode,
                 UoMEntry: matchedOrderLine.UoMEntry
             } : null,
-            receivedQuantity: xmlItem.qCom,
             status,
             matchMethod,
             matched: status === MATCH_STATUS.MATCHED
@@ -117,10 +116,10 @@ export async function matchXmlItemsWithOrder(xmlItems, orderLines, catalog) {
 
 export function prepareDeliveryNoteLines(comparisonResults, orderDocEntry) {
     return comparisonResults
-        .filter(item => item.status === MATCH_STATUS.MATCHED && item.orderLine && item.receivedQuantity > 0)
+        .filter(item => (item.status === MATCH_STATUS.MATCHED || item.status === MATCH_STATUS.LINKED) && item.orderLine)
         .map(item => ({
             ItemCode: item.sapItem.ItemCode,
-            Quantity: item.receivedQuantity,
+            Quantity: item.xmlItem.qCom,
             UnitPrice: item.xmlItem.vUnCom,
             WarehouseCode: item.orderLine.WarehouseCode,
             UoMEntry: item.orderLine.UoMEntry,

@@ -5,7 +5,6 @@ import ErrorIcon from '@mui/icons-material/Error'
 import WarningIcon from '@mui/icons-material/Warning'
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 import LinkIcon from '@mui/icons-material/Link'
-import CurrencyTextField from '../../../../components/ui/CurrencyTextField/CurrencyTextField'
 import { MATCH_STATUS, STATUS_COLORS, MATCH_METHOD_LABELS, MATCH_METHOD } from './ItemMatcher'
 import { createAlternateCatNum } from './XmlImportServices'
 
@@ -38,14 +37,15 @@ function getStatusInfo(status) {
     }
 }
 
-export default function ItemComparisonGrid({ comparisonResults = [], stats = {}, vendor = null, orderDetails = null, onItemLinked = () => {}, onReceivedQuantityChange = () => {}, setAlert = () => {} }) {
+export default function ItemComparisonGrid({ comparisonResults = [], stats = {}, vendor = null, orderDetails = null, onItemLinked = () => {}, setAlert = () => {} }) {
     
     const [linkingIndex, setLinkingIndex] = useState(null)
     const [selectedItems, setSelectedItems] = useState({})
 
     const orderItemOptions = (orderDetails?.DocumentLines || []).map(line => ({
         id: line.ItemCode,
-        label: line.ItemDescription
+        label: line.ItemDescription,
+        orderLine: line
     }))
 
     function canLink(item, index) {
@@ -64,7 +64,7 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
         setLinkingIndex(index)
         try {
             await createAlternateCatNum(vendor.CardCode, item.xmlItem.cProd, selectedItem.id)
-            onItemLinked(index, selectedItem)
+            onItemLinked(index, selectedItem, selectedItem.orderLine)
             setAlert({ visible: true, type: 'success', message: `Item "${item.xmlItem.xProd}" vinculado ao código SAP "${selectedItem.id}" com sucesso.` })
         } catch (error) {
             const msg = error.message || 'Erro ao criar vínculo.'
@@ -96,7 +96,7 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                 <TableCell>Item</TableCell>
                                 <TableCell>Qtd Pedido</TableCell>
                                 <TableCell>Preço Pedido</TableCell>
-                                <TableCell>Qtd Parcial</TableCell>
+                                <TableCell>Qtd em Aberto</TableCell>
                             </TableRow>
                         </TableHead>
                 <TableBody>
@@ -133,6 +133,7 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                         InputProps={{ readOnly: true }}
                                         placeholder="-"
                                         size="small"
+                                        error={(item.status === MATCH_STATUS.MATCHED || item.status === MATCH_STATUS.LINKED) && item.orderLine && item.xmlItem.qCom > item.orderLine.RemainingOpenQuantity}
                                     />
                                 </TableCell>
                                 <TableCell width="8%" sx={{ padding: '3px' }}>
@@ -185,7 +186,7 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                 <TableCell width="8%" sx={{ padding: '3px' }}>
                                     <TextField
                                         type="text"
-                                        value={item.orderLine ? formatNumber(item.orderLine.RemainingOpenQuantity) : ''}
+                                        value={item.orderLine ? formatNumber(item.orderLine.Quantity) : ''}
                                         InputProps={{ readOnly: true }}
                                         placeholder="-"
                                         size="small"
@@ -201,23 +202,13 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                     />
                                 </TableCell>
                                 <TableCell width="8%" sx={{ padding: '3px' }}>
-                                    {item.status === MATCH_STATUS.MATCHED ? (
-                                        <CurrencyTextField
-                                            value={item.receivedQuantity ?? 0}
-                                            onChange={(evt, newValue) => {
-                                                onReceivedQuantityChange(index, newValue)
-                                            }}
-                                            error={item.orderLine && item.receivedQuantity > item.orderLine.RemainingOpenQuantity}
-                                        />
-                                    ) : (
-                                        <TextField
-                                            type="text"
-                                            value=""
-                                            InputProps={{ readOnly: true }}
-                                            placeholder="-"
-                                            size="small"
-                                        />
-                                    )}
+                                    <TextField
+                                        type="text"
+                                        value={item.orderLine ? formatNumber(item.orderLine.RemainingOpenQuantity) : ''}
+                                        InputProps={{ readOnly: true }}
+                                        placeholder="-"
+                                        size="small"
+                                    />
                                 </TableCell>
                             </TableRow>
                         )

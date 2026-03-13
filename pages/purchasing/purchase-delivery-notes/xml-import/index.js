@@ -128,27 +128,19 @@ export default function XmlImportPage() {
 
     function handleGoToConfirm() {
         const overflowItem = comparisonResults.find(item =>
-            item.status === MATCH_STATUS.MATCHED
+            (item.status === MATCH_STATUS.MATCHED || item.status === MATCH_STATUS.LINKED)
             && item.orderLine
-            && item.receivedQuantity > item.orderLine.RemainingOpenQuantity
+            && item.xmlItem.qCom > item.orderLine.RemainingOpenQuantity
         )
 
         if (overflowItem) {
             setAlert({
                 visible: true,
                 type: 'error',
-                message: `O item "${overflowItem.xmlItem.xProd}" tem quantidade a receber maior que o saldo do pedido.`
+                message: `O item "${overflowItem.xmlItem.xProd}" tem quantidade do XML (${overflowItem.xmlItem.qCom}) maior que a quantidade em aberto do pedido (${overflowItem.orderLine.RemainingOpenQuantity}).`
             })
             return
         }
-
-        const effectiveMatchedCount = comparisonResults.filter(
-            item => item.status === MATCH_STATUS.MATCHED && item.receivedQuantity > 0
-        ).length
-
-        const updatedStats = { ...stats, matchedCount: effectiveMatchedCount }
-        setStats(updatedStats)
-        setDivergenceCheck(checkCriticalDivergences(updatedStats))
 
         setActiveStep(3)
     }
@@ -203,7 +195,7 @@ export default function XmlImportPage() {
         }
     }
 
-    function handleItemLinked(index, selectedItem) {
+    function handleItemLinked(index, selectedItem, orderLine) {
         setComparisonResults(prev => {
             const updated = [...prev]
             updated[index] = {
@@ -213,7 +205,17 @@ export default function XmlImportPage() {
                 sapItem: {
                     ItemCode: selectedItem.id,
                     ItemName: selectedItem.label || selectedItem.id
-                }
+                },
+                orderLine: orderLine ? {
+                    LineNum: orderLine.LineNum,
+                    ItemCode: orderLine.ItemCode,
+                    ItemDescription: orderLine.ItemDescription,
+                    Quantity: orderLine.Quantity,
+                    RemainingOpenQuantity: orderLine.RemainingOpenQuantity || orderLine.Quantity,
+                    Price: orderLine.Price,
+                    WarehouseCode: orderLine.WarehouseCode,
+                    UoMEntry: orderLine.UoMEntry
+                } : null
             }
             return updated
         })
@@ -226,17 +228,6 @@ export default function XmlImportPage() {
             }
             setDivergenceCheck(checkCriticalDivergences(nextStats))
             return nextStats
-        })
-    }
-
-    function handleReceivedQuantityChange(index, value) {
-        setComparisonResults(prev => {
-            const updated = [...prev]
-            updated[index] = {
-                ...updated[index],
-                receivedQuantity: value
-            }
-            return updated
         })
     }
 
@@ -286,7 +277,6 @@ export default function XmlImportPage() {
                             vendor={vendor}
                             orderDetails={orderDetails}
                             onItemLinked={handleItemLinked}
-                            onReceivedQuantityChange={handleReceivedQuantityChange}
                             setAlert={setAlert}
                         />
                         <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end', mt: 3 }}>
