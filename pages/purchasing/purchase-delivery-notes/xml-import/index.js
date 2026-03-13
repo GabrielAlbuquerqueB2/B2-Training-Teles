@@ -142,6 +142,26 @@ export default function XmlImportPage() {
             return
         }
 
+        const recalculated = {
+            totalXmlItems: comparisonResults.filter(r => r.xmlItem).length,
+            matchedCount: comparisonResults.filter(r => r.status === MATCH_STATUS.MATCHED || r.status === MATCH_STATUS.LINKED).length,
+            notInOrderCount: comparisonResults.filter(r => r.status === MATCH_STATUS.NOT_IN_ORDER).length,
+            notInXmlCount: comparisonResults.filter(r => r.status === MATCH_STATUS.NOT_IN_XML).length
+        }
+        setStats(recalculated)
+
+        const check = checkCriticalDivergences(recalculated)
+        setDivergenceCheck(check)
+
+        if (!check.canProceed) {
+            setAlert({
+                visible: true,
+                type: 'error',
+                message: check.errors?.[0] || 'Existem divergências críticas que impedem o recebimento.'
+            })
+            return
+        }
+
         setActiveStep(3)
     }
 

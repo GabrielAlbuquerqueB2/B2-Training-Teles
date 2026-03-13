@@ -77,7 +77,6 @@ export default function PurchaseOrderSelector({
             {!hasOrders ? (
                 <Alert severity="warning" sx={{ mb: 2 }}>
                     Nenhum pedido de compras aberto encontrado para este fornecedor.
-                    Você pode prosseguir sem vincular a um pedido.
                 </Alert>
             ) : (
                 <TableContainer component={Paper} sx={{ mb: 2 }}>
@@ -144,9 +143,9 @@ export default function PurchaseOrderSelector({
                 <Button 
                     variant="contained" 
                     onClick={onConfirm}
-                    disabled={hasOrders && !selectedOrder}
+                    disabled={!selectedOrder}
                 >
-                    {selectedOrder ? 'Comparar com Pedido' : 'Prosseguir sem Pedido'}
+                    Comparar com Pedido
                 </Button>
             </Box>
         </Box>

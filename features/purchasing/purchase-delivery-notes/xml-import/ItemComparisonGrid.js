@@ -42,11 +42,19 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
     const [linkingIndex, setLinkingIndex] = useState(null)
     const [selectedItems, setSelectedItems] = useState({})
 
-    const orderItemOptions = (orderDetails?.DocumentLines || []).map(line => ({
-        id: line.ItemCode,
-        label: line.ItemDescription,
-        orderLine: line
-    }))
+    const usedLineNums = new Set(
+        comparisonResults
+            .filter(r => (r.status === MATCH_STATUS.MATCHED || r.status === MATCH_STATUS.LINKED) && r.orderLine)
+            .map(r => r.orderLine.LineNum)
+    )
+
+    const orderItemOptions = (orderDetails?.DocumentLines || [])
+        .filter(line => !usedLineNums.has(line.LineNum))
+        .map(line => ({
+            id: line.ItemCode,
+            label: line.ItemDescription,
+            orderLine: line
+        }))
 
     function canLink(item, index) {
         const selectedItem = selectedItems[index]
