@@ -89,7 +89,7 @@ export async function matchXmlItemsWithOrder(xmlItems, orderLines, catalog) {
                 ItemCode: matchedOrderLine.ItemCode,
                 ItemDescription: matchedOrderLine.ItemDescription,
                 Quantity: matchedOrderLine.Quantity,
-                OpenQty: matchedOrderLine.OpenQty ?? matchedOrderLine.RemainingOpenQuantity ?? matchedOrderLine.Quantity,  // fallback em cadeia
+                OpenQty: matchedOrderLine.RemainingOpenQuantity ?? 0,  // ← aqui
                 Price: matchedOrderLine.Price,
                 WarehouseCode: matchedOrderLine.WarehouseCode,
                 UoMEntry: matchedOrderLine.UoMEntry

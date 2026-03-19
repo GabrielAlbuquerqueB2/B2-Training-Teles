@@ -37,18 +37,12 @@ function getStatusInfo(status) {
     }
 }
 
-// Adicione essa função no ItemComparisonGrid.js
 function getRowBackground(item) {
-    const baseColor = STATUS_COLORS[item.status] || 'inherit'
-    
-    if (
-        item.orderLine &&
-        item.orderLine.OpenQty < item.orderLine.Quantity
-    ) {
-        return '#FFF3E0' // laranja claro — já teve recebimento parcial/total
+    // Já foi totalmente recebido (linha fechada no pedido)
+    if (item.orderLine && item.orderLine.OpenQty === 0 && item.orderLine.Quantity > 0) {
+        return '#FFF3E0' // laranja claro
     }
-    
-    return baseColor
+    return STATUS_COLORS[item.status] || 'inherit'
 }
 
 export default function ItemComparisonGrid({ comparisonResults = [], stats = {}, vendor = null, orderDetails = null, onItemLinked = () => {}, setAlert = () => {} }) {
@@ -196,7 +190,7 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                             return (
                                 <TableRow 
                                     key={index}
-                                    sx={{ backgroundColor: getRowBackground(item) }}  // ← trocar aqui
+                                    sx={{ backgroundColor: getRowBackground(item) }}
                                 >
                                     <TableCell width="6.8%" sx={{ padding: '3px' }}>
                                         <TextField

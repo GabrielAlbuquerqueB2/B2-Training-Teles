@@ -232,7 +232,7 @@ export default function XmlImportPage() {
                     ItemCode: orderLine.ItemCode,
                     ItemDescription: orderLine.ItemDescription,
                     Quantity: orderLine.Quantity,
-                    OpenQty: orderLine.OpenQty ?? orderLine.Quantity,
+                    OpenQty: orderLine.RemainingOpenQuantity ?? orderLine.Quantity,
                     Price: orderLine.Price,
                     WarehouseCode: orderLine.WarehouseCode,
                     UoMEntry: orderLine.UoMEntry
