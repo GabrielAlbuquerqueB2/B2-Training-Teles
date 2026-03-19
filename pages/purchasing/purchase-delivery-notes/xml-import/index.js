@@ -172,10 +172,13 @@ export default function XmlImportPage() {
         )
 
         if (overflowItem) {
+            const jaRecebido = overflowItem.orderLine.LineStatus === 'bost_Close'
             setAlert({
                 visible: true,
                 type: 'error',
-                message: `O item "${overflowItem.xmlItem.xProd}" tem quantidade do XML (${overflowItem.xmlItem.qCom}) maior que a quantidade em aberto do pedido (${overflowItem.orderLine.OpenQty}).`
+                message: jaRecebido
+                    ? `Os itens destacados em laranja já tiveram seu recebimento realizado no pedido e não possuem saldo em aberto.`
+                    : `O item "${overflowItem.xmlItem.xProd}" tem quantidade do XML (${overflowItem.xmlItem.qCom}) maior que a quantidade em aberto do pedido (${overflowItem.orderLine.OpenQty}).`
             })
             return
         }

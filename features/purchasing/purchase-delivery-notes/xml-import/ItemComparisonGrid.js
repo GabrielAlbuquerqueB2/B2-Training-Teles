@@ -180,7 +180,7 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                     <TableCell>Item</TableCell>
                                     <TableCell>Qtd Pedido</TableCell>
                                     <TableCell>Preço Pedido</TableCell>
-                                    <TableCell>Qtd em Aberto</TableCell>
+                                    <TableCell>Qtd Pendente</TableCell>
                                 </TableRow>
                             </TableHead>
                     <TableBody>
