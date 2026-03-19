@@ -38,8 +38,8 @@ function getStatusInfo(status) {
 }
 
 function getRowBackground(item) {
-    // Já foi totalmente recebido (linha fechada no pedido)
-    if (item.orderLine && item.orderLine.OpenQty === 0 && item.orderLine.Quantity > 0) {
+    // Linha já totalmente recebida no SAP
+    if (item.orderLine?.LineStatus === 'bost_Close') {
         return '#FFF3E0' // laranja claro
     }
     return STATUS_COLORS[item.status] || 'inherit'
@@ -190,7 +190,7 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                             return (
                                 <TableRow 
                                     key={index}
-                                    sx={{ backgroundColor: getRowBackground(item) }}
+                                    sx={{ backgroundColor: getRowBackground(item) }}  // ← trocar aqui
                                 >
                                     <TableCell width="6.8%" sx={{ padding: '3px' }}>
                                         <TextField
