@@ -2,6 +2,31 @@ import axios from 'axios'
 import Api from '../../../../lib/api'
 import { normalizeCatalogCode } from '../../../../utils/normalizeCatalogCode'
 
+export async function getAlternateCatNumBySupplierAndCode(cardCode, vendorItemCode) {
+    const normalizedCode = normalizeCatalogCode(vendorItemCode)
+    const query = new Api()
+        .setMethod('GET')
+        .setUrl('/AlternateCatNum')
+        .setParams({
+            $filter: `CardCode eq '${cardCode}' and Substitute eq '${normalizedCode}'`,
+            $select: 'ItemCode,CardCode,Substitute'
+        })
+        .get()
+    const result = await doApiCall(query)
+    return (result.value && result.value.length > 0) ? result.value[0] : null
+}
+
+export async function deleteAlternateCatNum(cardCode, vendorItemCode, itemCode) {
+    const normalizedCode = normalizeCatalogCode(vendorItemCode)
+    const url = `/AlternateCatNum(ItemCode='${itemCode}',CardCode='${cardCode}',Substitute='${normalizedCode}')`
+    const query = new Api()
+        .setMethod('DELETE')
+        .setUrl(url)
+        .get()
+    const result = await doApiCall(query)
+    return result
+}
+
 async function doApiCall(query) {
     return axios.request(query)
         .then((response) => {
