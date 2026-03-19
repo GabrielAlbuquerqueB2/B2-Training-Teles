@@ -217,7 +217,12 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                             InputProps={{ readOnly: true }}
                                             placeholder="-"
                                             size="small"
-                                            error={(item.status === MATCH_STATUS.MATCHED || item.status === MATCH_STATUS.LINKED) && item.orderLine && item.xmlItem.qCom > (item.orderLine.OpenQty ?? 0)}
+                                            error={
+                                                (item.status === MATCH_STATUS.MATCHED || item.status === MATCH_STATUS.LINKED)
+                                                && item.orderLine
+                                                && item.orderLine.LineStatus !== 'bost_Close'  // ← adicionar essa linha
+                                                && item.xmlItem.qCom > (item.orderLine.OpenQty ?? 0)
+                                            }
                                         />
                                     </TableCell>
                                     <TableCell width="8%" sx={{ padding: '3px' }}>
