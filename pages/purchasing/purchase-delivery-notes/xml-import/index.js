@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { Box, Stepper, Step, StepLabel, Paper, Typography, Alert, Button } from '@mui/material'
 import PageHeader from '../../../../components/ui/PageHeader'
@@ -18,20 +18,58 @@ const STEPS = [
     'Confirmar'
 ]
 
+function saveSessionState(data) {
+    try { sessionStorage.setItem('xmlImportState', JSON.stringify(data)) } catch {}
+}
+
+function loadSessionState() {
+    try {
+        if (typeof window === 'undefined') return null
+        const saved = sessionStorage.getItem('xmlImportState')
+        return saved ? JSON.parse(saved) : null
+    } catch { return null }
+}
+
+function clearSessionState() {
+    try { sessionStorage.removeItem('xmlImportState') } catch {}
+}
+
 export default function XmlImportPage() {
     const router = useRouter()
-    const [activeStep, setActiveStep] = useState(0)
+
+    const saved = loadSessionState()
+
+    const [activeStep, setActiveStep] = useState(saved?.activeStep ?? 0)
     const [isLoading, setIsLoading] = useState(false)
-    const [xmlData, setXmlData] = useState(null)
-    const [vendor, setVendor] = useState(null)
-    const [purchaseOrders, setPurchaseOrders] = useState([])
-    const [selectedOrder, setSelectedOrder] = useState(null)
-    const [orderDetails, setOrderDetails] = useState(null)
-    const [catalog, setCatalog] = useState([])
-    const [comparisonResults, setComparisonResults] = useState([])
-    const [stats, setStats] = useState({})
-    const [divergenceCheck, setDivergenceCheck] = useState({})
+    const [xmlData, setXmlData] = useState(saved?.xmlData ?? null)
+    const [vendor, setVendor] = useState(saved?.vendor ?? null)
+    const [purchaseOrders, setPurchaseOrders] = useState(saved?.purchaseOrders ?? [])
+    const [selectedOrder, setSelectedOrder] = useState(saved?.selectedOrder ?? null)
+    const [orderDetails, setOrderDetails] = useState(saved?.orderDetails ?? null)
+    const [catalog, setCatalog] = useState(saved?.catalog ?? [])
+    const [comparisonResults, setComparisonResults] = useState(saved?.comparisonResults ?? [])
+    const [stats, setStats] = useState(saved?.stats ?? {})
+    const [divergenceCheck, setDivergenceCheck] = useState(saved?.divergenceCheck ?? {})
     const [alert, setAlert] = useState({ visible: false, type: '', message: '' })
+
+    useEffect(() => {
+        if (activeStep === 0 && !xmlData) {
+            clearSessionState()
+            return
+        }
+        saveSessionState({
+            activeStep,
+            xmlData,
+            vendor,
+            purchaseOrders,
+            selectedOrder,
+            orderDetails,
+            catalog,
+            comparisonResults,
+            stats,
+            divergenceCheck
+        })
+    }, [activeStep, xmlData, vendor, purchaseOrders, selectedOrder, orderDetails, catalog, comparisonResults, stats, divergenceCheck])
 
     function readFileAsText(file) {
         return new Promise((resolve, reject) => {
@@ -97,7 +135,6 @@ export default function XmlImportPage() {
 
             if (selectedOrder) {
                 const fullOrder = await getPurchaseOrderByDocEntry(selectedOrder.DocEntry)
-                console.log('DocumentLines:', fullOrder.DocumentLines?.[0])
                 setOrderDetails(fullOrder)
                 orderLines = fullOrder.DocumentLines || []
             }
@@ -189,6 +226,8 @@ export default function XmlImportPage() {
 
             const result = await createPurchaseDeliveryNote(deliveryNote)
 
+            clearSessionState()
+
             setAlert({
                 visible: true,
                 type: 'success',
@@ -233,7 +272,7 @@ export default function XmlImportPage() {
                     ItemDescription: orderLine.ItemDescription,
                     Quantity: orderLine.Quantity,
                     OpenQty: orderLine.RemainingOpenQuantity ?? orderLine.Quantity,
-                    LineStatus: orderLine.LineStatus,  // ← adicionar
+                    LineStatus: orderLine.LineStatus,
                     Price: orderLine.Price,
                     WarehouseCode: orderLine.WarehouseCode,
                     UoMEntry: orderLine.UoMEntry
@@ -254,6 +293,7 @@ export default function XmlImportPage() {
     }
 
     function handleReset() {
+        clearSessionState()
         setActiveStep(0)
         setXmlData(null)
         setVendor(null)
