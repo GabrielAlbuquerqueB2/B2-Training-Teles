@@ -97,6 +97,7 @@ export default function XmlImportPage() {
 
             if (selectedOrder) {
                 const fullOrder = await getPurchaseOrderByDocEntry(selectedOrder.DocEntry)
+                console.log('DocumentLines:', fullOrder.DocumentLines?.[0])
                 setOrderDetails(fullOrder)
                 orderLines = fullOrder.DocumentLines || []
             }
@@ -130,14 +131,14 @@ export default function XmlImportPage() {
         const overflowItem = comparisonResults.find(item =>
             (item.status === MATCH_STATUS.MATCHED || item.status === MATCH_STATUS.LINKED)
             && item.orderLine
-            && item.xmlItem.qCom > item.orderLine.RemainingOpenQuantity
+            && item.xmlItem.qCom > item.orderLine.OpenQty
         )
 
         if (overflowItem) {
             setAlert({
                 visible: true,
                 type: 'error',
-                message: `O item "${overflowItem.xmlItem.xProd}" tem quantidade do XML (${overflowItem.xmlItem.qCom}) maior que a quantidade em aberto do pedido (${overflowItem.orderLine.RemainingOpenQuantity}).`
+                message: `O item "${overflowItem.xmlItem.xProd}" tem quantidade do XML (${overflowItem.xmlItem.qCom}) maior que a quantidade em aberto do pedido (${overflowItem.orderLine.OpenQty}).`
             })
             return
         }
@@ -231,7 +232,7 @@ export default function XmlImportPage() {
                     ItemCode: orderLine.ItemCode,
                     ItemDescription: orderLine.ItemDescription,
                     Quantity: orderLine.Quantity,
-                    RemainingOpenQuantity: orderLine.RemainingOpenQuantity || orderLine.Quantity,
+                    OpenQty: orderLine.OpenQty ?? orderLine.Quantity,
                     Price: orderLine.Price,
                     WarehouseCode: orderLine.WarehouseCode,
                     UoMEntry: orderLine.UoMEntry

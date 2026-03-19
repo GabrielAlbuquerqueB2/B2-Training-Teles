@@ -37,6 +37,19 @@ function getStatusInfo(status) {
     }
 }
 
+// Adicione essa função no ItemComparisonGrid.js
+function getRowBackground(item) {
+    const baseColor = STATUS_COLORS[item.status] || 'inherit'
+    
+    if (
+        item.orderLine &&
+        item.orderLine.OpenQty < item.orderLine.Quantity
+    ) {
+        return '#FFF3E0' // laranja claro — já teve recebimento parcial/total
+    }
+    
+    return baseColor
+}
 
 export default function ItemComparisonGrid({ comparisonResults = [], stats = {}, vendor = null, orderDetails = null, onItemLinked = () => {}, setAlert = () => {} }) {
     const [linkingIndex, setLinkingIndex] = useState(null)
@@ -72,8 +85,10 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
 
         setLinkingIndex(index)
         try {
+            // Double check: buscar vínculo existente
             const existing = await getAlternateCatNumBySupplierAndCode(vendor.CardCode, item.xmlItem.cProd)
             if (existing && existing.ItemCode !== selectedItem.id) {
+                // Precisa confirmar troca
                 setConfirmDialog({
                     open: true,
                     oldItem: existing.ItemCode,
@@ -84,6 +99,7 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                 setLinkingIndex(null)
                 return
             }
+            // Se não existe ou já está correto, segue com POST
             await createAlternateCatNum(vendor.CardCode, item.xmlItem.cProd, selectedItem.id)
             onItemLinked(index, selectedItem, selectedItem.orderLine)
             setAlert({ visible: true, type: 'success', message: `Item "${item.xmlItem.xProd}" vinculado ao código SAP "${selectedItem.id}" com sucesso.` })
@@ -95,11 +111,15 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
         }
     }
 
+    // Confirmação do usuário para troca de vínculo
     async function handleConfirmReplace() {
         setLinkingIndex(confirmDialog.itemIndex)
         try {
+            // Deleta vínculo antigo
             await deleteAlternateCatNum(vendor.CardCode, confirmDialog.cProd, confirmDialog.oldItem)
+            // Cria novo vínculo
             await createAlternateCatNum(vendor.CardCode, confirmDialog.cProd, confirmDialog.newItem)
+            // Auditoria (console.log, pode ser adaptado para log real)
             console.log({
                 action: 'UPDATE_CATALOGO',
                 codigo: confirmDialog.cProd,
@@ -109,6 +129,7 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                 usuario: (typeof window !== 'undefined' && window.sessionStorage) ? window.sessionStorage.getItem('user') : '',
                 data: new Date().toISOString()
             })
+            // Atualiza UI
             const selectedItem = selectedItems[confirmDialog.itemIndex]
             onItemLinked(confirmDialog.itemIndex, selectedItem, selectedItem.orderLine)
             setAlert({ visible: true, type: 'success', message: `Vínculo atualizado: código "${confirmDialog.cProd}" estava em "${confirmDialog.oldItem}" e agora está em "${confirmDialog.newItem}".` })
@@ -175,7 +196,7 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                             return (
                                 <TableRow 
                                     key={index}
-                                    sx={{ backgroundColor: STATUS_COLORS[item.status] || 'inherit' }}
+                                    sx={{ backgroundColor: getRowBackground(item) }}  // ← trocar aqui
                                 >
                                     <TableCell width="6.8%" sx={{ padding: '3px' }}>
                                         <TextField
@@ -202,7 +223,7 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                             InputProps={{ readOnly: true }}
                                             placeholder="-"
                                             size="small"
-                                            error={(item.status === MATCH_STATUS.MATCHED || item.status === MATCH_STATUS.LINKED) && item.orderLine && item.xmlItem.qCom > item.orderLine.RemainingOpenQuantity}
+                                            error={(item.status === MATCH_STATUS.MATCHED || item.status === MATCH_STATUS.LINKED) && item.orderLine && item.xmlItem.qCom > (item.orderLine.OpenQty ?? 0)}
                                         />
                                     </TableCell>
                                     <TableCell width="8%" sx={{ padding: '3px' }}>
@@ -273,7 +294,7 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                     <TableCell width="8%" sx={{ padding: '3px' }}>
                                         <TextField
                                             type="text"
-                                            value={item.orderLine ? formatNumber(item.orderLine.RemainingOpenQuantity) : ''}
+                                            value={item.orderLine ? formatNumber(item.orderLine.OpenQty ?? 0) : ''}
                                             InputProps={{ readOnly: true }}
                                             placeholder="-"
                                             size="small"

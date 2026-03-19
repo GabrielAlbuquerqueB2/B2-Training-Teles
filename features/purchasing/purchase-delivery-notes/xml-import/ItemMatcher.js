@@ -58,6 +58,7 @@ export async function matchXmlItemsWithOrder(xmlItems, orderLines, catalog) {
             )
 
             if (matchedOrderLine) {
+                console.log('Todos os campos da linha:', JSON.stringify(matchedOrderLine, null, 2))
                 status = MATCH_STATUS.MATCHED
                 matchMethod = MATCH_METHOD.BY_CATALOG
                 matchedOrderLineNums.add(matchedOrderLine.LineNum)
@@ -88,7 +89,7 @@ export async function matchXmlItemsWithOrder(xmlItems, orderLines, catalog) {
                 ItemCode: matchedOrderLine.ItemCode,
                 ItemDescription: matchedOrderLine.ItemDescription,
                 Quantity: matchedOrderLine.Quantity,
-                RemainingOpenQuantity: matchedOrderLine.RemainingOpenQuantity || matchedOrderLine.Quantity,
+                OpenQty: matchedOrderLine.OpenQty ?? matchedOrderLine.RemainingOpenQuantity ?? matchedOrderLine.Quantity,  // fallback em cadeia
                 Price: matchedOrderLine.Price,
                 WarehouseCode: matchedOrderLine.WarehouseCode,
                 UoMEntry: matchedOrderLine.UoMEntry
