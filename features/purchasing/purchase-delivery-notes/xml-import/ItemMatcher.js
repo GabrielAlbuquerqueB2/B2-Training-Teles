@@ -46,7 +46,6 @@ export async function matchXmlItemsWithOrder(xmlItems, orderLines, catalog) {
         let itemDetails = null
         let matchMethod = MATCH_METHOD.NONE
 
-        // ========== ESTRATÉGIA: Por Catálogo (AlternateCatNum) ==========
         const catalogMatch = findItemInCatalog(xmlItem.cProd, catalog)
         
         if (catalogMatch) {
@@ -58,7 +57,6 @@ export async function matchXmlItemsWithOrder(xmlItems, orderLines, catalog) {
             )
 
             if (matchedOrderLine) {
-                console.log('Todos os campos da linha:', JSON.stringify(matchedOrderLine, null, 2))
                 status = MATCH_STATUS.MATCHED
                 matchMethod = MATCH_METHOD.BY_CATALOG
                 matchedOrderLineNums.add(matchedOrderLine.LineNum)
@@ -89,7 +87,7 @@ export async function matchXmlItemsWithOrder(xmlItems, orderLines, catalog) {
                 ItemCode: matchedOrderLine.ItemCode,
                 ItemDescription: matchedOrderLine.ItemDescription,
                 Quantity: matchedOrderLine.Quantity,
-                OpenQty: matchedOrderLine.RemainingOpenQuantity ?? 0,  // ← aqui
+                OpenQty: matchedOrderLine.RemainingOpenQuantity ?? 0,
                 LineStatus: matchedOrderLine.LineStatus,
                 Price: matchedOrderLine.Price,
                 WarehouseCode: matchedOrderLine.WarehouseCode,

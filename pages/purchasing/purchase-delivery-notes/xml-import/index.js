@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { Box, Stepper, Step, StepLabel, Paper, Typography, Alert, Button } from '@mui/material'
+import { Box, Stepper, Step, StepLabel, Paper, Button } from '@mui/material'
 import PageHeader from '../../../../components/ui/PageHeader'
 import AlertMessage from '../../../../components/ui/AlertMessage'
 import XmlUploader from '../../../../features/purchasing/purchase-delivery-notes/xml-import/XmlUploader'
@@ -36,9 +36,7 @@ function clearSessionState() {
 
 export default function XmlImportPage() {
     const router = useRouter()
-
     const saved = loadSessionState()
-
     const [activeStep, setActiveStep] = useState(saved?.activeStep ?? 0)
     const [isLoading, setIsLoading] = useState(false)
     const [xmlData, setXmlData] = useState(saved?.xmlData ?? null)

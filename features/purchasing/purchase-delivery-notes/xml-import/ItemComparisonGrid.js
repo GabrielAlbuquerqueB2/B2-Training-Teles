@@ -5,7 +5,7 @@ import ErrorIcon from '@mui/icons-material/Error'
 import WarningIcon from '@mui/icons-material/Warning'
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 import LinkIcon from '@mui/icons-material/Link'
-import { MATCH_STATUS, STATUS_COLORS, MATCH_METHOD_LABELS, MATCH_METHOD } from './ItemMatcher'
+import { MATCH_STATUS, STATUS_COLORS } from './ItemMatcher'
 import { createAlternateCatNum, getAlternateCatNumBySupplierAndCode, deleteAlternateCatNum } from './XmlImportServices'
 
 function formatCurrency(value) {
@@ -38,9 +38,8 @@ function getStatusInfo(status) {
 }
 
 function getRowBackground(item) {
-    // Linha já totalmente recebida no SAP
     if (item.orderLine?.LineStatus === 'bost_Close') {
-        return '#FFF3E0' // laranja claro
+        return '#FFF3E0'
     }
     return STATUS_COLORS[item.status] || 'inherit'
 }
@@ -79,10 +78,8 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
 
         setLinkingIndex(index)
         try {
-            // Double check: buscar vínculo existente
             const existing = await getAlternateCatNumBySupplierAndCode(vendor.CardCode, item.xmlItem.cProd)
             if (existing && existing.ItemCode !== selectedItem.id) {
-                // Precisa confirmar troca
                 setConfirmDialog({
                     open: true,
                     oldItem: existing.ItemCode,
@@ -93,7 +90,6 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                 setLinkingIndex(null)
                 return
             }
-            // Se não existe ou já está correto, segue com POST
             await createAlternateCatNum(vendor.CardCode, item.xmlItem.cProd, selectedItem.id)
             onItemLinked(index, selectedItem, selectedItem.orderLine)
             setAlert({ visible: true, type: 'success', message: `Item "${item.xmlItem.xProd}" vinculado ao código SAP "${selectedItem.id}" com sucesso.` })
@@ -105,25 +101,11 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
         }
     }
 
-    // Confirmação do usuário para troca de vínculo
     async function handleConfirmReplace() {
         setLinkingIndex(confirmDialog.itemIndex)
         try {
-            // Deleta vínculo antigo
             await deleteAlternateCatNum(vendor.CardCode, confirmDialog.cProd, confirmDialog.oldItem)
-            // Cria novo vínculo
             await createAlternateCatNum(vendor.CardCode, confirmDialog.cProd, confirmDialog.newItem)
-            // Auditoria (console.log, pode ser adaptado para log real)
-            console.log({
-                action: 'UPDATE_CATALOGO',
-                codigo: confirmDialog.cProd,
-                fornecedor: vendor.CardCode,
-                de: confirmDialog.oldItem,
-                para: confirmDialog.newItem,
-                usuario: (typeof window !== 'undefined' && window.sessionStorage) ? window.sessionStorage.getItem('user') : '',
-                data: new Date().toISOString()
-            })
-            // Atualiza UI
             const selectedItem = selectedItems[confirmDialog.itemIndex]
             onItemLinked(confirmDialog.itemIndex, selectedItem, selectedItem.orderLine)
             setAlert({ visible: true, type: 'success', message: `Vínculo atualizado: código "${confirmDialog.cProd}" estava em "${confirmDialog.oldItem}" e agora está em "${confirmDialog.newItem}".` })
@@ -190,7 +172,7 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                             return (
                                 <TableRow 
                                     key={index}
-                                    sx={{ backgroundColor: getRowBackground(item) }}  // ← trocar aqui
+                                    sx={{ backgroundColor: getRowBackground(item) }}
                                 >
                                     <TableCell width="6.8%" sx={{ padding: '3px' }}>
                                         <TextField
@@ -220,7 +202,7 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                             error={
                                                 (item.status === MATCH_STATUS.MATCHED || item.status === MATCH_STATUS.LINKED)
                                                 && item.orderLine
-                                                && item.orderLine.LineStatus !== 'bost_Close'  // ← adicionar essa linha
+                                                && item.orderLine.LineStatus !== 'bost_Close'  
                                                 && item.xmlItem.qCom > (item.orderLine.OpenQty ?? 0)
                                             }
                                         />
