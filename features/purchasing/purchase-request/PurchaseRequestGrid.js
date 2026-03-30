@@ -1,17 +1,94 @@
-import { useState } from 'react'
-import { Table, Box, Grid, TableCell, TableRow, TableHead, TableBody, Button, TextField, Tooltip, CircularProgress } from '@mui/material'
+import { useState, useEffect } from 'react'
+import { Table, Box, Grid, TableCell, TableRow, TableHead, TableBody, Button, TextField, Tooltip, CircularProgress, Select, MenuItem } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import LinkIcon from '@mui/icons-material/Link'
 import CurrencyTextField from '../../../components/ui/CurrencyTextField/CurrencyTextField'
 import ItemAutocomplete from '../../../components/ui/Autocomplete/ItemAutocompleteByGroupCode'
 import WarehouseByBranchSelect from '../../../components/ui/Select/WarehousesByBranchSelect'
 import { createAlternateCatNum } from './PurchaseRequestServices'
+import axios from 'axios'
 
 const GENERIC_ITEM_CODE = 'GENERICO'
+
+// ─── NOVO: componente de Select de Unidade de Medida ─────────────────────────
+function UomSelect({ item, value, uomGroups, uoms, onChange }) {
+    if (!item) {
+        return (
+            <Select value="" displayEmpty size="small" fullWidth disabled>
+                <MenuItem value=""><em>Selecione</em></MenuItem>
+            </Select>
+        )
+    }
+
+    const group = uomGroups.find(g => g.UgpEntry === item?.UoMGroupEntry)
+
+    const validUoms = group?.UoMGroupDefinitionCollection?.map(u => {
+        const uom = uoms.find(x => x.AbsEntry === u.AlternateUoM)
+        return uom ? { code: uom.UomCode, name: uom.Name, absEntry: uom.AbsEntry } : null
+    }).filter(Boolean) || []
+
+    // Fallback: se não encontrar opções no grupo, usa o InventoryUOM do item
+    const options = validUoms.length > 0
+        ? validUoms
+        : item.InventoryUOM
+            ? [{ code: item.InventoryUOM, name: item.InventoryUOM, absEntry: item.InventoryUOM }]
+            : []
+
+    // 🔍 DEBUG — remover após validação
+    console.log('[UomSelect] UoMGroupEntry:', item?.UoMGroupEntry, '→ grupo:', group, '→ opções:', options)
+
+    return (
+        <Select
+            value={value || ''}
+            onChange={evt => onChange(evt.target.value)}
+            displayEmpty
+            size="small"
+            fullWidth
+            disabled={options.length === 0}
+        >
+            <MenuItem value=""><em>Selecione</em></MenuItem>
+            {options.map(u => (
+                <MenuItem key={u.absEntry ?? u.code} value={u.code}>
+                    {u.name} ({u.code})
+                </MenuItem>
+            ))}
+        </Select>
+    )
+}
+// ─────────────────────────────────────────────────────────────────────────────
 
 export default function PurchaseRequestGrid(props) {
 
     const [savingIndex, setSavingIndex] = useState(null)
+
+    // ─── NOVO: estados para grupos e unidades de medida ──────────────────────
+    const [uomGroups, setUomGroups] = useState([])
+    const [uoms, setUoms] = useState([])
+
+    useEffect(() => {
+        async function fetchUoMData() {
+            try {
+                const [groupsRes, uomsRes] = await Promise.all([
+                    axios.get('/UnitOfMeasurementGroups'),
+                    axios.get('/UnitOfMeasurements')
+                ])
+                const groups = groupsRes.data.value || groupsRes.data
+                const allUoms = uomsRes.data.value || uomsRes.data
+
+                // 🔍 DEBUG — remover após validação
+                console.log('[UoM] Exemplo de grupo:', groups[0])
+                console.log('[UoM] Chaves do grupo:', groups[0] ? Object.keys(groups[0]) : [])
+                console.log('[UoM] Exemplo de UM:', allUoms[0])
+
+                setUomGroups(groups)
+                setUoms(allUoms)
+            } catch (e) {
+                console.error('[UoM] Erro ao buscar Unidades de Medida:', e)
+            }
+        }
+        fetchUoMData()
+    }, [])
+    // ─────────────────────────────────────────────────────────────────────────
 
     const showXmlColumns = props.data.DocumentLines?.some(item => item.VendorItemCode || item.XmlDescription)
 
@@ -70,6 +147,7 @@ export default function PurchaseRequestGrid(props) {
                                 <TableCell>Item</TableCell>
                                 <TableCell>Desc. Complementar</TableCell>
                                 <TableCell>Quantidade</TableCell>
+                                <TableCell>Unidade de Medida</TableCell>  {/* ← adicionado header */}
                                 <TableCell>Depósito</TableCell>
                                 <TableCell>Preço Unitário</TableCell>
                                 <TableCell>Excluir</TableCell>
@@ -80,7 +158,7 @@ export default function PurchaseRequestGrid(props) {
                                 props.data.DocumentLines ?
                                     props.data.DocumentLines?.map((item, index) => {
                                         return (
-                                            <TableRow sx={{ backgroundColor: getRowBackgroundColor(item) }}>
+                                            <TableRow key={index} sx={{ backgroundColor: getRowBackgroundColor(item) }}>  {/* ← adicionado key */}
                                                 {showXmlColumns && (
                                                     <TableCell width="6.8%" sx={{ padding: '3px' }}>
                                                         <TextField
@@ -129,7 +207,7 @@ export default function PurchaseRequestGrid(props) {
                                                             value={props.data.DocumentLines[index]?.Item}
                                                             setValue={(newValue) => {
                                                                 props.setChildField('DocumentLines', 'Item', index, newValue)
-                                                                props.setChildField('DocumentLines', 'UoMEntry', index, newValue?.UoMEntry || null)
+                                                                props.setChildField('DocumentLines', 'UoMEntry', index, newValue?.InventoryUOM || null)
                                                                 if (newValue?.id === GENERIC_ITEM_CODE) {
                                                                     const ncmText = item.XmlNCM ? ` | NCM: ${item.XmlNCM}` : ''
                                                                     props.setChildField('DocumentLines', 'FreeText', index, (item.XmlDescription || '') + ncmText)
@@ -160,6 +238,21 @@ export default function PurchaseRequestGrid(props) {
                                                         onBlur={() => { handleLineBlur(index) }}
                                                     />
                                                 </TableCell>
+
+                                                {/* ─── NOVO: célula de Unidade de Medida ───────────────────────── */}
+                                                <TableCell width={showXmlColumns ? "8%" : "10%"} sx={{ padding: '3px' }}>
+                                                    <UomSelect
+                                                        item={props.data.DocumentLines[index]?.Item}
+                                                        value={props.data.DocumentLines[index]?.UoMEntry}
+                                                        uomGroups={uomGroups}
+                                                        uoms={uoms}
+                                                        onChange={newCode =>
+                                                            props.setChildField('DocumentLines', 'UoMEntry', index, newCode)
+                                                        }
+                                                    />
+                                                </TableCell>
+                                                {/* ──────────────────────────────────────────────────────────── */}
+
                                                 <TableCell width={showXmlColumns ? "12%" : "16%"} sx={{ padding: '3px' }}>
                                                     <WarehouseByBranchSelect
                                                         index={index}
