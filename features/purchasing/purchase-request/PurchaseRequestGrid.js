@@ -31,7 +31,7 @@ function UomSelect({ item, value, uomGroups, uoms, onChange }) {
         }).filter(Boolean);
     }
     if (options.length === 0 && item.InventoryUOM) {
-        options = [{ code: item.InventoryUOM, name: item.InventoryUOM, absEntry: item.UoMEntry }];
+        options = [{ code: item.InventoryUOM, name: item.InventoryUOM, absEntry: item.InventoryUoMEntry }];
     }
 
     return (
