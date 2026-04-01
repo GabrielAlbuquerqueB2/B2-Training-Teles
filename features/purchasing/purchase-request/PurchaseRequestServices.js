@@ -330,7 +330,7 @@ export async function getItemDetailsByCode(itemCode) {
         .setMethod('GET')
         .setUrl(`/Items('${itemCode}')`)
         .setParams({
-            $select: 'ItemCode,ItemName,InventoryUOM,DefaultPurchasingUoMEntry,InventoryUoMEntry'
+            $select: 'ItemCode,ItemName,InventoryUOM,DefaultPurchasingUoMEntry,InventoryUoMEntry,UoMGroupEntry'
         })
         .get()
 
@@ -342,5 +342,28 @@ export async function getItemDetailsByCode(itemCode) {
         itemName: result.ItemName || itemCode,
         measureUnit: result.InventoryUOM || '',
         uoMEntry: result.DefaultPurchasingUoMEntry || result.InventoryUoMEntry || null,
+        uoMGroupEntry: result.UoMGroupEntry ?? null,
+        inventoryUoMEntry: result.InventoryUoMEntry ?? null,
+        inventoryUOM: result.InventoryUOM || '',
     }
+}
+
+export async function getUoMGroups() {
+    const query = new Api()
+        .setMethod('GET')
+        .setUrl('/UnitOfMeasurementGroups')
+        .get()
+
+    const result = await doApiCall(query)
+    return result.value || []
+}
+
+export async function getUoMs() {
+    const query = new Api()
+        .setMethod('GET')
+        .setUrl('/UnitOfMeasurements')
+        .get()
+
+    const result = await doApiCall(query)
+    return result.value || []
 }

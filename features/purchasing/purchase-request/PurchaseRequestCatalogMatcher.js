@@ -37,17 +37,23 @@ export async function recheckCatalogForVendor(cardCode, documentLines) {
             let itemName = match.ItemCode
             let uoMEntry = null
             let measureUnit = ''
+            let uoMGroupEntry = null
+            let inventoryUoMEntry = null
+            let inventoryUOM = ''
             try {
                 const details = await getItemDetailsByCode(match.ItemCode)
                 itemName = details.itemName || match.ItemCode
                 uoMEntry = details.uoMEntry || null
                 measureUnit = details.measureUnit || ''
+                uoMGroupEntry = details.uoMGroupEntry ?? null
+                inventoryUoMEntry = details.inventoryUoMEntry ?? null
+                inventoryUOM = details.inventoryUOM || ''
             } catch {
                 
             }
             updatedLines.push({
                 ...line,
-                Item: { id: match.ItemCode, label: itemName },
+                Item: { id: match.ItemCode, label: itemName, UoMGroupEntry: uoMGroupEntry, InventoryUOM: inventoryUOM, InventoryUoMEntry: inventoryUoMEntry },
                 UoMEntry: uoMEntry,
                 MeasureUnit: measureUnit,
                 xmlMatchStatus: 'encontrado',

@@ -53,6 +53,9 @@ export default function PurchaseRequestXmlImport(props) {
                 let itemNameSAP = null
                 let measureUnit = ''
                 let uoMEntry = null
+                let uoMGroupEntry = null
+                let inventoryUoMEntry = null
+                let inventoryUOM = ''
                 let status = 'nao_encontrado'
 
                 if (cardCode) {
@@ -64,6 +67,9 @@ export default function PurchaseRequestXmlImport(props) {
                             itemNameSAP = details.itemName
                             measureUnit = details.measureUnit
                             uoMEntry = details.uoMEntry
+                            uoMGroupEntry = details.uoMGroupEntry
+                            inventoryUoMEntry = details.inventoryUoMEntry
+                            inventoryUOM = details.inventoryUOM
                         } catch {
                             itemNameSAP = match.ItemCode
                         }
@@ -81,6 +87,9 @@ export default function PurchaseRequestXmlImport(props) {
                     itemNameSAP,
                     measureUnit,
                     uoMEntry,
+                    uoMGroupEntry,
+                    inventoryUoMEntry,
+                    inventoryUOM,
                     status
                 })
             }
@@ -92,7 +101,7 @@ export default function PurchaseRequestXmlImport(props) {
             const unmatchedCount = processedItems.filter(i => i.status === 'nao_encontrado').length
 
             const lines = processedItems.map(item => ({
-                Item: item.itemCodeSAP ? { id: item.itemCodeSAP, label: item.itemNameSAP || item.itemCodeSAP } : '',
+                Item: item.itemCodeSAP ? { id: item.itemCodeSAP, label: item.itemNameSAP || item.itemCodeSAP, UoMGroupEntry: item.uoMGroupEntry, InventoryUOM: item.inventoryUOM, InventoryUoMEntry: item.inventoryUoMEntry } : '',
                 FreeText: '',
                 Quantity: item.qCom,
                 UnitPrice: item.vUnCom,

@@ -4,7 +4,7 @@ import PageHeader from '../../../components/ui/PageHeader'
 import Tabs from '../../../components/ui/Tabs'
 import AlertMessage from '../../../components/ui/AlertMessage'
 import PurchaseRequestGrid from '../../../features/purchasing/purchase-request/PurchaseRequestGrid'
-import { getPurchaseRequestById, getRequesterById, getVendorById, getAttachmentsById, getAllCrops, getItemGroups, getAttachmentByFilename } from '../../../features/purchasing/purchase-request/PurchaseRequestServices'
+import { getPurchaseRequestById, getRequesterById, getVendorById, getAttachmentsById, getAllCrops, getItemGroups, getAttachmentByFilename, getItemDetailsByCode } from '../../../features/purchasing/purchase-request/PurchaseRequestServices'
 import getTranslation from '../../../locales/getTranslation'
 import PurchaseRequestHeader from '../../../features/purchasing/purchase-request/PurchaseRequestHeader'
 import { getYearMonthDateFormat } from '../../../utils/formatDate'
@@ -47,11 +47,25 @@ export default function PurchaseRequest() {
                         setAttachList(attach.Attachments2_Lines)
                     }
                 }
-                const lines = result.DocumentLines.map(item => {
+                const lines = await Promise.all(result.DocumentLines.map(async (item) => {
+                    let itemUoMGroupEntry = null
+                    let itemInventoryUOM = ''
+                    let itemInventoryUoMEntry = null
+                    if (item.ItemCode) {
+                        try {
+                            const details = await getItemDetailsByCode(item.ItemCode)
+                            itemUoMGroupEntry = details.uoMGroupEntry
+                            itemInventoryUOM = details.inventoryUOM
+                            itemInventoryUoMEntry = details.inventoryUoMEntry
+                        } catch { }
+                    }
                     return {
                         Item: {
                             id: item.ItemCode,
-                            label: item.ItemDescription
+                            label: item.ItemDescription,
+                            UoMGroupEntry: itemUoMGroupEntry,
+                            InventoryUOM: itemInventoryUOM,
+                            InventoryUoMEntry: itemInventoryUoMEntry
                         },
                         FreeText: item.FreeText,
                         Quantity: item.Quantity,
@@ -61,7 +75,7 @@ export default function PurchaseRequest() {
                         LineNum: item.LineNum,
                         LineVendor: item.LineVendor
                     }
-                })
+                }))
                 if (result) {
                     setData({
                         ...result,
