@@ -22,7 +22,7 @@ function UomSelect({ item, value, uomGroups, uoms, onChange }) {
             const detail = uoms.find(u => String(u.AbsEntry) === String(def.AlternateUoM));
             if (detail) {
                 return {
-                    code: detail.UomCode,
+                    code: detail.Code,
                     name: detail.Name,
                     absEntry: detail.AbsEntry
                 };
@@ -43,7 +43,7 @@ function UomSelect({ item, value, uomGroups, uoms, onChange }) {
         >
             {options.map(u => (
                 <MenuItem key={u.absEntry} value={u.absEntry}> 
-                    {u.name} ({u.code})
+                    {u.code}
                 </MenuItem>
             ))}
         </Select>
