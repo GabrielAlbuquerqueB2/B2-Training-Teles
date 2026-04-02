@@ -122,34 +122,35 @@ export default function DivergenceSummary({
                     <Divider sx={{ mb: 2 }} />
                     <Grid container spacing={2}>
                         <Grid item xs={6} md={3}>
-                            <Typography variant="caption" color="text.secondary">NF-e</Typography>
-                            <Typography variant="body1" fontWeight="bold">
-                                {xmlData?.nNF || '-'}
-                            </Typography>
+                            <TextField label="NF-e" size="small" fullWidth disabled value={xmlData?.nNF || '-'} InputLabelProps={{ shrink: true }} />
                         </Grid>
                         <Grid item xs={6} md={3}>
-                            <Typography variant="caption" color="text.secondary">Pedido Base</Typography>
-                            <Typography variant="body1" fontWeight="bold">
-                                {selectedOrder?.DocNum || 'Nenhum'}
-                            </Typography>
+                            <TextField label="Pedido Base" size="small" fullWidth disabled value={selectedOrder?.DocNum || 'Nenhum'} InputLabelProps={{ shrink: true }} />
                         </Grid>
                         <Grid item xs={6} md={3}>
-                            <Typography variant="caption" color="text.secondary">Itens a Receber</Typography>
-                            <Typography variant="body1" fontWeight="bold">
-                                {matchedCount}
-                            </Typography>
+                            <TextField label="Itens a Receber" size="small" fullWidth disabled value={matchedCount} InputLabelProps={{ shrink: true }} />
                         </Grid>
                         <Grid item xs={6} md={3}>
-                            <Typography variant="caption" color="text.secondary">Status</Typography>
-                            <Chip 
-                                label={canProceed ? 'Pronto para criar' : 'Bloqueado'} 
-                                color={canProceed ? 'success' : 'error'}
-                                size="small"
+                            <TextField 
+                                label="Status" 
+                                size="small" 
+                                fullWidth 
+                                disabled 
+                                value={canProceed ? 'Pronto para criar' : 'Bloqueado'} 
+                                InputLabelProps={{ shrink: true }}
+                                InputProps={{
+                                    sx: { 
+                                        color: canProceed ? 'success.main' : 'error.main',
+                                        fontWeight: 'bold',
+                                        '& .MuiInputBase-input.Mui-disabled': {
+                                            WebkitTextFillColor: canProceed ? '#2e7d32' : '#d32f2f',
+                                        }
+                                    }
+                                }}
                             />
                         </Grid>
                     </Grid>
-                    <Divider sx={{ my: 2 }} />
-                    <Grid container spacing={2} alignItems="center">
+                    <Grid container spacing={2} sx={{ mt: 0 }}>
                         <Grid item xs={12} md={3}>
                             <TextField
                                 label="Data de Lançamento"
@@ -162,39 +163,23 @@ export default function DivergenceSummary({
                             />
                         </Grid>
                         <Grid item xs={12} md={3}>
-                            <Typography variant="caption" color="text.secondary">Data do Documento (XML)</Typography>
-                            <Typography variant="body1" fontWeight="bold">
-                                {xmlData?.dhEmi ? xmlData.dhEmi.split('T')[0].split('-').reverse().join('/') : '-'}
-                            </Typography>
+                            <TextField label="Data do Documento (XML)" size="small" fullWidth disabled value={xmlData?.dhEmi ? xmlData.dhEmi.split('T')[0].split('-').reverse().join('/') : '-'} InputLabelProps={{ shrink: true }} />
                         </Grid>
                         {xmlData?.chaveAcesso && (
                             <Grid item xs={12} md={6}>
-                                <Typography variant="caption" color="text.secondary">Chave de Acesso</Typography>
-                                <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
-                                    {xmlData.chaveAcesso}
-                                </Typography>
+                                <TextField label="Chave de Acesso" size="small" fullWidth disabled value={xmlData.chaveAcesso} InputLabelProps={{ shrink: true }} />
                             </Grid>
                         )}
                     </Grid>
-                    <Divider sx={{ my: 2 }} />
-                    <Grid container spacing={2} alignItems="center">
+                    <Grid container spacing={2} sx={{ mt: 0 }}>
                         <Grid item xs={12} md={3}>
-                            <Typography variant="caption" color="text.secondary">Incoterms (Frete)</Typography>
-                            <Typography variant="body1" fontWeight="bold">
-                                {incotermLabel}
-                            </Typography>
+                            <TextField label="Incoterms (Frete)" size="small" fullWidth disabled value={incotermLabel} InputLabelProps={{ shrink: true }} />
                         </Grid>
                         <Grid item xs={12} md={3}>
-                            <Typography variant="caption" color="text.secondary">Placa</Typography>
-                            <Typography variant="body1" fontWeight="bold">
-                                {xmlData?.placa || '-'}
-                            </Typography>
+                            <TextField label="Placa" size="small" fullWidth disabled value={xmlData?.placa || '-'} InputLabelProps={{ shrink: true }} />
                         </Grid>
                         <Grid item xs={12} md={3}>
-                            <Typography variant="caption" color="text.secondary">UF Veículo</Typography>
-                            <Typography variant="body1" fontWeight="bold">
-                                {xmlData?.veicUF || '-'}
-                            </Typography>
+                            <TextField label="UF Veículo" size="small" fullWidth disabled value={xmlData?.veicUF || '-'} InputLabelProps={{ shrink: true }} />
                         </Grid>
                         <Grid item xs={12} md={3}>
                             <Select
