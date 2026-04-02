@@ -1,4 +1,4 @@
-import { Box, Typography, Paper, Button, Alert, AlertTitle, Divider, Grid, Chip } from '@mui/material'
+import { Box, Typography, Paper, Button, Alert, AlertTitle, Divider, Grid, Chip, TextField } from '@mui/material'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import WarningAmberIcon from '@mui/icons-material/WarningAmber'
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
@@ -13,7 +13,9 @@ export default function DivergenceSummary({
     onBack,
     isLoading = false,
     xmlData,
-    selectedOrder
+    selectedOrder,
+    docDate = '',
+    onDocDateChange
 }) {
     const { 
         totalXmlItems = 0, 
@@ -138,6 +140,34 @@ export default function DivergenceSummary({
                                 size="small"
                             />
                         </Grid>
+                    </Grid>
+                    <Divider sx={{ my: 2 }} />
+                    <Grid container spacing={2} alignItems="center">
+                        <Grid item xs={12} md={3}>
+                            <TextField
+                                label="Data de Lançamento"
+                                type="date"
+                                size="small"
+                                fullWidth
+                                value={docDate}
+                                onChange={(e) => onDocDateChange?.(e.target.value)}
+                                InputLabelProps={{ shrink: true }}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={3}>
+                            <Typography variant="caption" color="text.secondary">Data do Documento (XML)</Typography>
+                            <Typography variant="body1" fontWeight="bold">
+                                {xmlData?.dhEmi ? xmlData.dhEmi.split('T')[0] : '-'}
+                            </Typography>
+                        </Grid>
+                        {xmlData?.chaveAcesso && (
+                            <Grid item xs={12} md={6}>
+                                <Typography variant="caption" color="text.secondary">Chave de Acesso</Typography>
+                                <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
+                                    {xmlData.chaveAcesso}
+                                </Typography>
+                            </Grid>
+                        )}
                     </Grid>
                 </Paper>
             )}

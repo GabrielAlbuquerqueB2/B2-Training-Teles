@@ -1,0 +1,287 @@
+<nfeProc versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+  <NFe xmlns="http://www.portalfiscal.inf.br/nfe">
+    <infNFe Id="NFe51260302635984000102550020000214231287043286" versao="4.00">
+      <ide>
+        <cUF>51</cUF>
+        <cNF>28704328</cNF>
+        <natOp>Venda a prazo</natOp>
+        <mod>55</mod>
+        <serie>2</serie>
+        <nNF>21423</nNF>
+        <dhEmi>2026-03-24T15:12:00-03:00</dhEmi>
+        <dhSaiEnt>2026-03-24T15:12:00-03:00</dhSaiEnt>
+        <tpNF>1</tpNF>
+        <idDest>1</idDest>
+        <cMunFG>5102702</cMunFG>
+        <tpImp>1</tpImp>
+        <tpEmis>1</tpEmis>
+        <cDV>6</cDV>
+        <tpAmb>1</tpAmb>
+        <finNFe>1</finNFe>
+        <indFinal>1</indFinal>
+        <indPres>1</indPres>
+        <procEmi>0</procEmi>
+        <verProc>f-2026</verProc>
+      </ide>
+
+      <emit>
+        <CNPJ>02635984000102</CNPJ>
+        <xNome>RJT MAQUINAS LTDA</xNome>
+        <xFant>AGROMAQUINAS</xFant>
+        <enderEmit>
+          <xLgr>Rua MONDAI</xLgr>
+          <nro>56</nro>
+          <xBairro>CENTRO</xBairro>
+          <cMun>5102702</cMun>
+          <xMun>Canarana</xMun>
+          <UF>MT</UF>
+          <CEP>78640000</CEP>
+          <cPais>1058</cPais>
+          <xPais>BRASIL</xPais>
+          <fone>66999648010</fone>
+        </enderEmit>
+        <IE>131830384</IE>
+        <CRT>3</CRT>
+      </emit>
+
+      <dest>
+        <CPF>99717867100</CPF>
+        <xNome>JOSE RENATO DE FREITAS ALMEIDA II E OUTRO</xNome>
+        <enderDest>
+          <xLgr>Fazenda M.R /MARGEM ESQUERDA DO</xLgr>
+          <nro>S/N</nro>
+          <xBairro>ZONA RURAL</xBairro>
+          <cMun>5102702</cMun>
+          <xMun>Canarana</xMun>
+          <UF>MT</UF>
+          <CEP>78640000</CEP>
+          <cPais>1058</cPais>
+          <xPais>BRASIL</xPais>
+        </enderDest>
+        <indIEDest>1</indIEDest>
+        <IE>138777764</IE>
+        <email>can.fazmr@teles.agr.br</email>
+      </dest>
+
+      <det nItem="1">
+        <prod>
+          <cProd>5922</cProd>
+          <cEAN>SEM GTIN</cEAN>
+          <xProd>TAMPA DE PARTIDA CORTADOR DE GRAMA LC 151</xProd>
+          <NCM>84099190</NCM>
+          <CEST>0103000</CEST>
+          <CFOP>5405</CFOP>
+          <uCom>UN</uCom>
+          <qCom>1.0000</qCom>
+          <vUnCom>450.0000000000</vUnCom>
+          <vProd>450.00</vProd>
+          <cEANTrib>SEM GTIN</cEANTrib>
+          <uTrib>UN</uTrib>
+          <qTrib>1.0000</qTrib>
+          <vUnTrib>450.0000000000</vUnTrib>
+          <indTot>1</indTot>
+        </prod>
+
+        <imposto>
+          <vTotTrib>144.05</vTotTrib>
+
+          <ICMS>
+            <ICMS00>
+              <orig>0</orig>
+              <CST>00</CST>
+              <modBC>3</modBC>
+              <vBC>450.00</vBC>
+              <pICMS>17.0000</pICMS>
+              <vICMS>76.50</vICMS>
+            </ICMS00>
+          </ICMS>
+
+          <IPI>
+            <cEnq>999</cEnq>
+            <IPITrib>
+              <CST>99</CST>
+              <vBC>0.00</vBC>
+              <pIPI>0.0000</pIPI>
+              <vIPI>0.00</vIPI>
+            </IPITrib>
+          </IPI>
+
+          <PIS>
+            <PISOutr>
+              <CST>99</CST>
+              <vBC>0.00</vBC>
+              <pPIS>0.0000</pPIS>
+              <vPIS>0.00</vPIS>
+            </PISOutr>
+          </PIS>
+
+          <COFINS>
+            <COFINSOutr>
+              <CST>99</CST>
+              <vBC>0.00</vBC>
+              <pCOFINS>0.0000</pCOFINS>
+              <vCOFINS>0.00</vCOFINS>
+            </COFINSOutr>
+          </COFINS>
+
+          <IBSCBS>
+            <CST>000</CST>
+            <cClassTrib>000001</cClassTrib>
+            <gIBSCBS>
+              <vBC>373.50</vBC>
+
+              <gIBSUF>
+                <pIBSUF>0.1000</pIBSUF>
+                <vIBSUF>0.37</vIBSUF>
+              </gIBSUF>
+
+              <gIBSMun>
+                <pIBSMun>0.0000</pIBSMun>
+                <vIBSMun>0.00</vIBSMun>
+              </gIBSMun>
+
+              <vIBS>0.37</vIBS>
+
+              <gCBS>
+                <pCBS>0.9000</pCBS>
+                <vCBS>3.36</vCBS>
+              </gCBS>
+            </gIBSCBS>
+          </IBSCBS>
+        </imposto>
+
+        <vItem>450.00</vItem>
+      </det>
+
+      <total>
+        <ICMSTot>
+          <vBC>450.00</vBC>
+          <vICMS>76.50</vICMS>
+          <vICMSDeson>0.00</vICMSDeson>
+          <vFCP>0.00</vFCP>
+          <vBCST>0.00</vBCST>
+          <vST>0.00</vST>
+          <vFCPST>0.00</vFCPST>
+          <vFCPSTRet>0.00</vFCPSTRet>
+          <vProd>450.00</vProd>
+          <vFrete>0.00</vFrete>
+          <vSeg>0.00</vSeg>
+          <vDesc>0.00</vDesc>
+          <vII>0.00</vII>
+          <vIPI>0.00</vIPI>
+          <vIPIDevol>0.00</vIPIDevol>
+          <vPIS>0.00</vPIS>
+          <vCOFINS>0.00</vCOFINS>
+          <vOutro>0.00</vOutro>
+          <vNF>450.00</vNF>
+          <vTotTrib>144.05</vTotTrib>
+        </ICMSTot>
+
+        <IBSCBSTot>
+          <vBCIBSCBS>373.50</vBCIBSCBS>
+
+          <gIBS>
+            <gIBSUF>
+              <vDif>0.00</vDif>
+              <vDevTrib>0.00</vDevTrib>
+              <vIBSUF>0.37</vIBSUF>
+            </gIBSUF>
+
+            <gIBSMun>
+              <vDif>0.00</vDif>
+              <vDevTrib>0.00</vDevTrib>
+              <vIBSMun>0.00</vIBSMun>
+            </gIBSMun>
+
+            <vIBS>0.37</vIBS>
+            <vCredPres>0.00</vCredPres>
+            <vCredPresCondSus>0.00</vCredPresCondSus>
+          </gIBS>
+
+          <gCBS>
+            <vDif>0.00</vDif>
+            <vDevTrib>0.00</vDevTrib>
+            <vCBS>3.36</vCBS>
+            <vCredPres>0.00</vCredPres>
+            <vCredPresCondSus>0.00</vCredPresCondSus>
+          </gCBS>
+        </IBSCBSTot>
+
+        <vNFTot>450.00</vNFTot>
+      </total>
+
+      <transp>
+        <modFrete>9</modFrete>
+      </transp>
+
+      <cobr>
+        <fat>
+          <nFat>21423</nFat>
+          <vOrig>450.00</vOrig>
+          <vDesc>0.00</vDesc>
+          <vLiq>450.00</vLiq>
+        </fat>
+
+        <dup>
+          <nDup>001</nDup>
+          <dVenc>2026-04-20</dVenc>
+          <vDup>450.00</vDup>
+        </dup>
+      </cobr>
+
+      <pag>
+        <detPag>
+          <indPag>1</indPag>
+          <tPag>05</tPag>
+          <vPag>450.00</vPag>
+        </detPag>
+      </pag>
+
+      <infAdic>
+        <infCpl>
+          Trib Aprox. R$ 67,55 Fed - R$ 76,50 Est - R$ 0,00 Mun / Fonte:IBPT/empresome 47C8DA|NF vinculada ao DAV n 28619 - Vendedor: SAMUEL EVANGELISTA DOS SANTOS|PEDIDO DE COMPRA 70854
+        </infCpl>
+      </infAdic>
+    </infNFe>
+
+    <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+      <SignedInfo>
+        <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+        <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
+        <Reference URI="#NFe51260302635984000102550020000214231287043286">
+          <Transforms>
+            <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+            <Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+          </Transforms>
+          <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+          <DigestValue>iu5d5kmgjVaSui/ytURySdJBbEQ=</DigestValue>
+        </Reference>
+      </SignedInfo>
+
+      <SignatureValue>
+        PfwzPwH+7y1yErUTdwOxDiRScsScIHGT0NIIe4qhv4nD9ecjUAWwYkD1FKHcHvkVx0R1jMlsv/M6w4FLT4uda/tVsP+ryAw1v/KYPDiYTTHK2Kvwl7ZLhmMGLslUNN/LPk0y6CVRcMS4d71ytlK5kfdNJBsVzBHctP7zdlYlauDVSQgiAQ8UhCHBayNLsYFN+jZNFE0QjUEL6nWN5tQyotis9utI10cGRYDFS3GJAjZLBWXXFjoSV3hpVoIju57kX/mlQbgqoOJERYUru/1wkvuy65nWjlxGTibDiiSdQOnqq8EFxP2S6T7b1IOp2dW2yOqt8/jZ1Nh83n77riSg4A==
+      </SignatureValue>
+
+      <KeyInfo>
+        <X509Data>
+          <X509Certificate>
+            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
+          </X509Certificate>
+        </X509Data>
+      </KeyInfo>
+    </Signature>
+  </NFe>
+
+  <protNFe versao="4.00">
+    <infProt>
+      <tpAmb>1</tpAmb>
+      <verAplic>MT_A2_SRV240225-4.00</verAplic>
+      <chNFe>51260302635984000102550020000214231287043286</chNFe>
+      <dhRecbto>2026-03-24T14:13:33-04:00</dhRecbto>
+      <nProt>151260027656072</nProt>
+      <digVal>iu5d5kmgjVaSui/ytURySdJBbEQ=</digVal>
+      <cStat>100</cStat>
+      <xMotivo>Autorizado o uso da NF-e</xMotivo>
+    </infProt>
+  </protNFe>
+</nfeProc>

@@ -30,6 +30,13 @@ export function parseXmlContent(xmlString) {
     const nomeEmitente = emit.xNome || ''
     const fantasiaEmitente = emit.xFant || ''
 
+    const dest = infNFe.dest || {}
+    const destIE = String(dest.IE || '')
+
+    const protNFe = nfeProc.protNFe || {}
+    const infProt = protNFe.infProt || {}
+    const chaveAcesso = String(infProt.chNFe || '')
+
     const ide = infNFe.ide || {}
     const nNF = String(ide.nNF || '')
     const serie = String(ide.serie || '')
@@ -85,6 +92,8 @@ export function parseXmlContent(xmlString) {
         vProd,
         vFrete,
         vDesc,
+        chaveAcesso,
+        destIE,
         itens
     }
 }

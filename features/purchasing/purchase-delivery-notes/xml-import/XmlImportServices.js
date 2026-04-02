@@ -52,6 +52,12 @@ function formatCNPJ(cnpj) {
     return digits
 }
 
+function isMatrizCNPJ(federalTaxID) {
+    const digits = federalTaxID.replace(/\D/g, '')
+    if (digits.length !== 14) return false
+    return digits.slice(8, 12) === '0001'
+}
+
 export async function findVendorByCNPJ(cnpj) {
     const raw = stripCNPJ(cnpj)
     const formatted = formatCNPJ(cnpj)
@@ -61,24 +67,51 @@ export async function findVendorByCNPJ(cnpj) {
         .setUrl('/BusinessPartners')
         .setParams({
             $select: 'CardCode,CardName,FederalTaxID',
-            $filter: `CardType eq 'cSupplier' and (FederalTaxID eq '${raw}' or FederalTaxID eq '${formatted}')`
+            $filter: `CardType eq 'cSupplier' and Valid eq 'tYES' and (FederalTaxID eq '${raw}' or FederalTaxID eq '${formatted}')`
         })
         .get()
 
     const result = await doApiCall(query)
     if (result.value && result.value.length > 0) {
-        return result.value[0]
+        const matriz = result.value.find(bp => isMatrizCNPJ(bp.FederalTaxID))
+        return matriz || result.value[0]
     }
     return null
 }
 
-export async function getOpenPurchaseOrdersByVendor(cardCode) {
+export async function getBranchByIE(ie) {
+    if (!ie) return null
+    const cleanIE = ie.replace(/\D/g, '')
+    if (!cleanIE) return null
+
+    const query = new Api()
+        .setMethod('GET')
+        .setUrl('/BusinessPlaces')
+        .setParams({
+            $select: 'BPLID,BPLName,TaxIdNum',
+        })
+        .get()
+
+    const result = await doApiCall(query)
+    const places = result.value || []
+    return places.find(bp => {
+        const bpIE = String(bp.TaxIdNum || '').replace(/\D/g, '')
+        return bpIE === cleanIE
+    }) || null
+}
+
+export async function getOpenPurchaseOrdersByVendor(cardCode, branchId) {
+    let filter = `CardCode eq '${cardCode}' and DocumentStatus eq 'bost_Open'`
+    if (branchId) {
+        filter += ` and BPL_IDAssignedToInvoice eq ${branchId}`
+    }
+
     const query = new Api()
         .setMethod('GET')
         .setUrl('/PurchaseOrders')
         .setParams({
             $select: 'DocEntry,DocNum,DocDate,DocDueDate,CardCode,CardName,DocTotal,Comments,DocumentStatus,BPL_IDAssignedToInvoice,BPLName',
-            $filter: `CardCode eq '${cardCode}' and DocumentStatus eq 'bost_Open'`,
+            $filter: filter,
             $orderby: 'DocDate desc'
         })
         .get()

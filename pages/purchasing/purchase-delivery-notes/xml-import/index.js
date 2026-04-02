@@ -8,7 +8,7 @@ import PurchaseOrderSelector from '../../../../features/purchasing/purchase-deli
 import ItemComparisonGrid from '../../../../features/purchasing/purchase-delivery-notes/xml-import/ItemComparisonGrid'
 import DivergenceSummary from '../../../../features/purchasing/purchase-delivery-notes/xml-import/DivergenceSummary'
 import { parseXmlContent } from '../../../../features/purchasing/purchase-delivery-notes/xml-import/XmlParser'
-import { findVendorByCNPJ, getOpenPurchaseOrdersByVendor, getPurchaseOrderByDocEntry, getVendorCatalog, createPurchaseDeliveryNote } from '../../../../features/purchasing/purchase-delivery-notes/xml-import/XmlImportServices'
+import { findVendorByCNPJ, getOpenPurchaseOrdersByVendor, getPurchaseOrderByDocEntry, getVendorCatalog, createPurchaseDeliveryNote, getBranchByIE } from '../../../../features/purchasing/purchase-delivery-notes/xml-import/XmlImportServices'
 import { matchXmlItemsWithOrder, prepareDeliveryNoteLines, checkCriticalDivergences, MATCH_STATUS, MATCH_METHOD } from '../../../../features/purchasing/purchase-delivery-notes/xml-import/ItemMatcher'
 
 const STEPS = [
@@ -48,6 +48,7 @@ export default function XmlImportPage() {
     const [comparisonResults, setComparisonResults] = useState(saved?.comparisonResults ?? [])
     const [stats, setStats] = useState(saved?.stats ?? {})
     const [divergenceCheck, setDivergenceCheck] = useState(saved?.divergenceCheck ?? {})
+    const [docDate, setDocDate] = useState(saved?.docDate ?? '')
     const [alert, setAlert] = useState({ visible: false, type: '', message: '' })
 
     useEffect(() => {
@@ -65,9 +66,10 @@ export default function XmlImportPage() {
             catalog,
             comparisonResults,
             stats,
-            divergenceCheck
+            divergenceCheck,
+            docDate
         })
-    }, [activeStep, xmlData, vendor, purchaseOrders, selectedOrder, orderDetails, catalog, comparisonResults, stats, divergenceCheck])
+    }, [activeStep, xmlData, vendor, purchaseOrders, selectedOrder, orderDetails, catalog, comparisonResults, stats, divergenceCheck, docDate])
 
     function readFileAsText(file) {
         return new Promise((resolve, reject) => {
@@ -93,25 +95,42 @@ export default function XmlImportPage() {
                 setAlert({
                     visible: true,
                     type: 'error',
-                    message: `Fornecedor com CNPJ ${parsedXml.cnpj} não encontrado no SAP.`
+                    message: `Fornecedor com CNPJ ${parsedXml.cnpj} não encontrado no SAP (ativo).`
                 })
                 setIsLoading(false)
                 return
             }
             setVendor(foundVendor)
 
-            const openOrders = await getOpenPurchaseOrdersByVendor(foundVendor.CardCode)
+            let branchId = null
+            if (parsedXml.destIE) {
+                const branch = await getBranchByIE(parsedXml.destIE)
+                if (branch) {
+                    branchId = branch.BPLID
+                }
+            }
+
+            const openOrders = await getOpenPurchaseOrdersByVendor(foundVendor.CardCode, branchId)
             setPurchaseOrders(openOrders)
 
             const vendorCatalog = await getVendorCatalog(foundVendor.CardCode)
             setCatalog(vendorCatalog)
 
+            const xmlDocDate = parsedXml.dhEmi ? parsedXml.dhEmi.split('T')[0] : ''
+            setDocDate(xmlDocDate)
+
             setActiveStep(1)
+
+            let successMsg = `XML importado! Fornecedor: ${foundVendor.CardName}.`
+            if (branchId) {
+                successMsg += ` Filial identificada pela IE do destinatário.`
+            }
+            successMsg += ` ${openOrders.length} pedido(s) aberto(s) encontrado(s).`
 
             setAlert({
                 visible: true,
                 type: 'success',
-                message: `XML importado! Fornecedor: ${foundVendor.CardName}. ${openOrders.length} pedido(s) aberto(s) encontrado(s).`
+                message: successMsg
             })
 
         } catch (error) {
@@ -219,8 +238,14 @@ export default function XmlImportPage() {
 
             const deliveryNote = {
                 CardCode: vendor.CardCode,
-                DocDate: new Date().toISOString().split('T')[0],
+                DocDate: xmlData.dhEmi ? xmlData.dhEmi.split('T')[0] : new Date().toISOString().split('T')[0],
+                TaxDate: docDate || new Date().toISOString().split('T')[0],
                 Comments: `Importado via XML - NF ${xmlData.nNF}`,
+                U_ChaveAcesso: xmlData.chaveAcesso || '',
+                U_nfe_ChaveAcesso: xmlData.chaveAcesso || '',
+                SequenceCode: -2,
+                SequenceSerial: xmlData.nNF || '',
+                SeriesString: xmlData.serie || '',
                 BPL_IDAssignedToInvoice: selectedOrder?.BPL_IDAssignedToInvoice,
                 DocumentLines: documentLines
             }
@@ -305,6 +330,7 @@ export default function XmlImportPage() {
         setComparisonResults([])
         setStats({})
         setDivergenceCheck({})
+        setDocDate('')
         setAlert({ visible: false, type: '', message: '' })
     }
 
@@ -363,6 +389,8 @@ export default function XmlImportPage() {
                         isLoading={isLoading}
                         xmlData={xmlData}
                         selectedOrder={selectedOrder}
+                        docDate={docDate}
+                        onDocDateChange={setDocDate}
                     />
                 )
 
