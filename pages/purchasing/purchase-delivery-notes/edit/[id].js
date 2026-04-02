@@ -134,7 +134,7 @@ export default function PurchaseRequest() {
     function mapAddressesToSelectField(bPAddresses) {
 
         const shipToAddresses = bPAddresses.filter(item => {
-            return item.AddressType === 'bo_ShipTo'
+            return item.AddressType === 'bo_BillTo'
         })
 
         return shipToAddresses.map(item => {
@@ -142,6 +142,7 @@ export default function PurchaseRequest() {
                 value: item.AddressName,
                 description: `${item.AddressName} - ${item.City}`,
                 U_FederalTaxId: item.U_FederalTaxId,
+                U_AGRT_CnpjFornecedor: item.U_AGRT_CnpjFornecedor,
                 U_TX_IE: item.U_TX_IE,
                 State: item.State,
                 County: item.County,
