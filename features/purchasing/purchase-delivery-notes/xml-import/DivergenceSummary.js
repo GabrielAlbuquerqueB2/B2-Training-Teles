@@ -5,6 +5,8 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong'
+import Select from '../../../../components/ui/Select'
+import { getIncotermsList } from '../PurchaseDeliveryNotesServices'
 
 export default function DivergenceSummary({ 
     stats = {}, 
@@ -15,8 +17,13 @@ export default function DivergenceSummary({
     xmlData,
     selectedOrder,
     docDate = '',
-    onDocDateChange
+    onDocDateChange,
+    payToCode = '',
+    onPayToCodeChange,
+    addresses = []
 }) {
+    const incotermsList = getIncotermsList()
+    const incotermLabel = incotermsList.find(i => String(i.value) === String(xmlData?.modFrete))?.description || xmlData?.modFrete || '-'
     const { 
         totalXmlItems = 0, 
         totalOrderItems = 0, 
@@ -157,7 +164,7 @@ export default function DivergenceSummary({
                         <Grid item xs={12} md={3}>
                             <Typography variant="caption" color="text.secondary">Data do Documento (XML)</Typography>
                             <Typography variant="body1" fontWeight="bold">
-                                {xmlData?.dhEmi ? xmlData.dhEmi.split('T')[0] : '-'}
+                                {xmlData?.dhEmi ? xmlData.dhEmi.split('T')[0].split('-').reverse().join('/') : '-'}
                             </Typography>
                         </Grid>
                         {xmlData?.chaveAcesso && (
@@ -168,6 +175,36 @@ export default function DivergenceSummary({
                                 </Typography>
                             </Grid>
                         )}
+                    </Grid>
+                    <Divider sx={{ my: 2 }} />
+                    <Grid container spacing={2} alignItems="center">
+                        <Grid item xs={12} md={3}>
+                            <Typography variant="caption" color="text.secondary">Incoterms (Frete)</Typography>
+                            <Typography variant="body1" fontWeight="bold">
+                                {incotermLabel}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12} md={3}>
+                            <Typography variant="caption" color="text.secondary">Placa</Typography>
+                            <Typography variant="body1" fontWeight="bold">
+                                {xmlData?.placa || '-'}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12} md={3}>
+                            <Typography variant="caption" color="text.secondary">UF Veículo</Typography>
+                            <Typography variant="body1" fontWeight="bold">
+                                {xmlData?.veicUF || '-'}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12} md={3}>
+                            <Select
+                                name="PayToCode"
+                                label="Endereço de Cobrança"
+                                list={addresses}
+                                value={payToCode}
+                                setState={(name, value) => onPayToCodeChange?.(value)}
+                            />
+                        </Grid>
                     </Grid>
                 </Paper>
             )}

@@ -43,6 +43,13 @@ export function parseXmlContent(xmlString) {
     const dhEmi = ide.dhEmi || ''
     const natOp = ide.natOp || ''
 
+    const transp = infNFe.transp || {}
+    const modFrete = String(transp.modFrete ?? '')
+    const veicTransp = transp.veicTransp || {}
+    const reboque = transp.reboque || {}
+    const placa = String(veicTransp.placa || reboque.placa || '')
+    const veicUF = String(veicTransp.UF || reboque.UF || '')
+
     const total = infNFe.total?.ICMSTot || {}
     const vNF = parseFloat(total.vNF) || 0
     const vProd = parseFloat(total.vProd) || 0
@@ -94,6 +101,9 @@ export function parseXmlContent(xmlString) {
         vDesc,
         chaveAcesso,
         destIE,
+        modFrete,
+        placa,
+        veicUF,
         itens
     }
 }

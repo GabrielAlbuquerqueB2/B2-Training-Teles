@@ -8,7 +8,7 @@ import PurchaseOrderSelector from '../../../../features/purchasing/purchase-deli
 import ItemComparisonGrid from '../../../../features/purchasing/purchase-delivery-notes/xml-import/ItemComparisonGrid'
 import DivergenceSummary from '../../../../features/purchasing/purchase-delivery-notes/xml-import/DivergenceSummary'
 import { parseXmlContent } from '../../../../features/purchasing/purchase-delivery-notes/xml-import/XmlParser'
-import { findVendorByCNPJ, getOpenPurchaseOrdersByVendor, getPurchaseOrderByDocEntry, getVendorCatalog, createPurchaseDeliveryNote, getBranchByIE } from '../../../../features/purchasing/purchase-delivery-notes/xml-import/XmlImportServices'
+import { findVendorByCNPJ, getOpenPurchaseOrdersByVendor, getPurchaseOrderByDocEntry, getVendorCatalog, createPurchaseDeliveryNote, getBranchByIE, getVendorAddresses } from '../../../../features/purchasing/purchase-delivery-notes/xml-import/XmlImportServices'
 import { matchXmlItemsWithOrder, prepareDeliveryNoteLines, checkCriticalDivergences, MATCH_STATUS, MATCH_METHOD } from '../../../../features/purchasing/purchase-delivery-notes/xml-import/ItemMatcher'
 
 const STEPS = [
@@ -49,6 +49,8 @@ export default function XmlImportPage() {
     const [stats, setStats] = useState(saved?.stats ?? {})
     const [divergenceCheck, setDivergenceCheck] = useState(saved?.divergenceCheck ?? {})
     const [docDate, setDocDate] = useState(saved?.docDate ?? '')
+    const [payToCode, setPayToCode] = useState(saved?.payToCode ?? '')
+    const [addresses, setAddresses] = useState(saved?.addresses ?? [])
     const [alert, setAlert] = useState({ visible: false, type: '', message: '' })
 
     useEffect(() => {
@@ -67,9 +69,11 @@ export default function XmlImportPage() {
             comparisonResults,
             stats,
             divergenceCheck,
-            docDate
+            docDate,
+            payToCode,
+            addresses
         })
-    }, [activeStep, xmlData, vendor, purchaseOrders, selectedOrder, orderDetails, catalog, comparisonResults, stats, divergenceCheck, docDate])
+    }, [activeStep, xmlData, vendor, purchaseOrders, selectedOrder, orderDetails, catalog, comparisonResults, stats, divergenceCheck, docDate, payToCode, addresses])
 
     function readFileAsText(file) {
         return new Promise((resolve, reject) => {
@@ -113,8 +117,15 @@ export default function XmlImportPage() {
             const openOrders = await getOpenPurchaseOrdersByVendor(foundVendor.CardCode, branchId)
             setPurchaseOrders(openOrders)
 
-            const vendorCatalog = await getVendorCatalog(foundVendor.CardCode)
+            const [vendorCatalog, vendorAddresses] = await Promise.all([
+                getVendorCatalog(foundVendor.CardCode),
+                getVendorAddresses(foundVendor.CardCode)
+            ])
             setCatalog(vendorCatalog)
+            setAddresses(vendorAddresses)
+            if (vendorAddresses.length === 1) {
+                setPayToCode(vendorAddresses[0].value)
+            }
 
             const xmlDocDate = parsedXml.dhEmi ? parsedXml.dhEmi.split('T')[0] : ''
             setDocDate(xmlDocDate)
@@ -236,6 +247,8 @@ export default function XmlImportPage() {
                 throw new Error('Nenhum item válido para criar o recebimento.')
             }
 
+            const selectedAddress = addresses.find(a => a.value === payToCode)
+
             const deliveryNote = {
                 CardCode: vendor.CardCode,
                 DocDate: xmlData.dhEmi ? xmlData.dhEmi.split('T')[0] : new Date().toISOString().split('T')[0],
@@ -246,7 +259,19 @@ export default function XmlImportPage() {
                 SequenceCode: -2,
                 SequenceSerial: xmlData.nNF || '',
                 SeriesString: xmlData.serie || '',
+                PayToCode: payToCode || undefined,
                 BPL_IDAssignedToInvoice: selectedOrder?.BPL_IDAssignedToInvoice,
+                TaxExtension: {
+                    Incoterms: xmlData.modFrete || undefined,
+                    Vehicle: xmlData.placa || undefined,
+                    VehicleState: xmlData.veicUF || undefined,
+                    ...(selectedAddress ? {
+                        State: selectedAddress.State,
+                        County: selectedAddress.County,
+                        TaxId0: selectedAddress.U_FederalTaxId || selectedAddress.U_AGRT_CnpjFornecedor,
+                        TaxId1: selectedAddress.U_TX_IE
+                    } : {})
+                },
                 DocumentLines: documentLines
             }
 
@@ -331,6 +356,8 @@ export default function XmlImportPage() {
         setStats({})
         setDivergenceCheck({})
         setDocDate('')
+        setPayToCode('')
+        setAddresses([])
         setAlert({ visible: false, type: '', message: '' })
     }
 
@@ -391,6 +418,9 @@ export default function XmlImportPage() {
                         selectedOrder={selectedOrder}
                         docDate={docDate}
                         onDocDateChange={setDocDate}
+                        payToCode={payToCode}
+                        onPayToCodeChange={setPayToCode}
+                        addresses={addresses}
                     />
                 )
 

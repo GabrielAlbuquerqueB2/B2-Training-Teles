@@ -106,6 +106,30 @@ export async function getBranchByIE(ie) {
     }) || null
 }
 
+export async function getVendorAddresses(cardCode) {
+    const query = new Api()
+        .setMethod('GET')
+        .setUrl(`/BusinessPartners('${cardCode}')`)
+        .setParams({
+            $select: 'CardCode,BPAddresses',
+        })
+        .get()
+
+    const result = await doApiCall(query)
+    const bpAddresses = result.BPAddresses || []
+    return bpAddresses
+        .filter(addr => addr.AddressType === 'bo_BillTo')
+        .map(addr => ({
+            value: addr.AddressName,
+            description: `${addr.AddressName} - ${addr.City || ''}`,
+            U_FederalTaxId: addr.U_FederalTaxId,
+            U_AGRT_CnpjFornecedor: addr.U_AGRT_CnpjFornecedor,
+            U_TX_IE: addr.U_TX_IE,
+            State: addr.State,
+            County: addr.County,
+        }))
+}
+
 export async function getOpenPurchaseOrdersByVendor(cardCode, branchId) {
     let filter = `CardCode eq '${cardCode}' and DocumentStatus eq 'bost_Open'`
     if (branchId) {
