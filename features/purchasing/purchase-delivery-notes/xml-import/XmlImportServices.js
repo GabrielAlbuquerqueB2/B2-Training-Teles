@@ -88,15 +88,21 @@ export async function getBranchByIE(ie) {
         .setMethod('GET')
         .setUrl('/BusinessPlaces')
         .setParams({
-            $select: 'BPLID,BPLName,TaxIdNum',
+            $select: 'BPLID,BPLName',
         })
         .get()
 
     const result = await doApiCall(query)
     const places = result.value || []
+
     return places.find(bp => {
-        const bpIE = String(bp.TaxIdNum || '').replace(/\D/g, '')
-        return bpIE === cleanIE
+        const name = bp.BPLName || ''
+        const ieMatch = name.match(/IE\.\s*([\d.\-]+)/)
+        if (ieMatch) {
+            const nameIE = ieMatch[1].replace(/\D/g, '')
+            return nameIE === cleanIE
+        }
+        return false
     }) || null
 }
 
