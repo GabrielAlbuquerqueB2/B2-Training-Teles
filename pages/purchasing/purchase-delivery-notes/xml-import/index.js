@@ -75,6 +75,12 @@ export default function XmlImportPage() {
         })
     }, [activeStep, xmlData, vendor, purchaseOrders, selectedOrder, orderDetails, catalog, comparisonResults, stats, divergenceCheck, docDate, payToCode, addresses])
 
+    useEffect(() => {
+        if (saved?.activeStep >= 2 && saved?.vendor && saved?.xmlData && saved?.selectedOrder) {
+            handleRefreshComparison()
+        }
+    }, [])
+
     function readFileAsText(file) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader()
@@ -186,6 +192,49 @@ export default function XmlImportPage() {
                 visible: true,
                 type: 'error',
                 message: `Erro ao comparar itens: ${error.message}`
+            })
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+    async function handleRefreshComparison() {
+        setIsLoading(true)
+        setAlert({ visible: false, type: '', message: '' })
+
+        try {
+            const [freshCatalog, fullOrder] = await Promise.all([
+                getVendorCatalog(vendor.CardCode),
+                selectedOrder ? getPurchaseOrderByDocEntry(selectedOrder.DocEntry) : Promise.resolve(orderDetails)
+            ])
+
+            setCatalog(freshCatalog)
+            if (selectedOrder) setOrderDetails(fullOrder)
+
+            const orderLines = fullOrder?.DocumentLines || []
+
+            const matchResult = await matchXmlItemsWithOrder(
+                xmlData.itens,
+                orderLines,
+                freshCatalog
+            )
+
+            setComparisonResults(matchResult.comparisonResults)
+            setStats(matchResult.stats)
+
+            const check = checkCriticalDivergences(matchResult.stats)
+            setDivergenceCheck(check)
+
+            setAlert({
+                visible: true,
+                type: 'success',
+                message: 'Dados atualizados do SAP com sucesso.'
+            })
+        } catch (error) {
+            setAlert({
+                visible: true,
+                type: 'error',
+                message: `Erro ao atualizar dados: ${error.message}`
             })
         } finally {
             setIsLoading(false)
