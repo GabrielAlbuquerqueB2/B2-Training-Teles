@@ -314,8 +314,8 @@ export default function XmlImportPage() {
                 status: MATCH_STATUS.LINKED,
                 matchMethod: MATCH_METHOD.BY_MANUAL_LINK,
                 sapItem: {
-                    ItemCode: selectedItem.id,
-                    ItemName: selectedItem.label || selectedItem.id
+                    ItemCode: selectedItem.itemCode,
+                    ItemName: selectedItem.label || selectedItem.itemCode
                 },
                 orderLine: orderLine ? {
                     LineNum: orderLine.LineNum,

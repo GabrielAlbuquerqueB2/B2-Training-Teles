@@ -51,12 +51,19 @@ export async function matchXmlItemsWithOrder(xmlItems, orderLines, catalog) {
         if (catalogMatch) {
             itemDetails = await getItemDetailsByCode(catalogMatch.ItemCode)
             
-            matchedOrderLine = orderLines.find(line => 
+            const candidateLines = orderLines.filter(line => 
                 line.ItemCode === catalogMatch.ItemCode && 
                 !matchedOrderLineNums.has(line.LineNum)
             )
 
-            if (matchedOrderLine) {
+            if (candidateLines.length > 0) {
+                matchedOrderLine = candidateLines.reduce((best, line) => {
+                    const openQty = line.RemainingOpenQuantity ?? 0
+                    const bestOpenQty = best.RemainingOpenQuantity ?? 0
+                    const diff = Math.abs(openQty - xmlItem.qCom)
+                    const bestDiff = Math.abs(bestOpenQty - xmlItem.qCom)
+                    return diff < bestDiff ? line : best
+                }, candidateLines[0])
                 status = MATCH_STATUS.MATCHED
                 matchMethod = MATCH_METHOD.BY_CATALOG
                 matchedOrderLineNums.add(matchedOrderLine.LineNum)

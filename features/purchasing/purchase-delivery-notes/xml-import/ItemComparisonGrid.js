@@ -58,7 +58,8 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
     const orderItemOptions = (orderDetails?.DocumentLines || [])
         .filter(line => !usedLineNums.has(line.LineNum))
         .map(line => ({
-            id: line.ItemCode,
+            id: line.LineNum,
+            itemCode: line.ItemCode,
             label: line.ItemDescription,
             orderLine: line
         }))
@@ -68,31 +69,31 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
         return item.status === MATCH_STATUS.NOT_IN_ORDER 
             && item.xmlItem?.cProd 
             && vendor?.CardCode
-            && selectedItem?.id
+            && selectedItem?.itemCode
             && linkingIndex !== index
     }
 
     async function handleCreateLink(item, index) {
         const selectedItem = selectedItems[index]
-        if (!selectedItem?.id || !item.xmlItem?.cProd || !vendor?.CardCode) return
+        if (!selectedItem?.itemCode || !item.xmlItem?.cProd || !vendor?.CardCode) return
 
         setLinkingIndex(index)
         try {
             const existing = await getAlternateCatNumBySupplierAndCode(vendor.CardCode, item.xmlItem.cProd)
-            if (existing && existing.ItemCode !== selectedItem.id) {
+            if (existing && existing.ItemCode !== selectedItem.itemCode) {
                 setConfirmDialog({
                     open: true,
                     oldItem: existing.ItemCode,
-                    newItem: selectedItem.id,
+                    newItem: selectedItem.itemCode,
                     itemIndex: index,
                     cProd: item.xmlItem.cProd
                 })
                 setLinkingIndex(null)
                 return
             }
-            await createAlternateCatNum(vendor.CardCode, item.xmlItem.cProd, selectedItem.id)
+            await createAlternateCatNum(vendor.CardCode, item.xmlItem.cProd, selectedItem.itemCode)
             onItemLinked(index, selectedItem, selectedItem.orderLine)
-            setAlert({ visible: true, type: 'success', message: `Item "${item.xmlItem.xProd}" vinculado ao código SAP "${selectedItem.id}" com sucesso.` })
+            setAlert({ visible: true, type: 'success', message: `Item "${item.xmlItem.xProd}" vinculado ao código SAP "${selectedItem.itemCode}" com sucesso.` })
         } catch (error) {
             const msg = error.message || 'Erro ao criar vínculo.'
             setAlert({ visible: true, type: 'error', message: msg })
@@ -238,7 +239,7 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                         {item.status === MATCH_STATUS.NOT_IN_ORDER && item.xmlItem?.cProd ? (
                                             <MuiAutocomplete
                                                 options={orderItemOptions}
-                                                getOptionLabel={(option) => option.id ? `${option.id} - ${option.label}` : ''}
+                                                getOptionLabel={(option) => option.itemCode ? `${option.itemCode} - ${option.label}` : ''}
                                                 value={selectedItems[index] || null}
                                                 onChange={(event, newValue) => handleItemSelect(index, newValue)}
                                                 disabled={linkingIndex === index}
