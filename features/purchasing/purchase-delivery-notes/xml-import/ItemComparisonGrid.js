@@ -168,6 +168,8 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                     <TableBody>
                         {comparisonResults.map((item, index) => {
                             const statusInfo = getStatusInfo(item.status)
+                            const previewLine = item.orderLine || selectedItems[index]?.orderLine || null
+                            const isPreview = !item.orderLine && !!selectedItems[index]?.orderLine
                             
                             return (
                                 <TableRow 
@@ -257,28 +259,31 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                     <TableCell width="8%" sx={{ padding: '3px' }}>
                                         <TextField
                                             type="text"
-                                            value={item.orderLine ? formatNumber(item.orderLine.Quantity) : ''}
+                                            value={previewLine ? formatNumber(previewLine.Quantity) : ''}
                                             InputProps={{ readOnly: true }}
                                             placeholder="-"
                                             size="small"
+                                            sx={isPreview ? { '& .MuiInputBase-input': { fontStyle: 'italic', color: 'text.secondary' } } : {}}
                                         />
                                     </TableCell>
                                     <TableCell width="8%" sx={{ padding: '3px' }}>
                                         <TextField
                                             type="text"
-                                            value={item.orderLine ? formatCurrency(item.orderLine.Price ?? 0) : ''}
+                                            value={previewLine ? formatCurrency(previewLine.Price ?? 0) : ''}
                                             InputProps={{ readOnly: true }}
                                             placeholder="-"
                                             size="small"
+                                            sx={isPreview ? { '& .MuiInputBase-input': { fontStyle: 'italic', color: 'text.secondary' } } : {}}
                                         />
                                     </TableCell>
                                     <TableCell width="8%" sx={{ padding: '3px' }}>
                                         <TextField
                                             type="text"
-                                            value={item.orderLine ? formatNumber(item.orderLine.OpenQty ?? 0) : ''}
+                                            value={previewLine ? formatNumber(previewLine.RemainingOpenQuantity ?? previewLine.OpenQty ?? 0) : ''}
                                             InputProps={{ readOnly: true }}
                                             placeholder="-"
                                             size="small"
+                                            sx={isPreview ? { '& .MuiInputBase-input': { fontStyle: 'italic', color: 'text.secondary' } } : {}}
                                         />
                                     </TableCell>
                                 </TableRow>
