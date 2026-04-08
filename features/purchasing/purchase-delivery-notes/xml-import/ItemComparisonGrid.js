@@ -325,24 +325,24 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                         <Paper variant="outlined" sx={{ mt: 2, p: 2 }}>
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 3, flexWrap: 'wrap' }}>
                                 <Box sx={{ textAlign: 'right' }}>
-                                    <Typography variant="caption" color="text.secondary">V. Total Produtos</Typography>
-                                    <Typography variant="body2">{formatCurrency(totalProd)}</Typography>
+                                    <Typography variant="caption" color="text.secondary">Total Produtos</Typography>
+                                    <Typography variant="body1">{formatCurrency(totalProd)}</Typography>
                                 </Box>
                                 {totalDesc > 0 && (
                                     <Box sx={{ textAlign: 'right' }}>
                                         <Typography variant="caption" color="text.secondary">Desconto</Typography>
-                                        <Typography variant="body2" color="error.main">- {formatCurrency(totalDesc)}</Typography>
+                                        <Typography variant="body1" color="error.main">- {formatCurrency(totalDesc)}</Typography>
                                     </Box>
                                 )}
                                 {totalIPI > 0 && (
                                     <Box sx={{ textAlign: 'right' }}>
                                         <Typography variant="caption" color="text.secondary">IPI</Typography>
-                                        <Typography variant="body2">+ {formatCurrency(totalIPI)}</Typography>
+                                        <Typography variant="body1">+ {formatCurrency(totalIPI)}</Typography>
                                     </Box>
                                 )}
                                 <Divider orientation="vertical" flexItem />
                                 <Box sx={{ textAlign: 'right' }}>
-                                    <Typography variant="caption" color="text.secondary">V. Total NF</Typography>
+                                    <Typography variant="caption" color="text.secondary">Total NF</Typography>
                                     <Typography variant="body1" fontWeight="bold">{formatCurrency(totalNF)}</Typography>
                                 </Box>
                             </Box>
