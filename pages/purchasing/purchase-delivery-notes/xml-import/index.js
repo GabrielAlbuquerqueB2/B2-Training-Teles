@@ -498,6 +498,7 @@ export default function XmlImportPage() {
                             orderDetails={orderDetails}
                             onItemLinked={handleItemLinked}
                             setAlert={setAlert}
+                            expenses={expenses}
                         />
                         <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end', mt: 3 }}>
                             <Button variant='outlined' onClick={handleBack}>

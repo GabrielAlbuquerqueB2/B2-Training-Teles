@@ -56,7 +56,7 @@ export default function DivergenceSummary({
                     {overallStatus === 'warning' && <WarningAmberIcon sx={{ fontSize: 40, color: '#FF9800' }} />}
                     {overallStatus === 'error' && <ErrorOutlineIcon sx={{ fontSize: 40, color: '#F44336' }} />}
                     <Box>
-                        <Typography variant="h5">
+                        <Typography variant="h6">
                             {overallStatus === 'success' && 'Comparação concluída com sucesso!'}
                             {overallStatus === 'warning' && 'Comparação concluída com divergências'}
                             {overallStatus === 'error' && 'Problemas encontrados na comparação'}
@@ -68,7 +68,7 @@ export default function DivergenceSummary({
                 </Box>
             </Paper>
 
-            <Grid container spacing={2} sx={{ mb: 3 }}>
+            {/* <Grid container spacing={2} sx={{ mb: 3 }}>
                 <Grid item xs={12} md={4}>
                     <Paper sx={{ p: 2, textAlign: 'center' }}>
                         <Typography variant="h3" color="primary">{totalXmlItems}</Typography>
@@ -87,7 +87,7 @@ export default function DivergenceSummary({
                         <Typography variant="body2" color="text.secondary">Não Encontrados no Pedido</Typography>
                     </Paper>
                 </Grid>
-            </Grid>
+            </Grid> */}
 
             {errors.length > 0 && (
                 <Alert severity="error" sx={{ mb: 2 }}>

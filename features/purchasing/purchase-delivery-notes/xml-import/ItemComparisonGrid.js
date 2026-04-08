@@ -44,7 +44,7 @@ function getRowBackground(item) {
     return STATUS_COLORS[item.status] || 'inherit'
 }
 
-export default function ItemComparisonGrid({ comparisonResults = [], stats = {}, vendor = null, orderDetails = null, onItemLinked = () => {}, setAlert = () => {} }) {
+export default function ItemComparisonGrid({ comparisonResults = [], stats = {}, vendor = null, orderDetails = null, onItemLinked = () => {}, setAlert = () => {}, expenses = [] }) {
     const [linkingIndex, setLinkingIndex] = useState(null)
     const [selectedItems, setSelectedItems] = useState({})
     const [confirmDialog, setConfirmDialog] = useState({ open: false, oldItem: null, newItem: null, itemIndex: null, cProd: null })
@@ -319,8 +319,10 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                 {comparisonResults.length > 0 && (() => {
                     const totalProd = comparisonResults.reduce((sum, r) => sum + (r.xmlItem?.vProd || 0), 0)
                     const totalDesc = comparisonResults.reduce((sum, r) => sum + (r.xmlItem?.vDesc || 0), 0)
-                    const totalIPI = comparisonResults.reduce((sum, r) => sum + (r.xmlItem?.vIPI || 0), 0)
-                    const totalNF = totalProd - totalDesc + totalIPI
+                    /* const totalIPI = comparisonResults.reduce((sum, r) => sum + (r.xmlItem?.vIPI || 0), 0) */
+                    const totalNF = totalProd - totalDesc /* + totalIPI */
+                    const totalExpenses = expenses.reduce((sum, e) => sum + (e?.LineTotal || 0), 0)
+                    const totalDoc = totalNF + totalExpenses
                     return (
                         <Paper variant="outlined" sx={{ mt: 2, p: 2 }}>
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 3, flexWrap: 'wrap' }}>
@@ -334,17 +336,30 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                         <Typography variant="body1" color="error.main">- {formatCurrency(totalDesc)}</Typography>
                                     </Box>
                                 )}
-                                {totalIPI > 0 && (
+                                {/* {totalIPI > 0 && (
                                     <Box sx={{ textAlign: 'right' }}>
                                         <Typography variant="caption" color="text.secondary">IPI</Typography>
                                         <Typography variant="body1">+ {formatCurrency(totalIPI)}</Typography>
                                     </Box>
-                                )}
+                                )} */}
                                 <Divider orientation="vertical" flexItem />
                                 <Box sx={{ textAlign: 'right' }}>
                                     <Typography variant="caption" color="text.secondary">Total NF</Typography>
-                                    <Typography variant="body1" fontWeight="bold">{formatCurrency(totalNF)}</Typography>
+                                    <Typography variant="body1"> {formatCurrency(totalNF)}</Typography>
                                 </Box>
+                                {totalExpenses > 0 && (
+                                    <>
+                                        <Box sx={{ textAlign: 'right' }}>
+                                            <Typography variant="caption" color="text.secondary">Despesas Adicionais</Typography>
+                                            <Typography variant="body1">+ {formatCurrency(totalExpenses)}</Typography>
+                                        </Box>
+                                        <Divider orientation="vertical" flexItem />
+                                        <Box sx={{ textAlign: 'right' }}>
+                                            <Typography variant="caption" color="text.secondary">Total Documento</Typography>
+                                            <Typography variant="body1" fontWeight="bold">{formatCurrency(totalDoc)}</Typography>
+                                        </Box>
+                                    </>
+                                )}
                             </Box>
                         </Paper>
                     )
