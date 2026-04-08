@@ -239,7 +239,11 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                         {item.status === MATCH_STATUS.NOT_IN_ORDER && item.xmlItem?.cProd ? (
                                             <MuiAutocomplete
                                                 options={orderItemOptions}
-                                                getOptionLabel={(option) => option.itemCode ? `${option.itemCode} - ${option.label}` : ''}
+                                                getOptionLabel={(option) => {
+                                                    if (!option.itemCode) return ''
+                                                    const freeTxt = option.orderLine?.FreeText
+                                                    return freeTxt ? `${option.itemCode} - ${option.label} (${freeTxt})` : `${option.itemCode} - ${option.label}`
+                                                }}
                                                 value={selectedItems[index] || null}
                                                 onChange={(event, newValue) => handleItemSelect(index, newValue)}
                                                 disabled={linkingIndex === index}
@@ -250,7 +254,11 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                         ) : (
                                             <TextField
                                                 type="text"
-                                                value={item.sapItem ? `${item.sapItem.ItemCode} - ${item.sapItem.ItemName || item.orderLine?.ItemDescription || ''}` : ''}
+                                                value={item.sapItem ? (() => {
+                                                    const base = `${item.sapItem.ItemCode} - ${item.sapItem.ItemName || item.orderLine?.ItemDescription || ''}`
+                                                    const freeTxt = item.orderLine?.FreeText
+                                                    return freeTxt ? `${base} (${freeTxt})` : base
+                                                })() : ''}
                                                 InputProps={{ readOnly: true }}
                                                 placeholder="-"
                                                 size="small"

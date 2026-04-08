@@ -98,7 +98,8 @@ export async function matchXmlItemsWithOrder(xmlItems, orderLines, catalog) {
                 LineStatus: matchedOrderLine.LineStatus,
                 Price: matchedOrderLine.Price,
                 WarehouseCode: matchedOrderLine.WarehouseCode,
-                UoMEntry: matchedOrderLine.UoMEntry
+                UoMEntry: matchedOrderLine.UoMEntry,
+                FreeText: matchedOrderLine.FreeText || ''
             } : null,
             status,
             matchMethod,
