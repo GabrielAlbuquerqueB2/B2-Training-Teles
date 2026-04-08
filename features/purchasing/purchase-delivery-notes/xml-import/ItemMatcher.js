@@ -80,6 +80,8 @@ export async function matchXmlItemsWithOrder(xmlItems, orderLines, catalog) {
                 qCom: xmlItem.qCom,
                 vUnCom: xmlItem.vUnCom,
                 vProd: xmlItem.vProd,
+                vDesc: xmlItem.vDesc || 0,
+                vIPI: xmlItem.vIPI || 0,
                 uCom: xmlItem.uCom,
                 nItemPed: xmlItem.nItemPed
             },
@@ -125,16 +127,24 @@ export async function matchXmlItemsWithOrder(xmlItems, orderLines, catalog) {
 export function prepareDeliveryNoteLines(comparisonResults, orderDocEntry) {
     return comparisonResults
         .filter(item => (item.status === MATCH_STATUS.MATCHED || item.status === MATCH_STATUS.LINKED) && item.orderLine)
-        .map(item => ({
-            ItemCode: item.sapItem.ItemCode,
-            Quantity: item.xmlItem.qCom,
-            UnitPrice: item.xmlItem.vUnCom,
-            WarehouseCode: item.orderLine.WarehouseCode,
-            UoMEntry: item.orderLine.UoMEntry,
-            BaseType: 22,
-            BaseEntry: orderDocEntry,
+        .map(item => {
+            const vProd = item.xmlItem.vProd || 0
+            const vDesc = item.xmlItem.vDesc || 0
+            const vIPI = item.xmlItem.vIPI || 0
+            const qCom = item.xmlItem.qCom || 1
+            const netUnitPrice = (vProd - vDesc + vIPI) / qCom
+
+            return {
+                ItemCode: item.sapItem.ItemCode,
+                Quantity: item.xmlItem.qCom,
+                UnitPrice: netUnitPrice,
+                WarehouseCode: item.orderLine.WarehouseCode,
+                UoMEntry: item.orderLine.UoMEntry,
+                BaseType: 22,
+                BaseEntry: orderDocEntry,
             BaseLine: item.orderLine.LineNum
-        }))
+            }
+        })
 }
 
 export function checkCriticalDivergences(stats) {

@@ -68,6 +68,10 @@ export function parseXmlContent(xmlString) {
         const prod = det.prod
         if (!prod) return null
 
+        const imposto = det.imposto || {}
+        const ipiTrib = imposto.IPI?.IPITrib || {}
+        const vIPI = parseFloat(ipiTrib.vIPI) || 0
+
         return {
             nItem: det['@_nItem'] || String(i + 1),
             cProd: String(prod.cProd || ''),
@@ -79,6 +83,8 @@ export function parseXmlContent(xmlString) {
             qCom: parseFloat(prod.qCom) || 0,
             vUnCom: parseFloat(prod.vUnCom) || 0,
             vProd: parseFloat(prod.vProd) || 0,
+            vDesc: parseFloat(prod.vDesc) || 0,
+            vIPI,
             cEANTrib: String(prod.cEANTrib || ''),
             uTrib: String(prod.uTrib || ''),
             qTrib: parseFloat(prod.qTrib) || 0,

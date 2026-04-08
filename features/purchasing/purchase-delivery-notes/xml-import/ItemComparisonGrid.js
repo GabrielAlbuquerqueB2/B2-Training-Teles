@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Box, Typography, Table, TableBody, TableCell, TableHead, TableRow, Button, CircularProgress, TextField, Grid, Autocomplete as MuiAutocomplete } from '@mui/material'
+import { useState, useMemo } from 'react'
+import { Box, Typography, Table, TableBody, TableCell, TableHead, TableRow, Button, CircularProgress, TextField, Grid, Autocomplete as MuiAutocomplete, Paper, Divider } from '@mui/material'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import ErrorIcon from '@mui/icons-material/Error'
 import WarningIcon from '@mui/icons-material/Warning'
@@ -213,10 +213,13 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                     <TableCell width="8%" sx={{ padding: '3px' }}>
                                         <TextField
                                             type="text"
-                                            value={item.xmlItem ? formatCurrency(item.xmlItem.vUnCom) : ''}
+                                            value={item.xmlItem ? formatCurrency(
+                                                (item.xmlItem.vProd - (item.xmlItem.vDesc || 0) + (item.xmlItem.vIPI || 0)) / (item.xmlItem.qCom || 1)
+                                            ) : ''}
                                             InputProps={{ readOnly: true }}
                                             placeholder="-"
                                             size="small"
+                                            title={item.xmlItem?.vDesc ? `Bruto: ${formatCurrency(item.xmlItem.vUnCom)} | Desc: ${formatCurrency(item.xmlItem.vDesc)}` : ''}
                                         />
                                     </TableCell>
                                     <TableCell width="3%" sx={{ padding: '3px' }}>
@@ -312,6 +315,40 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                         </Table>
                     </Grid>
                 </Grid>
+
+                {comparisonResults.length > 0 && (() => {
+                    const totalProd = comparisonResults.reduce((sum, r) => sum + (r.xmlItem?.vProd || 0), 0)
+                    const totalDesc = comparisonResults.reduce((sum, r) => sum + (r.xmlItem?.vDesc || 0), 0)
+                    const totalIPI = comparisonResults.reduce((sum, r) => sum + (r.xmlItem?.vIPI || 0), 0)
+                    const totalNF = totalProd - totalDesc + totalIPI
+                    return (
+                        <Paper variant="outlined" sx={{ mt: 2, p: 2 }}>
+                            <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 3, flexWrap: 'wrap' }}>
+                                <Box sx={{ textAlign: 'right' }}>
+                                    <Typography variant="caption" color="text.secondary">V. Total Produtos</Typography>
+                                    <Typography variant="body2">{formatCurrency(totalProd)}</Typography>
+                                </Box>
+                                {totalDesc > 0 && (
+                                    <Box sx={{ textAlign: 'right' }}>
+                                        <Typography variant="caption" color="text.secondary">Desconto</Typography>
+                                        <Typography variant="body2" color="error.main">- {formatCurrency(totalDesc)}</Typography>
+                                    </Box>
+                                )}
+                                {totalIPI > 0 && (
+                                    <Box sx={{ textAlign: 'right' }}>
+                                        <Typography variant="caption" color="text.secondary">IPI</Typography>
+                                        <Typography variant="body2">+ {formatCurrency(totalIPI)}</Typography>
+                                    </Box>
+                                )}
+                                <Divider orientation="vertical" flexItem />
+                                <Box sx={{ textAlign: 'right' }}>
+                                    <Typography variant="caption" color="text.secondary">V. Total NF</Typography>
+                                    <Typography variant="body1" fontWeight="bold">{formatCurrency(totalNF)}</Typography>
+                                </Box>
+                            </Box>
+                        </Paper>
+                    )
+                })()}
             </Box>
         </>
     )
