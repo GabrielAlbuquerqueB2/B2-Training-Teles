@@ -10,6 +10,7 @@ import DivergenceSummary from '../../../../features/purchasing/purchase-delivery
 import { parseXmlContent } from '../../../../features/purchasing/purchase-delivery-notes/xml-import/XmlParser'
 import { findVendorByCNPJ, getOpenPurchaseOrdersByVendor, getPurchaseOrderByDocEntry, getVendorCatalog, createPurchaseDeliveryNote, getBranchByIE, getVendorAddresses } from '../../../../features/purchasing/purchase-delivery-notes/xml-import/XmlImportServices'
 import { matchXmlItemsWithOrder, prepareDeliveryNoteLines, checkCriticalDivergences, MATCH_STATUS, MATCH_METHOD } from '../../../../features/purchasing/purchase-delivery-notes/xml-import/ItemMatcher'
+import { getAdditionalExpenses } from '../../../../features/purchasing/purchase-delivery-notes/PurchaseDeliveryNotesServices'
 
 const STEPS = [
     'Importar XML',
@@ -51,6 +52,8 @@ export default function XmlImportPage() {
     const [docDate, setDocDate] = useState(saved?.docDate ?? '')
     const [payToCode, setPayToCode] = useState(saved?.payToCode ?? '')
     const [addresses, setAddresses] = useState(saved?.addresses ?? [])
+    const [expenses, setExpenses] = useState(saved?.expenses ?? [])
+    const [additionalExpensesList, setAdditionalExpensesList] = useState([])
     const [alert, setAlert] = useState({ visible: false, type: '', message: '' })
 
     useEffect(() => {
@@ -71,14 +74,25 @@ export default function XmlImportPage() {
             divergenceCheck,
             docDate,
             payToCode,
-            addresses
+            addresses,
+            expenses
         })
-    }, [activeStep, xmlData, vendor, purchaseOrders, selectedOrder, orderDetails, catalog, comparisonResults, stats, divergenceCheck, docDate, payToCode, addresses])
+    }, [activeStep, xmlData, vendor, purchaseOrders, selectedOrder, orderDetails, catalog, comparisonResults, stats, divergenceCheck, docDate, payToCode, addresses, expenses])
 
     useEffect(() => {
         if (saved?.activeStep >= 2 && saved?.vendor && saved?.xmlData && saved?.selectedOrder) {
             handleRefreshComparison()
         }
+    }, [])
+
+    useEffect(() => {
+        async function fetchExpensesList() {
+            try {
+                const list = await getAdditionalExpenses()
+                setAdditionalExpensesList(list || [])
+            } catch {}
+        }
+        fetchExpensesList()
     }, [])
 
     function readFileAsText(file) {
@@ -88,6 +102,38 @@ export default function XmlImportPage() {
             reader.onerror = () => reject(new Error('Erro ao ler arquivo.'))
             reader.readAsText(file, 'UTF-8')
         })
+    }
+
+    function autoPopulateExpenses(parsedXml, expensesList) {
+        if (!expensesList || expensesList.length === 0) return
+
+        const xmlExpenseMap = {
+            'frete': parsedXml.vFrete || 0,
+            'seguro': parsedXml.vSeg || 0,
+            'outro': parsedXml.vOutro || 0,
+            'import': parsedXml.vII || 0,
+            'ipi': parsedXml.vIPITotal || 0,
+            'icms': parsedXml.vST || 0,
+        }
+
+        const populated = expensesList.map(expense => {
+            const name = (expense.Name || '').toLowerCase()
+            let value = 0
+
+            for (const [key, xmlValue] of Object.entries(xmlExpenseMap)) {
+                if (name.includes(key)) {
+                    value = xmlValue
+                    break
+                }
+            }
+
+            return {
+                ExpenseCode: expense.ExpensCode,
+                LineTotal: value
+            }
+        })
+
+        setExpenses(populated)
     }
 
     async function handleFileSelect(file) {
@@ -123,12 +169,17 @@ export default function XmlImportPage() {
             const openOrders = await getOpenPurchaseOrdersByVendor(foundVendor.CardCode, branchId)
             setPurchaseOrders(openOrders)
 
-            const [vendorCatalog, vendorAddresses] = await Promise.all([
+            const [vendorCatalog, vendorAddresses, expensesList] = await Promise.all([
                 getVendorCatalog(foundVendor.CardCode),
-                getVendorAddresses(foundVendor.CardCode)
+                getVendorAddresses(foundVendor.CardCode),
+                additionalExpensesList.length > 0 ? Promise.resolve(additionalExpensesList) : getAdditionalExpenses()
             ])
             setCatalog(vendorCatalog)
             setAddresses(vendorAddresses)
+            if (expensesList && expensesList.length > 0) {
+                setAdditionalExpensesList(expensesList)
+                autoPopulateExpenses(parsedXml, expensesList)
+            }
             if (vendorAddresses.length === 1) {
                 setPayToCode(vendorAddresses[0].value)
             }
@@ -321,6 +372,7 @@ export default function XmlImportPage() {
                         TaxId1: selectedAddress.U_TX_IE
                     } : {})
                 },
+                DocumentAdditionalExpenses: expenses.filter(e => e && e.LineTotal > 0),
                 DocumentLines: documentLines
             }
 
@@ -408,6 +460,7 @@ export default function XmlImportPage() {
         setDocDate('')
         setPayToCode('')
         setAddresses([])
+        setExpenses([])
         setAlert({ visible: false, type: '', message: '' })
     }
 
@@ -471,6 +524,8 @@ export default function XmlImportPage() {
                         payToCode={payToCode}
                         onPayToCodeChange={setPayToCode}
                         addresses={addresses}
+                        expenses={expenses}
+                        setExpenses={setExpenses}
                     />
                 )
 

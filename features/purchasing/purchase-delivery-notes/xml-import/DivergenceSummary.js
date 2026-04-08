@@ -7,6 +7,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong'
 import Select from '../../../../components/ui/Select'
 import { getIncotermsList } from '../PurchaseDeliveryNotesServices'
+import PurchaseDeliveryNotesExpenses from '../PurchaseDeliveryNotesExpenses'
 
 export default function DivergenceSummary({ 
     stats = {}, 
@@ -20,7 +21,9 @@ export default function DivergenceSummary({
     onDocDateChange,
     payToCode = '',
     onPayToCodeChange,
-    addresses = []
+    addresses = [],
+    expenses = [],
+    setExpenses
 }) {
     const incotermsList = getIncotermsList()
     const incotermLabel = incotermsList.find(i => String(i.value) === String(xmlData?.modFrete))?.description || xmlData?.modFrete || '-'
@@ -191,6 +194,12 @@ export default function DivergenceSummary({
                             />
                         </Grid>
                     </Grid>
+                    <Box sx={{ mt: 2 }}>
+                        <PurchaseDeliveryNotesExpenses
+                            expenses={expenses}
+                            setExpenses={setExpenses}
+                        />
+                    </Box>
                 </Paper>
             )}
 

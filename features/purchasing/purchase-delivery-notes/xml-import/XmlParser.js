@@ -55,6 +55,11 @@ export function parseXmlContent(xmlString) {
     const vProd = parseFloat(total.vProd) || 0
     const vFrete = parseFloat(total.vFrete) || 0
     const vDesc = parseFloat(total.vDesc) || 0
+    const vSeg = parseFloat(total.vSeg) || 0
+    const vOutro = parseFloat(total.vOutro) || 0
+    const vII = parseFloat(total.vII) || 0
+    const vIPITotal = parseFloat(total.vIPI) || 0
+    const vST = parseFloat(total.vST) || 0
 
     let detArray = infNFe.det
     if (!detArray) {
@@ -105,6 +110,11 @@ export function parseXmlContent(xmlString) {
         vProd,
         vFrete,
         vDesc,
+        vSeg,
+        vOutro,
+        vII,
+        vIPITotal,
+        vST,
         chaveAcesso,
         destIE,
         modFrete,
