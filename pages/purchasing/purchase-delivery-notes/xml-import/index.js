@@ -11,6 +11,7 @@ import { parseXmlContent } from '../../../../features/purchasing/purchase-delive
 import { findVendorByCNPJ, getOpenPurchaseOrdersByVendor, getPurchaseOrderByDocEntry, getVendorCatalog, createPurchaseDeliveryNote, getBranchByIE, getVendorAddresses } from '../../../../features/purchasing/purchase-delivery-notes/xml-import/XmlImportServices'
 import { matchXmlItemsWithOrder, prepareDeliveryNoteLines, checkCriticalDivergences, MATCH_STATUS, MATCH_METHOD } from '../../../../features/purchasing/purchase-delivery-notes/xml-import/ItemMatcher'
 import { getAdditionalExpenses } from '../../../../features/purchasing/purchase-delivery-notes/PurchaseDeliveryNotesServices'
+import PurchaseDeliveryNotesExpenses from '../../../../features/purchasing/purchase-delivery-notes/PurchaseDeliveryNotesExpenses'
 
 const STEPS = [
     'Importar XML',
@@ -502,6 +503,10 @@ export default function XmlImportPage() {
                             <Button variant='outlined' onClick={handleBack}>
                                 Voltar
                             </Button>
+                            <PurchaseDeliveryNotesExpenses
+                                expenses={expenses}
+                                setExpenses={setExpenses}
+                            />
                             <Button variant='contained' onClick={handleGoToConfirm}>
                                 Próximo
                             </Button>
@@ -524,8 +529,6 @@ export default function XmlImportPage() {
                         payToCode={payToCode}
                         onPayToCodeChange={setPayToCode}
                         addresses={addresses}
-                        expenses={expenses}
-                        setExpenses={setExpenses}
                     />
                 )
 
