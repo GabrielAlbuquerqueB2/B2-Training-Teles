@@ -68,27 +68,6 @@ export default function DivergenceSummary({
                 </Box>
             </Paper>
 
-            {/* <Grid container spacing={2} sx={{ mb: 3 }}>
-                <Grid item xs={12} md={4}>
-                    <Paper sx={{ p: 2, textAlign: 'center' }}>
-                        <Typography variant="h3" color="primary">{totalXmlItems}</Typography>
-                        <Typography variant="body2" color="text.secondary">Itens no XML</Typography>
-                    </Paper>
-                </Grid>
-                <Grid item xs={12} md={4}>
-                    <Paper sx={{ p: 2, textAlign: 'center' }}>
-                        <Typography variant="h3" color="success.main">{matchedCount}</Typography>
-                        <Typography variant="body2" color="text.secondary">Itens Correspondentes</Typography>
-                    </Paper>
-                </Grid>
-                <Grid item xs={12} md={4}>
-                    <Paper sx={{ p: 2, textAlign: 'center' }}>
-                        <Typography variant="h3" color="error.main">{notInOrderCount}</Typography>
-                        <Typography variant="body2" color="text.secondary">Não Encontrados no Pedido</Typography>
-                    </Paper>
-                </Grid>
-            </Grid> */}
-
             {errors.length > 0 && (
                 <Alert severity="error" sx={{ mb: 2 }}>
                     <AlertTitle>Erros que impedem a criação</AlertTitle>

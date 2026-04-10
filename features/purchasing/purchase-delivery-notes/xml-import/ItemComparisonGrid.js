@@ -214,7 +214,7 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                         <TextField
                                             type="text"
                                             value={item.xmlItem ? formatCurrency(
-                                                (item.xmlItem.vProd - (item.xmlItem.vDesc || 0) + (item.xmlItem.vIPI || 0)) / (item.xmlItem.qCom || 1)
+                                                (item.xmlItem.vProd - (item.xmlItem.vDesc || 0)) / (item.xmlItem.qCom || 1)
                                             ) : ''}
                                             InputProps={{ readOnly: true }}
                                             placeholder="-"
@@ -319,8 +319,7 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                 {comparisonResults.length > 0 && (() => {
                     const totalProd = comparisonResults.reduce((sum, r) => sum + (r.xmlItem?.vProd || 0), 0)
                     const totalDesc = comparisonResults.reduce((sum, r) => sum + (r.xmlItem?.vDesc || 0), 0)
-                    /* const totalIPI = comparisonResults.reduce((sum, r) => sum + (r.xmlItem?.vIPI || 0), 0) */
-                    const totalNF = totalProd - totalDesc /* + totalIPI */
+                    const totalNF = totalProd - totalDesc
                     const totalExpenses = expenses.reduce((sum, e) => sum + (e?.LineTotal || 0), 0)
                     const totalDoc = totalNF + totalExpenses
                     return (
@@ -336,12 +335,6 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                         <Typography variant="body1" color="error.main">- {formatCurrency(totalDesc)}</Typography>
                                     </Box>
                                 )}
-                                {/* {totalIPI > 0 && (
-                                    <Box sx={{ textAlign: 'right' }}>
-                                        <Typography variant="caption" color="text.secondary">IPI</Typography>
-                                        <Typography variant="body1">+ {formatCurrency(totalIPI)}</Typography>
-                                    </Box>
-                                )} */}
                                 <Divider orientation="vertical" flexItem />
                                 <Box sx={{ textAlign: 'right' }}>
                                     <Typography variant="caption" color="text.secondary">Total NF</Typography>

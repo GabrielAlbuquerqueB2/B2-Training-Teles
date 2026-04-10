@@ -130,9 +130,8 @@ export function prepareDeliveryNoteLines(comparisonResults, orderDocEntry) {
         .map(item => {
             const vProd = item.xmlItem.vProd || 0
             const vDesc = item.xmlItem.vDesc || 0
-            const vIPI = item.xmlItem.vIPI || 0
             const qCom = item.xmlItem.qCom || 1
-            const netUnitPrice = (vProd - vDesc + vIPI) / qCom
+            const netUnitPrice = (vProd - vDesc) / qCom
 
             return {
                 ItemCode: item.sapItem.ItemCode,
