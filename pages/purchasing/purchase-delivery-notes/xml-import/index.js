@@ -162,7 +162,7 @@ export default function XmlImportPage() {
                 setAlert({
                     visible: true,
                     type: 'error',
-                    message: `Fornecedor "${foundVendor.CardName}" está cadastrado no SAP, mas está inativo. Ative o cadastro e tente novamente.`
+                    message: `O CNPJ ${parsedXml.cnpj} (${parsedXml.nomeEmitente}) está cadastrado no SAP como "${foundVendor.CardName}", mas está inativo. Ative o cadastro e tente novamente.`
                 })
                 setIsLoading(false)
                 return

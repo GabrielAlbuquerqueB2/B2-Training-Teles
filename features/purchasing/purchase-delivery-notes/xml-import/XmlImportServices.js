@@ -58,11 +58,40 @@ function isMatrizCNPJ(federalTaxID) {
     return digits.slice(8, 12) === '0001'
 }
 
+function getMatrizPrefixes(cnpj) {
+    const digits = cnpj.replace(/\D/g, '')
+    if (digits.length !== 14) return null
+    const root = digits.slice(0, 8)
+    return {
+        rawPrefix: `${root}0001`,
+        formattedPrefix: `${root.slice(0, 2)}.${root.slice(2, 5)}.${root.slice(5, 8)}/0001-`
+    }
+}
+
 export async function findVendorByCNPJ(cnpj) {
     const raw = stripCNPJ(cnpj)
     const formatted = formatCNPJ(cnpj)
+    const prefixes = getMatrizPrefixes(raw)
 
-    const query = new Api()
+    // Etapa 1: busca pela matriz (prefixo do CNPJ com 0001)
+    if (prefixes) {
+        const matrizQuery = new Api()
+            .setMethod('GET')
+            .setUrl('/BusinessPartners')
+            .setParams({
+                $select: 'CardCode,CardName,FederalTaxID',
+                $filter: `CardType eq 'cSupplier' and Valid eq 'tYES' and (startswith(FederalTaxID, '${prefixes.rawPrefix}') or startswith(FederalTaxID, '${prefixes.formattedPrefix}'))`
+            })
+            .get()
+
+        const matrizResult = await doApiCall(matrizQuery)
+        if (matrizResult.value && matrizResult.value.length > 0) {
+            return matrizResult.value[0]
+        }
+    }
+
+    // Etapa 2: fallback — busca pelo CNPJ exato (caso SAP tenha só a filial cadastrada)
+    const exactQuery = new Api()
         .setMethod('GET')
         .setUrl('/BusinessPartners')
         .setParams({
@@ -71,13 +100,13 @@ export async function findVendorByCNPJ(cnpj) {
         })
         .get()
 
-    const result = await doApiCall(query)
-    if (result.value && result.value.length > 0) {
-        const matriz = result.value.find(bp => isMatrizCNPJ(bp.FederalTaxID))
-        return matriz || result.value[0]
+    const exactResult = await doApiCall(exactQuery)
+    if (exactResult.value && exactResult.value.length > 0) {
+        const matriz = exactResult.value.find(bp => isMatrizCNPJ(bp.FederalTaxID))
+        return matriz || exactResult.value[0]
     }
 
-    // Verifica se existe como inativo para fornecer mensagem mais clara ao usuário
+    // Etapa 3: verifica se existe como inativo para fornecer mensagem mais clara ao usuário
     const inactiveQuery = new Api()
         .setMethod('GET')
         .setUrl('/BusinessPartners')

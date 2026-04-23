@@ -1,0 +1,216 @@
+<nfeProc versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe">
+  <NFe xmlns="http://www.portalfiscal.inf.br/nfe">
+    <infNFe Id="NFe51260407685671000697550010000691411137962255" versao="4.00">
+      <ide>
+        <cUF>51</cUF>
+        <cNF>13796225</cNF>
+        <natOp>VENDA DE MERCADORIA SUJ.REG.ST</natOp>
+        <mod>55</mod>
+        <serie>1</serie>
+        <nNF>69141</nNF>
+        <dhEmi>2026-04-13T07:16:00-04:00</dhEmi>
+        <dhSaiEnt>2026-04-13T07:16:00-04:00</dhSaiEnt>
+        <tpNF>1</tpNF>
+        <idDest>1</idDest>
+        <cMunFG>5107859</cMunFG>
+        <tpImp>1</tpImp>
+        <tpEmis>1</tpEmis>
+        <cDV>5</cDV>
+        <tpAmb>1</tpAmb>
+        <finNFe>1</finNFe>
+        <indFinal>0</indFinal>
+        <indPres>1</indPres>
+        <procEmi>0</procEmi>
+        <verProc>12.1.2410 | 3.0</verProc>
+      </ide>
+      <emit>
+        <CNPJ>07685671000697</CNPJ>
+        <xNome>RZK AGRO LTDA</xNome>
+        <xFant>E. DO LESTE</xFant>
+        <enderEmit>
+          <xLgr>RODOVIA MT 322 KM</xLgr>
+          <nro>102</nro>
+          <xCpl>3,2 KM A ESQUERDA</xCpl>
+          <xBairro>DISTRITO ESPIGAO DO LESTE</xBairro>
+          <cMun>5107859</cMun>
+          <xMun>SAO FELIX DO ARAGUAIA</xMun>
+          <UF>MT</UF>
+          <CEP>78670000</CEP>
+          <cPais>1058</cPais>
+          <xPais>BRASIL</xPais>
+          <fone>6634591066</fone>
+        </enderEmit>
+        <IE>136295118</IE>
+        <CRT>3</CRT>
+      </emit>
+      <dest>
+        <CPF>97934038100</CPF>
+        <xNome>LUCAS MEDEIROS TELES E OUTROS</xNome>
+        <enderDest>
+          <xLgr>FAZENDA POMPEIA ROD BR</xLgr>
+          <nro>080</nro>
+          <xCpl>RODOVIA BR 080</xCpl>
+          <xBairro>ZONA RURAL</xBairro>
+          <cMun>5107859</cMun>
+          <xMun>SAO FELIX DO ARAGUAIA</xMun>
+          <UF>MT</UF>
+          <CEP>78670000</CEP>
+          <cPais>1058</cPais>
+          <xPais>BRASIL</xPais>
+          <fone>6499913803</fone>
+        </enderDest>
+        <indIEDest>1</indIEDest>
+        <IE>134410513</IE>
+        <email>mt.adm@teles.agr.br; sf.almoxarifado@teles.agr.br; leticia.h</email>
+      </dest>
+      <det nItem="1">
+        <prod>
+          <cProd>AN303278</cProd>
+          <cEAN>SEM GTIN</cEAN>
+          <xProd>LIGACAO [BC ICMS ST:R$ 249,05 ICMS ST: R$ 35,92]</xProd>
+          <NCM>84249090</NCM>
+          <CEST>0111500</CEST>
+          <CFOP>5405</CFOP>
+          <uCom>PC</uCom>
+          <qCom>1.0000</qCom>
+          <vUnCom>433.4600000000</vUnCom>
+          <vProd>433.46</vProd>
+          <cEANTrib>SEM GTIN</cEANTrib>
+          <uTrib>PC</uTrib>
+          <qTrib>1.0000</qTrib>
+          <vUnTrib>433.4600000000</vUnTrib>
+          <vDesc>108.36</vDesc>
+          <indTot>1</indTot>
+        </prod>
+        <imposto>
+          <ICMS>
+            <ICMS60>
+              <orig>2</orig>
+              <CST>60</CST>
+              <vBCSTRet>135.08</vBCSTRet>
+              <pST>0.0000</pST>
+              <vICMSSubstituto>0</vICMSSubstituto>
+              <vICMSSTRet>19.46</vICMSSTRet>
+            </ICMS60>
+          </ICMS>
+          <IPI>
+            <cEnq>999</cEnq>
+            <IPITrib>
+              <CST>99</CST>
+              <vBC>0</vBC>
+              <pIPI>0</pIPI>
+              <vIPI>0</vIPI>
+            </IPITrib>
+          </IPI>
+          <PIS>
+            <PISAliq>
+              <CST>01</CST>
+              <vBC>325.10</vBC>
+              <pPIS>1.6500</pPIS>
+              <vPIS>5.36</vPIS>
+            </PISAliq>
+          </PIS>
+          <COFINS>
+            <COFINSAliq>
+              <CST>01</CST>
+              <vBC>325.10</vBC>
+              <pCOFINS>7.6000</pCOFINS>
+              <vCOFINS>24.71</vCOFINS>
+            </COFINSAliq>
+          </COFINS>
+        </imposto>
+        <vItem>325.10</vItem>
+      </det>
+      <total>
+        <ICMSTot>
+          <vBC>0</vBC>
+          <vICMS>0</vICMS>
+          <vICMSDeson>0</vICMSDeson>
+          <vFCPUFDest>0</vFCPUFDest>
+          <vICMSUFDest>0</vICMSUFDest>
+          <vICMSUFRemet>0</vICMSUFRemet>
+          <vFCP>0</vFCP>
+          <vBCST>0</vBCST>
+          <vST>0</vST>
+          <vFCPST>0</vFCPST>
+          <vFCPSTRet>0</vFCPSTRet>
+          <vProd>433.46</vProd>
+          <vFrete>0</vFrete>
+          <vSeg>0</vSeg>
+          <vDesc>108.36</vDesc>
+          <vII>0</vII>
+          <vIPI>0</vIPI>
+          <vIPIDevol>0</vIPIDevol>
+          <vPIS>5.36</vPIS>
+          <vCOFINS>24.71</vCOFINS>
+          <vOutro>0</vOutro>
+          <vNF>325.10</vNF>
+        </ICMSTot>
+      </total>
+      <transp>
+        <modFrete>1</modFrete>
+      </transp>
+      <cobr>
+        <fat>
+          <nFat>1000069141</nFat>
+          <vOrig>325.10</vOrig>
+          <vDesc>0</vDesc>
+          <vLiq>325.10</vLiq>
+        </fat>
+        <dup>
+          <nDup>001</nDup>
+          <dVenc>2026-05-20</dVenc>
+          <vDup>325.10</vDup>
+        </dup>
+      </cobr>
+      <pag>
+        <detPag>
+          <indPag>1</indPag>
+          <tPag>15</tPag>
+          <vPag>325.10</vPag>
+        </detPag>
+      </pag>
+      <infAdic>
+        <infCpl>CND ESPIGAO 0061193637, VENCIMENTO EM: 20/03/2026 COND PAGTO: 075 - PRC FIXA 20 1X Numero Orcamento: 00174561 Vendedor: LUCAS PEREIRA DA SILVA . DEVOLUCOES DE MERCADORIA DEVERAO OCORRER ATE 10 DIAS APOS EMISSAO DA NF. Pecas adquiridas na loja fisica podem ser devolvidas em ate 10 dias com nota fiscal. Nao serao aceitas devolucoes de pecas eletricas e hidraulicas ou pecas com embalagem violada. Garantia: 3 meses (cliente) e 12 meses (RZKAGRO). Compras Online Shop Deere tem prazo de devolucao de 7 dias. LUCAS PEREIRA DA SILVA</infCpl>
+      </infAdic>
+      <infRespTec>
+        <CNPJ>53113791000122</CNPJ>
+        <xContato>Rodrigo de Almeida Sartorio</xContato>
+        <email>resp_tecnico_dfe_protheus@totvs.com.br</email>
+        <fone>1128593904</fone>
+      </infRespTec>
+    </infNFe>
+    <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+      <SignedInfo>
+        <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+        <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
+        <Reference URI="#NFe51260407685671000697550010000691411137962255">
+          <Transforms>
+            <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+            <Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+          </Transforms>
+          <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+          <DigestValue>MhwyoFlCESvdjTUnr36TB1u751s=</DigestValue>
+        </Reference>
+      </SignedInfo>
+      <SignatureValue>rjMykgKVoYm3OhK0pLUbK8BzFJt/XIMwFfRU2pKInz0bL91BAEiJsObQYUKEsoq9gWeuhNgKGis3BT0Z5uR0ayghNmkShjK9WxLyLQ1W5X1hEOxogl+VEDE//4gKUbF4DO+1FpBOXAlMu4QbTwcNlvoje7JI88R6g/nAv3rGY+nXZ6XCRNYEXMnAziL3015XFFrJ4K/H1dETHmM/0pS4Xqml39f5wc9f8nKFZksbwmZEWXgOzXW85yRdMUDrgoESOquz9oQwx6WBDJfa9FQfJNJaBw4xDJAkiDtfPzKSRAVbtmkh2/15NWpw9WQA70CDnUIjWVTGMRvqrzXYGEgBYQ==</SignatureValue>
+      <KeyInfo>
+        <X509Data>
+          <X509Certificate>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</X509Certificate>
+        </X509Data>
+      </KeyInfo>
+    </Signature>
+  </NFe>
+  <protNFe versao="4.00">
+    <infProt>
+      <tpAmb>1</tpAmb>
+      <verAplic>MT_A2_SRV240225-4.00</verAplic>
+      <chNFe>51260407685671000697550010000691411137962255</chNFe>
+      <dhRecbto>2026-04-13T07:17:23-04:00</dhRecbto>
+      <nProt>151260033560775</nProt>
+      <digVal>MhwyoFlCESvdjTUnr36TB1u751s=</digVal>
+      <cStat>100</cStat>
+      <xMotivo>Autorizado o uso da NF-e</xMotivo>
+    </infProt>
+  </protNFe>
+</nfeProc>
