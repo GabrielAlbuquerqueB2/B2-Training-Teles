@@ -76,6 +76,22 @@ export async function findVendorByCNPJ(cnpj) {
         const matriz = result.value.find(bp => isMatrizCNPJ(bp.FederalTaxID))
         return matriz || result.value[0]
     }
+
+    // Verifica se existe como inativo para fornecer mensagem mais clara ao usuário
+    const inactiveQuery = new Api()
+        .setMethod('GET')
+        .setUrl('/BusinessPartners')
+        .setParams({
+            $select: 'CardCode,CardName,FederalTaxID',
+            $filter: `CardType eq 'cSupplier' and Valid eq 'tNO' and (FederalTaxID eq '${raw}' or FederalTaxID eq '${formatted}')`
+        })
+        .get()
+
+    const inactiveResult = await doApiCall(inactiveQuery)
+    if (inactiveResult.value && inactiveResult.value.length > 0) {
+        return { ...inactiveResult.value[0], _inactive: true }
+    }
+
     return null
 }
 

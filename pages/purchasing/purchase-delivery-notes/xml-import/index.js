@@ -152,11 +152,22 @@ export default function XmlImportPage() {
                 setAlert({
                     visible: true,
                     type: 'error',
-                    message: `Fornecedor com CNPJ ${parsedXml.cnpj} não encontrado no SAP (ativo).`
+                    message: `Fornecedor com CNPJ ${parsedXml.cnpj} não encontrado no SAP.`
                 })
                 setIsLoading(false)
                 return
             }
+
+            if (foundVendor._inactive) {
+                setAlert({
+                    visible: true,
+                    type: 'error',
+                    message: `Fornecedor "${foundVendor.CardName}" está cadastrado no SAP, mas está inativo. Ative o cadastro e tente novamente.`
+                })
+                setIsLoading(false)
+                return
+            }
+
             setVendor(foundVendor)
 
             let branchId = null
