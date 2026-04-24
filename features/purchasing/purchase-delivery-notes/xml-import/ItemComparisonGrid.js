@@ -214,13 +214,11 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                     <TableCell width="8%" sx={{ padding: '3px' }}>
                                         <TextField
                                             type="text"
-                                            value={item.xmlItem ? formatCurrency(
-                                                (item.xmlItem.vProd - (item.xmlItem.vDesc || 0)) / (item.xmlItem.qCom || 1)
-                                            ) : ''}
+                                            value={item.xmlItem ? formatCurrency(item.xmlItem.vUnCom) : ''}
                                             InputProps={{ readOnly: true }}
                                             placeholder="-"
                                             size="small"
-                                            title={item.xmlItem?.vDesc ? `Bruto: ${formatCurrency(item.xmlItem.vUnCom)} | Desc: ${formatCurrency(item.xmlItem.vDesc)}` : ''}
+                                            title={item.xmlItem?.vDesc ? `Líquido: ${formatCurrency((item.xmlItem.vProd - item.xmlItem.vDesc) / (item.xmlItem.qCom || 1))} | Desc: ${formatCurrency(item.xmlItem.vDesc)}` : ''}
                                         />
                                     </TableCell>
                                     <TableCell width="4%" sx={{ padding: '3px' }}>

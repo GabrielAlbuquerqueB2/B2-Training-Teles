@@ -131,12 +131,14 @@ export function prepareDeliveryNoteLines(comparisonResults, orderDocEntry) {
             const vProd = item.xmlItem.vProd || 0
             const vDesc = item.xmlItem.vDesc || 0
             const qCom = item.xmlItem.qCom || 1
-            const netUnitPrice = (vProd - vDesc) / qCom
+            const grossUnitPrice = vProd / qCom
+            const discountPercent = vProd > 0 ? (vDesc / vProd) * 100 : 0
 
             return {
                 ItemCode: item.sapItem.ItemCode,
                 Quantity: item.xmlItem.qCom,
-                UnitPrice: netUnitPrice,
+                UnitPrice: grossUnitPrice,
+                DiscountPercent: discountPercent,
                 WarehouseCode: item.orderLine.WarehouseCode,
                 UoMEntry: item.orderLine.UoMEntry,
                 BaseType: 22,
