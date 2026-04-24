@@ -439,6 +439,7 @@ export default function XmlImportPage() {
                     LineStatus: orderLine.LineStatus,
                     Price: orderLine.Price,
                     WarehouseCode: orderLine.WarehouseCode,
+                    MeasureUnit: orderLine.MeasureUnit || '',
                     UoMEntry: orderLine.UoMEntry,
                     FreeText: orderLine.FreeText || ''
                 } : null

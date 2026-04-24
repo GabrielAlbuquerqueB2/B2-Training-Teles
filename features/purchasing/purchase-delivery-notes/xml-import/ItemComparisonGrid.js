@@ -3,6 +3,7 @@ import { Box, Typography, Table, TableBody, TableCell, TableHead, TableRow, Butt
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import ErrorIcon from '@mui/icons-material/Error'
 import WarningIcon from '@mui/icons-material/Warning'
+import WarningAmberIcon from '@mui/icons-material/WarningAmber'
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 import LinkIcon from '@mui/icons-material/Link'
 import { MATCH_STATUS, STATUS_COLORS } from './ItemMatcher'
@@ -197,19 +198,36 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                         />
                                     </TableCell>
                                     <TableCell width="6%" sx={{ padding: '3px' }}>
-                                        <TextField
-                                            type="text"
-                                            value={item.xmlItem ? formatNumber(item.xmlItem.qCom) : ''}
-                                            InputProps={{ readOnly: true }}
-                                            placeholder="-"
-                                            size="small"
-                                            error={
-                                                (item.status === MATCH_STATUS.MATCHED || item.status === MATCH_STATUS.LINKED)
-                                                && item.orderLine
-                                                && item.orderLine.LineStatus !== 'bost_Close'  
-                                                && item.xmlItem.qCom > (item.orderLine.OpenQty ?? 0)
-                                            }
-                                        />
+                                        {(() => {
+                                            const xmlUom = (item.xmlItem?.uCom || '').trim().toUpperCase()
+                                            const sapUom = (item.orderLine?.MeasureUnit || '').trim().toUpperCase()
+                                            const uomMismatch = xmlUom && sapUom && xmlUom !== sapUom
+                                            return (
+                                                <Box sx={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
+                                                    <TextField
+                                                        type="text"
+                                                        value={item.xmlItem ? `${formatNumber(item.xmlItem.qCom)} ${item.xmlItem.uCom}` : ''}
+                                                        InputProps={{ readOnly: true }}
+                                                        placeholder="-"
+                                                        size="small"
+                                                        error={
+                                                            !uomMismatch
+                                                            && (item.status === MATCH_STATUS.MATCHED || item.status === MATCH_STATUS.LINKED)
+                                                            && item.orderLine
+                                                            && item.orderLine.LineStatus !== 'bost_Close'
+                                                            && item.xmlItem.qCom > (item.orderLine.OpenQty ?? 0)
+                                                        }
+                                                        sx={{ flex: 1 }}
+                                                    />
+                                                    {uomMismatch && (
+                                                        <WarningAmberIcon
+                                                            sx={{ color: 'warning.main', fontSize: 18, flexShrink: 0 }}
+                                                            titleAccess={`Unidade do XML (${item.xmlItem.uCom}) difere do Pedido (${item.orderLine.MeasureUnit}). O sistema irá converter automaticamente.`}
+                                                        />
+                                                    )}
+                                                </Box>
+                                            )
+                                        })()}
                                     </TableCell>
                                     <TableCell width="8%" sx={{ padding: '3px' }}>
                                         <TextField
@@ -270,7 +288,7 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                     <TableCell width="6%" sx={{ padding: '3px' }}>
                                         <TextField
                                             type="text"
-                                            value={previewLine ? formatNumber(previewLine.Quantity) : ''}
+                                            value={previewLine ? `${formatNumber(previewLine.Quantity)} ${previewLine.MeasureUnit || ''}`.trim() : ''}
                                             InputProps={{ readOnly: true }}
                                             placeholder="-"
                                             size="small"

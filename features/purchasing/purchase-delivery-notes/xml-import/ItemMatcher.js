@@ -100,6 +100,7 @@ export async function matchXmlItemsWithOrder(xmlItems, orderLines, catalog) {
                 LineStatus: matchedOrderLine.LineStatus,
                 Price: matchedOrderLine.Price,
                 WarehouseCode: matchedOrderLine.WarehouseCode,
+                MeasureUnit: matchedOrderLine.MeasureUnit || '',
                 UoMEntry: matchedOrderLine.UoMEntry,
                 FreeText: matchedOrderLine.FreeText || ''
             } : null,
@@ -131,12 +132,24 @@ export function prepareDeliveryNoteLines(comparisonResults, orderDocEntry) {
             const vProd = item.xmlItem.vProd || 0
             const vDesc = item.xmlItem.vDesc || 0
             const qCom = item.xmlItem.qCom || 1
-            const grossUnitPrice = vProd / qCom
+            const xmlUom = (item.xmlItem.uCom || '').trim().toUpperCase()
+            const sapUom = (item.orderLine.MeasureUnit || '').trim().toUpperCase()
+            const hasUomMismatch = xmlUom && sapUom && xmlUom !== sapUom
+            const sapPrice = item.orderLine.Price || 0
+
+            let deliveryQty, grossUnitPrice
+            if (hasUomMismatch && sapPrice > 0) {
+                deliveryQty = Math.round((vProd / sapPrice) * 10000) / 10000
+                grossUnitPrice = deliveryQty > 0 ? vProd / deliveryQty : sapPrice
+            } else {
+                deliveryQty = qCom
+                grossUnitPrice = vProd / qCom
+            }
             const discountPercent = vProd > 0 ? (vDesc / vProd) * 100 : 0
 
             return {
                 ItemCode: item.sapItem.ItemCode,
-                Quantity: item.xmlItem.qCom,
+                Quantity: deliveryQty,
                 UnitPrice: grossUnitPrice,
                 DiscountPercent: discountPercent,
                 WarehouseCode: item.orderLine.WarehouseCode,
