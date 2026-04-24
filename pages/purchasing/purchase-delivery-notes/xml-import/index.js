@@ -152,7 +152,7 @@ export default function XmlImportPage() {
                 setAlert({
                     visible: true,
                     type: 'error',
-                    message: `Fornecedor com CNPJ ${parsedXml.cnpj} não encontrado no SAP.`
+                    message: `Fornecedor com CNPJ/CPF ${parsedXml.cnpj} não encontrado no SAP.`
                 })
                 setIsLoading(false)
                 return
@@ -162,7 +162,7 @@ export default function XmlImportPage() {
                 setAlert({
                     visible: true,
                     type: 'error',
-                    message: `O CNPJ ${parsedXml.cnpj} (${parsedXml.nomeEmitente}) está cadastrado no SAP como "${foundVendor.CardName}", mas está inativo. Ative o cadastro e tente novamente.`
+                    message: `O CNPJ/CPF ${parsedXml.cnpj} (${parsedXml.nomeEmitente}) está cadastrado no SAP como "${foundVendor.CardName}", mas está inativo. Ative o cadastro e tente novamente.`
                 })
                 setIsLoading(false)
                 return

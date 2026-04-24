@@ -52,6 +52,14 @@ function formatCNPJ(cnpj) {
     return digits
 }
 
+function formatCPF(cpf) {
+    const digits = cpf.replace(/\D/g, '')
+    if (digits.length === 11) {
+        return `${digits.slice(0, 3)}.${digits.slice(3, 6)}.${digits.slice(6, 9)}-${digits.slice(9, 11)}`
+    }
+    return digits
+}
+
 function isMatrizCNPJ(federalTaxID) {
     const digits = federalTaxID.replace(/\D/g, '')
     if (digits.length !== 14) return false
@@ -70,7 +78,8 @@ function getMatrizPrefixes(cnpj) {
 
 export async function findVendorByCNPJ(cnpj) {
     const raw = stripCNPJ(cnpj)
-    const formatted = formatCNPJ(cnpj)
+    const isCPF = raw.length === 11
+    const formatted = isCPF ? formatCPF(raw) : formatCNPJ(cnpj)
     const prefixes = getMatrizPrefixes(raw)
 
     // Etapa 1: busca pela matriz (prefixo do CNPJ com 0001)

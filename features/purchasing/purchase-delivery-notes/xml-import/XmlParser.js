@@ -22,9 +22,9 @@ export function parseXmlContent(xmlString) {
         throw new Error('XML inválido: tag <emit> (emitente) não encontrada.')
     }
 
-    const cnpj = String(emit.CNPJ || '')
+    const cnpj = String(emit.CNPJ || emit.CPF || '')
     if (!cnpj) {
-        throw new Error('XML inválido: CNPJ do emitente não encontrado.')
+        throw new Error('XML inválido: CNPJ/CPF do emitente não encontrado.')
     }
 
     const nomeEmitente = emit.xNome || ''
