@@ -363,8 +363,8 @@ export default function XmlImportPage() {
 
             const deliveryNote = {
                 CardCode: vendor.CardCode,
-                DocDate: xmlData.dhEmi ? xmlData.dhEmi.split('T')[0] : new Date().toISOString().split('T')[0],
-                TaxDate: docDate || new Date().toISOString().split('T')[0],
+                DocDate: docDate || (xmlData.dhEmi ? xmlData.dhEmi.split('T')[0] : new Date().toISOString().split('T')[0]),
+                TaxDate: xmlData.dhEmi ? xmlData.dhEmi.split('T')[0] : new Date().toISOString().split('T')[0],
                 Comments: `Importado via XML - NF ${xmlData.nNF}`,
                 U_ChaveAcesso: xmlData.chaveAcesso || '',
                 U_nfe_ChaveAcesso: xmlData.chaveAcesso || '',
