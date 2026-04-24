@@ -164,6 +164,7 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                     <TableCell>Qtd Pedido</TableCell>
                                     <TableCell>Preço Pedido</TableCell>
                                     <TableCell>Qtd Pendente</TableCell>
+                                    <TableCell>Depósito</TableCell>
                                 </TableRow>
                             </TableHead>
                     <TableBody>
@@ -177,7 +178,7 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                     key={index}
                                     sx={{ backgroundColor: getRowBackground(item) }}
                                 >
-                                    <TableCell width="6.8%" sx={{ padding: '3px' }}>
+                                    <TableCell width="7%" sx={{ padding: '3px' }}>
                                         <TextField
                                             type="text"
                                             value={item.xmlItem?.cProd ?? ''}
@@ -195,7 +196,7 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                             size="small"
                                         />
                                     </TableCell>
-                                    <TableCell width="7%" sx={{ padding: '3px' }}>
+                                    <TableCell width="6%" sx={{ padding: '3px' }}>
                                         <TextField
                                             type="text"
                                             value={item.xmlItem ? formatNumber(item.xmlItem.qCom) : ''}
@@ -222,7 +223,7 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                             title={item.xmlItem?.vDesc ? `Bruto: ${formatCurrency(item.xmlItem.vUnCom)} | Desc: ${formatCurrency(item.xmlItem.vDesc)}` : ''}
                                         />
                                     </TableCell>
-                                    <TableCell width="3%" sx={{ padding: '3px' }}>
+                                    <TableCell width="4%" sx={{ padding: '3px' }}>
                                         {item.status === MATCH_STATUS.NOT_IN_ORDER && item.xmlItem?.cProd ? (
                                             <span>
                                                 <Button
@@ -238,7 +239,7 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                             </span>
                                         ) : null}
                                     </TableCell>
-                                    <TableCell width="20%" sx={{ padding: '3px' }}>
+                                    <TableCell width="18%" sx={{ padding: '3px' }}>
                                         {item.status === MATCH_STATUS.NOT_IN_ORDER && item.xmlItem?.cProd ? (
                                             <MuiAutocomplete
                                                 options={orderItemOptions}
@@ -268,7 +269,7 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                             />
                                         )}
                                     </TableCell>
-                                    <TableCell width="8%" sx={{ padding: '3px' }}>
+                                    <TableCell width="6%" sx={{ padding: '3px' }}>
                                         <TextField
                                             type="text"
                                             value={previewLine ? formatNumber(previewLine.Quantity) : ''}
@@ -288,10 +289,20 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                             sx={isPreview ? { '& .MuiInputBase-input': { fontStyle: 'italic', color: 'text.secondary' } } : {}}
                                         />
                                     </TableCell>
-                                    <TableCell width="8%" sx={{ padding: '3px' }}>
+                                    <TableCell width="6%" sx={{ padding: '3px' }}>
                                         <TextField
                                             type="text"
                                             value={previewLine ? formatNumber(previewLine.RemainingOpenQuantity ?? previewLine.OpenQty ?? 0) : ''}
+                                            InputProps={{ readOnly: true }}
+                                            placeholder="-"
+                                            size="small"
+                                            sx={isPreview ? { '& .MuiInputBase-input': { fontStyle: 'italic', color: 'text.secondary' } } : {}}
+                                        />
+                                    </TableCell>
+                                    <TableCell width="9%" sx={{ padding: '3px' }}>
+                                        <TextField
+                                            type="text"
+                                            value={previewLine?.WarehouseCode ?? ''}
                                             InputProps={{ readOnly: true }}
                                             placeholder="-"
                                             size="small"
@@ -304,7 +315,7 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
 
                         {comparisonResults.length === 0 && (
                             <TableRow>
-                                <TableCell colSpan={9} align="center" sx={{ py: 4 }}>
+                                <TableCell colSpan={10} align="center" sx={{ py: 4 }}>
                                     <Typography color="text.secondary">
                                         Nenhum item para exibir
                                     </Typography>
