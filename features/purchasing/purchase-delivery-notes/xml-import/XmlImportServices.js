@@ -257,7 +257,7 @@ export async function createPurchaseDeliveryNote(purchaseDeliveryNote) {
         .get()
 
     const result = await doApiCall(query)
-    if (result.status === 400) {
+    if (result?.status >= 400) {
         const errorMessage = result?.data?.message?.value || 'Erro desconhecido'
         throw new Error(errorMessage)
     }
@@ -310,7 +310,7 @@ export async function getUoMGroup(uomGroupEntry) {
         .setUrl(`/UnitOfMeasurementGroups(${uomGroupEntry})`)
         .get()
     const result = await doApiCall(query)
-    return result?.UoMGroupDefinitionCollection ? result : null
+    return result?.AbsEntry != null ? result : null
 }
 
 export async function resolveUoMConversionFactor(xmlUomCode, orderUomEntry, uomGroupEntry) {
@@ -322,10 +322,24 @@ export async function resolveUoMConversionFactor(xmlUomCode, orderUomEntry, uomG
         ])
         if (!xmlUom || !group) return null
 
-        const defs     = group.UoMGroupDefinitionCollection
-        const xmlDef   = defs.find(d => d.AlternateUoM === xmlUom.AbsEntry)
+        const defs = group.UoMGroupDefinitionCollection || []
+
+        if (xmlUom.AbsEntry === group.BaseUoM) {
+            if (orderUomEntry === group.BaseUoM) return 1
+            const orderDef = defs.find(d => d.AlternateUoM === orderUomEntry)
+            if (!orderDef) return null
+            return orderDef.AlternateQuantity / orderDef.BaseQuantity
+        }
+
+        const xmlDef = defs.find(d => d.AlternateUoM === xmlUom.AbsEntry)
+        if (!xmlDef) return null
+
+        if (orderUomEntry === group.BaseUoM) {
+            return xmlDef.BaseQuantity / xmlDef.AlternateQuantity
+        }
+
         const orderDef = defs.find(d => d.AlternateUoM === orderUomEntry)
-        if (!xmlDef || !orderDef) return null
+        if (!orderDef) return null
 
         const xmlToBase   = xmlDef.BaseQuantity   / xmlDef.AlternateQuantity
         const baseToOrder = orderDef.AlternateQuantity / orderDef.BaseQuantity

@@ -28,6 +28,22 @@ export const MATCH_METHOD_LABELS = {
     [MATCH_METHOD.BY_MANUAL_LINK]: 'Vínculo Manual'
 }
 
+export function selectDeliveryQty(xmlItem, sapUom) {
+    const uCom = (xmlItem?.uCom || '').trim().toUpperCase()
+    const uTrib = (xmlItem?.uTrib || '').trim().toUpperCase()
+    const normalizedSapUom = (sapUom || '').trim().toUpperCase()
+
+    if (!normalizedSapUom || uCom === normalizedSapUom) {
+        return { qty: xmlItem?.qCom ?? 0, method: 'UNCHANGED' }
+    }
+    const qTribVal = xmlItem?.qTrib ?? 0
+    const qComVal  = xmlItem?.qCom  ?? 0
+    if (uTrib && uTrib === normalizedSapUom && qTribVal > 0 && Math.abs(qTribVal - qComVal) > 0.0001) {
+        return { qty: qTribVal, method: 'QTRIB' }
+    }
+    return null
+}
+
 export function findItemInCatalog(cProd, catalog) {
     const normalizedCProd = normalizeCatalogCode(cProd)
     const match = catalog.find(entry => 
@@ -130,6 +146,8 @@ export async function matchXmlItemsWithOrder(xmlItems, orderLines, catalog) {
 
 export async function prepareDeliveryNoteLines(comparisonResults, orderDocEntry) {
     const lines = []
+    const conversionWarnings = []
+    const overflowItems = []
 
     for (const item of comparisonResults.filter(r =>
         (r.status === MATCH_STATUS.MATCHED || r.status === MATCH_STATUS.LINKED) && r.orderLine
@@ -137,33 +155,67 @@ export async function prepareDeliveryNoteLines(comparisonResults, orderDocEntry)
         const vProd    = item.xmlItem.vProd || 0
         const vDesc    = item.xmlItem.vDesc || 0
         const qCom     = item.xmlItem.qCom  || 1
-        const qTrib    = item.xmlItem.qTrib  || 0
-        const uCom     = (item.xmlItem.uCom  || '').trim().toUpperCase()
-        const uTrib    = (item.xmlItem.uTrib || '').trim().toUpperCase()
         const sapUom   = (item.orderLine.MeasureUnit || '').trim().toUpperCase()
         const sapPrice = item.orderLine.Price || 0
 
         let deliveryQty = qCom
+        let usedFallback = false
 
-        if (uCom !== sapUom) {
-            if (uTrib && uTrib === sapUom && qTrib > 0) {
-                deliveryQty = qTrib
+        const direct = selectDeliveryQty(item.xmlItem, sapUom)
+
+        if (direct) {
+            deliveryQty = direct.qty
+        } else {
+            const factor = await resolveUoMConversionFactor(
+                item.xmlItem.uCom,
+                item.orderLine.UoMEntry,
+                item.sapItem?.UoMGroupEntry
+            )
+            if (factor !== null) {
+                deliveryQty = Math.round(qCom * factor * 1000000) / 1000000
             } else {
-                const factor = await resolveUoMConversionFactor(
-                    item.xmlItem.uCom,
-                    item.orderLine.UoMEntry,
-                    item.sapItem?.UoMGroupEntry
-                )
-                if (factor !== null) {
-                    deliveryQty = Math.round(qCom * factor * 1000000) / 1000000
-                } else if (sapPrice > 0) {
-                    deliveryQty = Math.round((vProd / sapPrice) * 10000) / 10000
+                usedFallback = true
+                if (sapPrice > 0) {
+                    const priceQty = Math.round((vProd / sapPrice) * 10000) / 10000
+                    deliveryQty = priceQty
+                    conversionWarnings.push({
+                        xProd: item.xmlItem.xProd,
+                        itemCode: item.sapItem?.ItemCode || '',
+                        xmlQty: qCom,
+                        xmlUom: item.xmlItem.uCom || '',
+                        deliveryQty: priceQty,
+                        sapUom,
+                        deviationPercent: null,
+                        noSapPrice: false
+                    })
+                } else {
+                    conversionWarnings.push({
+                        xProd: item.xmlItem.xProd,
+                        itemCode: item.sapItem?.ItemCode || '',
+                        xmlQty: qCom,
+                        xmlUom: item.xmlItem.uCom || '',
+                        deliveryQty: qCom,
+                        sapUom,
+                        deviationPercent: null,
+                        noSapPrice: true
+                    })
                 }
             }
         }
 
         const grossUnitPrice  = deliveryQty > 0 ? vProd / deliveryQty : sapPrice
         const discountPercent = vProd > 0 ? (vDesc / vProd) * 100 : 0
+
+        const openQty = item.orderLine.OpenQty ?? 0
+        if (openQty > 0 && deliveryQty > openQty && item.orderLine.LineStatus !== 'bost_Close') {
+            overflowItems.push({
+                xProd: item.xmlItem.xProd,
+                deliveryQty,
+                openQty,
+                sapUom,
+                usedFallback
+            })
+        }
 
         lines.push({
             ItemCode: item.sapItem.ItemCode,
@@ -178,7 +230,7 @@ export async function prepareDeliveryNoteLines(comparisonResults, orderDocEntry)
         })
     }
 
-    return lines
+    return { lines, conversionWarnings, overflowItems }
 }
 
 export function checkCriticalDivergences(stats) {

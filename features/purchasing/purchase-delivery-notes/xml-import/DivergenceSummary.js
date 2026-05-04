@@ -20,7 +20,8 @@ export default function DivergenceSummary({
     onDocDateChange,
     payToCode = '',
     onPayToCodeChange,
-    addresses = []
+    addresses = [],
+    conversionWarnings = []
 }) {
     const incotermsList = getIncotermsList()
     const incotermLabel = incotermsList.find(i => String(i.value) === String(xmlData?.modFrete))?.description || xmlData?.modFrete || '-'
@@ -35,7 +36,7 @@ export default function DivergenceSummary({
 
     const getOverallStatus = () => {
         if (hasErrors) return 'error'
-        if (hasWarnings) return 'warning'
+        if (hasWarnings || conversionWarnings.length > 0) return 'warning'
         return 'success'
     }
 
@@ -87,6 +88,31 @@ export default function DivergenceSummary({
                             <li key={index}>{warning}</li>
                         ))}
                     </ul>
+                </Alert>
+            )}
+
+            {conversionWarnings.length > 0 && (
+                <Alert severity="warning" sx={{ mb: 2 }}>
+                    <AlertTitle>Conversão de UoM — Fallback por Preço</AlertTitle>
+                    <Typography variant="body2" sx={{ mb: 1 }}>
+                        Os itens abaixo não possuem conversão cadastrada no grupo de UoM do SAP B1.
+                        A quantidade foi estimada dividindo o valor do produto (vProd) pelo preço unitário do pedido.
+                        Verifique se as quantidades estão corretas antes de criar o recebimento.
+                    </Typography>
+                    <ul style={{ margin: 0, paddingLeft: 20 }}>
+                        {conversionWarnings.map((w, i) => (
+                            <li key={i}>
+                                <strong>{w.xProd}</strong> ({w.itemCode}): 
+                                {w.xmlQty} {w.xmlUom} → <strong>{w.deliveryQty} {w.sapUom}</strong>
+                                {w.deviationPercent !== null
+                                    ? ` — desvio: ${w.deviationPercent.toFixed(1)}% em relação à qty tributável`
+                                    : ' — sem quantidade tributável de referência'}
+                            </li>
+                        ))}
+                    </ul>
+                    <Typography variant="caption" color="text.secondary" sx={{ mt: 1, display: 'block' }}>
+                        Para conversão automática, cadastre a relação entre as unidades no Grupo de UoM do item no SAP B1.
+                    </Typography>
                 </Alert>
             )}
 

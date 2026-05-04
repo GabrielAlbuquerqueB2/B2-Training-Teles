@@ -8,7 +8,7 @@ import PurchaseOrderSelector from '../../../../features/purchasing/purchase-deli
 import ItemComparisonGrid from '../../../../features/purchasing/purchase-delivery-notes/xml-import/ItemComparisonGrid'
 import DivergenceSummary from '../../../../features/purchasing/purchase-delivery-notes/xml-import/DivergenceSummary'
 import { parseXmlContent } from '../../../../features/purchasing/purchase-delivery-notes/xml-import/XmlParser'
-import { findVendorByCNPJ, getOpenPurchaseOrdersByVendor, getPurchaseOrderByDocEntry, getVendorCatalog, createPurchaseDeliveryNote, getBranchByIE, getVendorAddresses } from '../../../../features/purchasing/purchase-delivery-notes/xml-import/XmlImportServices'
+import { findVendorByCNPJ, getOpenPurchaseOrdersByVendor, getPurchaseOrderByDocEntry, getVendorCatalog, createPurchaseDeliveryNote, getBranchByIE, getVendorAddresses, getItemDetailsByCode } from '../../../../features/purchasing/purchase-delivery-notes/xml-import/XmlImportServices'
 import { matchXmlItemsWithOrder, prepareDeliveryNoteLines, checkCriticalDivergences, MATCH_STATUS, MATCH_METHOD } from '../../../../features/purchasing/purchase-delivery-notes/xml-import/ItemMatcher'
 import { getAdditionalExpenses } from '../../../../features/purchasing/purchase-delivery-notes/PurchaseDeliveryNotesServices'
 import PurchaseDeliveryNotesExpenses from '../../../../features/purchasing/purchase-delivery-notes/PurchaseDeliveryNotesExpenses'
@@ -54,6 +54,7 @@ export default function XmlImportPage() {
     const [payToCode, setPayToCode] = useState(saved?.payToCode ?? '')
     const [addresses, setAddresses] = useState(saved?.addresses ?? [])
     const [expenses, setExpenses] = useState(saved?.expenses ?? [])
+    const [conversionWarnings, setConversionWarnings] = useState(saved?.conversionWarnings ?? [])
     const [additionalExpensesList, setAdditionalExpensesList] = useState([])
     const [alert, setAlert] = useState({ visible: false, type: '', message: '' })
 
@@ -76,9 +77,10 @@ export default function XmlImportPage() {
             docDate,
             payToCode,
             addresses,
-            expenses
+            expenses,
+            conversionWarnings
         })
-    }, [activeStep, xmlData, vendor, purchaseOrders, selectedOrder, orderDetails, catalog, comparisonResults, stats, divergenceCheck, docDate, payToCode, addresses, expenses])
+    }, [activeStep, xmlData, vendor, purchaseOrders, selectedOrder, orderDetails, catalog, comparisonResults, stats, divergenceCheck, docDate, payToCode, addresses, expenses, conversionWarnings])
 
     useEffect(() => {
         if (saved?.activeStep >= 2 && saved?.vendor && saved?.xmlData && saved?.selectedOrder) {
@@ -284,6 +286,7 @@ export default function XmlImportPage() {
 
             setComparisonResults(matchResult.comparisonResults)
             setStats(matchResult.stats)
+            setConversionWarnings([])
 
             const check = checkCriticalDivergences(matchResult.stats)
             setDivergenceCheck(check)
@@ -304,64 +307,80 @@ export default function XmlImportPage() {
         }
     }
 
-    function handleGoToConfirm() {
-        const overflowItem = comparisonResults.find(item => {
-            if (!(item.status === MATCH_STATUS.MATCHED || item.status === MATCH_STATUS.LINKED)) return false
-            if (!item.orderLine) return false
-            const xmlUom    = (item.xmlItem?.uCom  || '').trim().toUpperCase()
-            const uTrib     = (item.xmlItem?.uTrib || '').trim().toUpperCase()
-            const sapUom    = (item.orderLine.MeasureUnit || '').trim().toUpperCase()
-            const hasUomMismatch = xmlUom && sapUom && xmlUom !== sapUom && uTrib !== sapUom
-            if (hasUomMismatch) return false
-            const compareQty = (uTrib === sapUom && item.xmlItem.qTrib) ? item.xmlItem.qTrib : item.xmlItem.qCom
-            return compareQty > (item.orderLine.OpenQty ?? 0)
-        })
+    async function handleGoToConfirm() {
+        setIsLoading(true)
+        setAlert({ visible: false, type: '', message: '' })
 
-        if (overflowItem) {
-            const jaRecebido = overflowItem.orderLine.LineStatus === 'bost_Close'
-            const uTrib  = (overflowItem.xmlItem?.uTrib || '').trim().toUpperCase()
-            const sapUom = (overflowItem.orderLine.MeasureUnit || '').trim().toUpperCase()
-            const usesTrib   = uTrib === sapUom && overflowItem.xmlItem.qTrib
-            const displayQty = usesTrib ? overflowItem.xmlItem.qTrib : overflowItem.xmlItem.qCom
-            const displayUom = usesTrib ? uTrib : (overflowItem.xmlItem.uCom || '')
+        try {
+            const { conversionWarnings: warnings, overflowItems } = await prepareDeliveryNoteLines(
+                comparisonResults,
+                selectedOrder?.DocEntry
+            )
+
+            if (overflowItems.length > 0) {
+                const first = overflowItems[0]
+                const prefix = first.usedFallback
+                    ? `Após conversão de UoM por fallback de preço, o item`
+                    : `O item`
+                setAlert({
+                    visible: true,
+                    type: 'error',
+                    message: `${prefix} "${first.xProd}" resultou em ${first.deliveryQty} ${first.sapUom}, excedendo o saldo em aberto do pedido (${first.openQty} ${first.sapUom}).`
+                })
+                return
+            }
+
+            const criticalWarnings = warnings.filter(w =>
+                w.noSapPrice || (w.deviationPercent !== null && w.deviationPercent > 5)
+            )
+            if (criticalWarnings.length > 0) {
+                const w = criticalWarnings[0]
+                const msg = w.noSapPrice
+                    ? `Não foi possível converter a unidade do item "${w.xProd}" (${w.xmlUom} → ${w.sapUom}): preço do pedido é zero e não há conversão cadastrada no grupo de UoM no SAP B1.`
+                    : `Conversão de UoM por fallback de preço no item "${w.xProd}" resultou em desvio de ${w.deviationPercent.toFixed(1)}% em relação à quantidade tributável (${w.xmlQty} ${w.xmlUom} → ${w.deliveryQty} ${w.sapUom}). Cadastre a relação de conversão no grupo de UoM do item no SAP B1.`
+                setAlert({ visible: true, type: 'error', message: msg })
+                return
+            }
+
+            const recalculated = {
+                totalXmlItems: comparisonResults.filter(r => r.xmlItem).length,
+                matchedCount: comparisonResults.filter(r => r.status === MATCH_STATUS.MATCHED || r.status === MATCH_STATUS.LINKED).length,
+                notInOrderCount: comparisonResults.filter(r => r.status === MATCH_STATUS.NOT_IN_ORDER).length,
+                notInXmlCount: comparisonResults.filter(r => r.status === MATCH_STATUS.NOT_IN_XML).length
+            }
+            setStats(recalculated)
+
+            const check = checkCriticalDivergences(recalculated)
+            setDivergenceCheck(check)
+
+            if (!check.canProceed) {
+                setAlert({
+                    visible: true,
+                    type: 'error',
+                    message: check.errors?.[0] || 'Existem divergências críticas que impedem o recebimento.'
+                })
+                return
+            }
+
+            setConversionWarnings(warnings)
+            setActiveStep(3)
+
+        } catch (error) {
             setAlert({
                 visible: true,
                 type: 'error',
-                message: jaRecebido
-                    ? `Os itens destacados em laranja já tiveram seu recebimento realizado no pedido e não possuem saldo em aberto.`
-                    : `O item "${overflowItem.xmlItem.xProd}" tem quantidade do XML (${displayQty} ${displayUom}) maior que a quantidade em aberto do pedido (${overflowItem.orderLine.OpenQty} ${overflowItem.orderLine.MeasureUnit}).`
+                message: `Erro ao validar conversões de UoM: ${error.message}`
             })
-            return
+        } finally {
+            setIsLoading(false)
         }
-
-        const recalculated = {
-            totalXmlItems: comparisonResults.filter(r => r.xmlItem).length,
-            matchedCount: comparisonResults.filter(r => r.status === MATCH_STATUS.MATCHED || r.status === MATCH_STATUS.LINKED).length,
-            notInOrderCount: comparisonResults.filter(r => r.status === MATCH_STATUS.NOT_IN_ORDER).length,
-            notInXmlCount: comparisonResults.filter(r => r.status === MATCH_STATUS.NOT_IN_XML).length
-        }
-        setStats(recalculated)
-
-        const check = checkCriticalDivergences(recalculated)
-        setDivergenceCheck(check)
-
-        if (!check.canProceed) {
-            setAlert({
-                visible: true,
-                type: 'error',
-                message: check.errors?.[0] || 'Existem divergências críticas que impedem o recebimento.'
-            })
-            return
-        }
-
-        setActiveStep(3)
     }
 
     async function handleCreateDeliveryNote() {
         setIsLoading(true)
 
         try {
-            const documentLines = await prepareDeliveryNoteLines(
+            const { lines: documentLines } = await prepareDeliveryNoteLines(
                 comparisonResults, 
                 selectedOrder?.DocEntry
             )
@@ -430,7 +449,10 @@ export default function XmlImportPage() {
         }
     }
 
-    function handleItemLinked(index, selectedItem, orderLine) {
+    async function handleItemLinked(index, selectedItem, orderLine) {
+        let itemDetails = null
+        try { itemDetails = await getItemDetailsByCode(selectedItem.itemCode) } catch {}
+
         setComparisonResults(prev => {
             const updated = [...prev]
             updated[index] = {
@@ -439,7 +461,10 @@ export default function XmlImportPage() {
                 matchMethod: MATCH_METHOD.BY_MANUAL_LINK,
                 sapItem: {
                     ItemCode: selectedItem.itemCode,
-                    ItemName: selectedItem.label || selectedItem.itemCode
+                    ItemName: itemDetails?.itemName || selectedItem.label || selectedItem.itemCode,
+                    MeasureUnit: itemDetails?.measureUnit || '',
+                    UoMEntry: itemDetails?.uoMEntry || null,
+                    UoMGroupEntry: itemDetails?.uomGroupEntry || null
                 },
                 orderLine: orderLine ? {
                     LineNum: orderLine.LineNum,
@@ -485,6 +510,7 @@ export default function XmlImportPage() {
         setPayToCode('')
         setAddresses([])
         setExpenses([])
+        setConversionWarnings([])
         setAlert({ visible: false, type: '', message: '' })
     }
 
@@ -553,6 +579,7 @@ export default function XmlImportPage() {
                         payToCode={payToCode}
                         onPayToCodeChange={setPayToCode}
                         addresses={addresses}
+                        conversionWarnings={conversionWarnings}
                     />
                 )
 

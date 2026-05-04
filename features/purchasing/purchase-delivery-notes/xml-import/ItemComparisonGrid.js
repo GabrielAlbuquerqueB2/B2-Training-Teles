@@ -6,7 +6,7 @@ import WarningIcon from '@mui/icons-material/Warning'
 import WarningAmberIcon from '@mui/icons-material/WarningAmber'
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 import LinkIcon from '@mui/icons-material/Link'
-import { MATCH_STATUS, STATUS_COLORS } from './ItemMatcher'
+import { MATCH_STATUS, STATUS_COLORS, selectDeliveryQty } from './ItemMatcher'
 import { createAlternateCatNum, getAlternateCatNumBySupplierAndCode, deleteAlternateCatNum } from './XmlImportServices'
 
 function formatCurrency(value) {
@@ -202,9 +202,8 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                             const xmlUomTrib = (item.xmlItem?.uTrib || '').trim().toUpperCase()
                                             const sapUom  = (item.orderLine?.MeasureUnit || '').trim().toUpperCase()
                                             const uomMismatch = xmlUom && sapUom && xmlUom !== sapUom && xmlUomTrib !== sapUom
-                                            const compareQty = (!uomMismatch && xmlUomTrib === sapUom && item.xmlItem?.qTrib)
-                                                ? item.xmlItem.qTrib
-                                                : item.xmlItem?.qCom
+                                            const directResult = selectDeliveryQty(item.xmlItem, item.orderLine?.MeasureUnit || '')
+                                            const compareQty = directResult?.qty ?? (item.xmlItem?.qCom ?? 0)
                                             return (
                                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
                                                     <TextField
