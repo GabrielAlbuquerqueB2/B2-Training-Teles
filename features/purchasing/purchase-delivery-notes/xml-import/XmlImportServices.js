@@ -237,7 +237,7 @@ export async function getItemDetailsByCode(itemCode) {
         .get()
 
     const result = await doApiCall(query)
-    if (result.status === 400 || !result.ItemCode) {
+    if (result?.status >= 400 || !result.ItemCode) {
         return { itemCode: itemCode, itemName: itemCode, measureUnit: '', uoMEntry: null, uomGroupEntry: null }
     }
     return {
@@ -291,11 +291,12 @@ export async function createAlternateCatNum(cardCode, vendorItemCode, itemCode) 
 
 export async function getUoMEntryByCode(uomCode) {
     if (!uomCode) return null
+    const normalized = uomCode.trim().toUpperCase()
     const query = new Api()
         .setMethod('GET')
         .setUrl('/UnitOfMeasurements')
         .setParams({
-            $filter: `Code eq '${uomCode}'`,
+            $filter: `Code eq '${normalized}'`,
             $select: 'AbsEntry,Code,Name'
         })
         .get()

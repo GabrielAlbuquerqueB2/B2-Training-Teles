@@ -178,6 +178,9 @@ export async function prepareDeliveryNoteLines(comparisonResults, orderDocEntry)
                 if (sapPrice > 0) {
                     const priceQty = Math.round((vProd / sapPrice) * 10000) / 10000
                     deliveryQty = priceQty
+                    const qTribVal = item.xmlItem.qTrib ?? 0
+                    const qTribIsReal = qTribVal > 0 && Math.abs(qTribVal - qCom) > 0.0001
+                    const deviationPercent = qTribIsReal ? Math.abs(priceQty - qTribVal) / qTribVal * 100 : null
                     conversionWarnings.push({
                         xProd: item.xmlItem.xProd,
                         itemCode: item.sapItem?.ItemCode || '',
@@ -185,7 +188,7 @@ export async function prepareDeliveryNoteLines(comparisonResults, orderDocEntry)
                         xmlUom: item.xmlItem.uCom || '',
                         deliveryQty: priceQty,
                         sapUom,
-                        deviationPercent: null,
+                        deviationPercent,
                         noSapPrice: false
                     })
                 } else {
@@ -223,7 +226,7 @@ export async function prepareDeliveryNoteLines(comparisonResults, orderDocEntry)
             UnitPrice: grossUnitPrice,
             DiscountPercent: discountPercent,
             WarehouseCode: item.orderLine.WarehouseCode,
-            UoMEntry: item.orderLine.UoMEntry,
+            UoMEntry: item.orderLine.UoMEntry || undefined,
             BaseType: 22,
             BaseEntry: orderDocEntry,
             BaseLine: item.orderLine.LineNum

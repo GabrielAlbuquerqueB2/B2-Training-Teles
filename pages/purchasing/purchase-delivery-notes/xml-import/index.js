@@ -404,7 +404,7 @@ export default function XmlImportPage() {
                 PayToCode: payToCode || undefined,
                 BPL_IDAssignedToInvoice: selectedOrder?.BPL_IDAssignedToInvoice,
                 TaxExtension: {
-                    Incoterms: xmlData.modFrete || undefined,
+                    Incoterms: undefined,
                     Vehicle: xmlData.placa || undefined,
                     VehicleState: xmlData.veicUF || undefined,
                     ...(selectedAddress ? {
