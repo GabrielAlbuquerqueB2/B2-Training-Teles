@@ -305,20 +305,31 @@ export default function XmlImportPage() {
     }
 
     function handleGoToConfirm() {
-        const overflowItem = comparisonResults.find(item =>
-            (item.status === MATCH_STATUS.MATCHED || item.status === MATCH_STATUS.LINKED)
-            && item.orderLine
-            && item.xmlItem.qCom > item.orderLine.OpenQty
-        )
+        const overflowItem = comparisonResults.find(item => {
+            if (!(item.status === MATCH_STATUS.MATCHED || item.status === MATCH_STATUS.LINKED)) return false
+            if (!item.orderLine) return false
+            const xmlUom    = (item.xmlItem?.uCom  || '').trim().toUpperCase()
+            const uTrib     = (item.xmlItem?.uTrib || '').trim().toUpperCase()
+            const sapUom    = (item.orderLine.MeasureUnit || '').trim().toUpperCase()
+            const hasUomMismatch = xmlUom && sapUom && xmlUom !== sapUom && uTrib !== sapUom
+            if (hasUomMismatch) return false  // UMs incomparáveis aqui; SAP valida no POST
+            const compareQty = (uTrib === sapUom && item.xmlItem.qTrib) ? item.xmlItem.qTrib : item.xmlItem.qCom
+            return compareQty > (item.orderLine.OpenQty ?? 0)
+        })
 
         if (overflowItem) {
             const jaRecebido = overflowItem.orderLine.LineStatus === 'bost_Close'
+            const uTrib  = (overflowItem.xmlItem?.uTrib || '').trim().toUpperCase()
+            const sapUom = (overflowItem.orderLine.MeasureUnit || '').trim().toUpperCase()
+            const usesTrib   = uTrib === sapUom && overflowItem.xmlItem.qTrib
+            const displayQty = usesTrib ? overflowItem.xmlItem.qTrib : overflowItem.xmlItem.qCom
+            const displayUom = usesTrib ? uTrib : (overflowItem.xmlItem.uCom || '')
             setAlert({
                 visible: true,
                 type: 'error',
                 message: jaRecebido
                     ? `Os itens destacados em laranja já tiveram seu recebimento realizado no pedido e não possuem saldo em aberto.`
-                    : `O item "${overflowItem.xmlItem.xProd}" tem quantidade do XML (${overflowItem.xmlItem.qCom}) maior que a quantidade em aberto do pedido (${overflowItem.orderLine.OpenQty}).`
+                    : `O item "${overflowItem.xmlItem.xProd}" tem quantidade do XML (${displayQty} ${displayUom}) maior que a quantidade em aberto do pedido (${overflowItem.orderLine.OpenQty} ${overflowItem.orderLine.MeasureUnit}).`
             })
             return
         }
@@ -350,7 +361,7 @@ export default function XmlImportPage() {
         setIsLoading(true)
 
         try {
-            const documentLines = prepareDeliveryNoteLines(
+            const documentLines = await prepareDeliveryNoteLines(
                 comparisonResults, 
                 selectedOrder?.DocEntry
             )

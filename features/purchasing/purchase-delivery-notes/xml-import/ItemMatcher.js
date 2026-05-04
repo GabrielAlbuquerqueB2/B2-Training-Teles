@@ -1,5 +1,5 @@
 import { normalizeCatalogCode } from '../../../../utils/normalizeCatalogCode'
-import { getItemDetailsByCode } from './XmlImportServices'
+import { getItemDetailsByCode, resolveUoMConversionFactor } from './XmlImportServices'
 
 export const MATCH_STATUS = {
     MATCHED: 'matched',
@@ -83,13 +83,16 @@ export async function matchXmlItemsWithOrder(xmlItems, orderLines, catalog) {
                 vDesc: xmlItem.vDesc || 0,
                 vIPI: xmlItem.vIPI || 0,
                 uCom: xmlItem.uCom,
+                uTrib: xmlItem.uTrib,
+                qTrib: xmlItem.qTrib,
                 nItemPed: xmlItem.nItemPed
             },
             sapItem: itemDetails ? {
                 ItemCode: itemDetails.itemCode,
                 ItemName: itemDetails.itemName,
                 MeasureUnit: itemDetails.measureUnit,
-                UoMEntry: itemDetails.uoMEntry
+                UoMEntry: itemDetails.uoMEntry,
+                UoMGroupEntry: itemDetails.uomGroupEntry
             } : null,
             orderLine: matchedOrderLine ? {
                 LineNum: matchedOrderLine.LineNum,
@@ -125,40 +128,60 @@ export async function matchXmlItemsWithOrder(xmlItems, orderLines, catalog) {
     }
 }
 
-export function prepareDeliveryNoteLines(comparisonResults, orderDocEntry) {
-    return comparisonResults
-        .filter(item => (item.status === MATCH_STATUS.MATCHED || item.status === MATCH_STATUS.LINKED) && item.orderLine)
-        .map(item => {
-            const vProd = item.xmlItem.vProd || 0
-            const vDesc = item.xmlItem.vDesc || 0
-            const qCom = item.xmlItem.qCom || 1
-            const xmlUom = (item.xmlItem.uCom || '').trim().toUpperCase()
-            const sapUom = (item.orderLine.MeasureUnit || '').trim().toUpperCase()
-            const hasUomMismatch = xmlUom && sapUom && xmlUom !== sapUom
-            const sapPrice = item.orderLine.Price || 0
+export async function prepareDeliveryNoteLines(comparisonResults, orderDocEntry) {
+    const lines = []
 
-            let deliveryQty, grossUnitPrice
-            if (hasUomMismatch && sapPrice > 0) {
-                deliveryQty = Math.round((vProd / sapPrice) * 10000) / 10000
-                grossUnitPrice = deliveryQty > 0 ? vProd / deliveryQty : sapPrice
+    for (const item of comparisonResults.filter(r =>
+        (r.status === MATCH_STATUS.MATCHED || r.status === MATCH_STATUS.LINKED) && r.orderLine
+    )) {
+        const vProd    = item.xmlItem.vProd || 0
+        const vDesc    = item.xmlItem.vDesc || 0
+        const qCom     = item.xmlItem.qCom  || 1
+        const qTrib    = item.xmlItem.qTrib  || 0
+        const uCom     = (item.xmlItem.uCom  || '').trim().toUpperCase()
+        const uTrib    = (item.xmlItem.uTrib || '').trim().toUpperCase()
+        const sapUom   = (item.orderLine.MeasureUnit || '').trim().toUpperCase()
+        const sapPrice = item.orderLine.Price || 0
+
+        let deliveryQty = qCom
+
+        if (uCom !== sapUom) {
+            // Prioridade 1: uTrib do XML já está na UM do pedido — usa qTrib diretamente
+            if (uTrib && uTrib === sapUom && qTrib > 0) {
+                deliveryQty = qTrib
             } else {
-                deliveryQty = qCom
-                grossUnitPrice = vProd / qCom
+                // Prioridade 2: busca fator de conversão real do grupo de UM do SAP B1
+                const factor = await resolveUoMConversionFactor(
+                    item.xmlItem.uCom,
+                    item.orderLine.UoMEntry,
+                    item.sapItem?.UoMGroupEntry
+                )
+                if (factor !== null) {
+                    deliveryQty = Math.round(qCom * factor * 1000000) / 1000000
+                } else if (sapPrice > 0) {
+                    // Prioridade 3: fallback por preço (menos confiável)
+                    deliveryQty = Math.round((vProd / sapPrice) * 10000) / 10000
+                }
             }
-            const discountPercent = vProd > 0 ? (vDesc / vProd) * 100 : 0
+        }
 
-            return {
-                ItemCode: item.sapItem.ItemCode,
-                Quantity: deliveryQty,
-                UnitPrice: grossUnitPrice,
-                DiscountPercent: discountPercent,
-                WarehouseCode: item.orderLine.WarehouseCode,
-                UoMEntry: item.orderLine.UoMEntry,
-                BaseType: 22,
-                BaseEntry: orderDocEntry,
+        const grossUnitPrice  = deliveryQty > 0 ? vProd / deliveryQty : sapPrice
+        const discountPercent = vProd > 0 ? (vDesc / vProd) * 100 : 0
+
+        lines.push({
+            ItemCode: item.sapItem.ItemCode,
+            Quantity: deliveryQty,
+            UnitPrice: grossUnitPrice,
+            DiscountPercent: discountPercent,
+            WarehouseCode: item.orderLine.WarehouseCode,
+            UoMEntry: item.orderLine.UoMEntry,
+            BaseType: 22,
+            BaseEntry: orderDocEntry,
             BaseLine: item.orderLine.LineNum
-            }
         })
+    }
+
+    return lines
 }
 
 export function checkCriticalDivergences(stats) {

@@ -199,9 +199,13 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                     </TableCell>
                                     <TableCell width="6%" sx={{ padding: '3px' }}>
                                         {(() => {
-                                            const xmlUom = (item.xmlItem?.uCom || '').trim().toUpperCase()
-                                            const sapUom = (item.orderLine?.MeasureUnit || '').trim().toUpperCase()
-                                            const uomMismatch = xmlUom && sapUom && xmlUom !== sapUom
+                                            const xmlUom  = (item.xmlItem?.uCom  || '').trim().toUpperCase()
+                                            const xmlUomTrib = (item.xmlItem?.uTrib || '').trim().toUpperCase()
+                                            const sapUom  = (item.orderLine?.MeasureUnit || '').trim().toUpperCase()
+                                            const uomMismatch = xmlUom && sapUom && xmlUom !== sapUom && xmlUomTrib !== sapUom
+                                            const compareQty = (!uomMismatch && xmlUomTrib === sapUom && item.xmlItem?.qTrib)
+                                                ? item.xmlItem.qTrib
+                                                : item.xmlItem?.qCom
                                             return (
                                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
                                                     <TextField
@@ -215,7 +219,7 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
                                                             && (item.status === MATCH_STATUS.MATCHED || item.status === MATCH_STATUS.LINKED)
                                                             && item.orderLine
                                                             && item.orderLine.LineStatus !== 'bost_Close'
-                                                            && item.xmlItem.qCom > (item.orderLine.OpenQty ?? 0)
+                                                            && compareQty > (item.orderLine.OpenQty ?? 0)
                                                         }
                                                         sx={{ flex: 1 }}
                                                     />

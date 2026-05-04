@@ -235,19 +235,20 @@ export async function getItemDetailsByCode(itemCode) {
         .setMethod('GET')
         .setUrl(`/Items('${itemCode}')`)
         .setParams({
-            $select: 'ItemCode,ItemName,InventoryUOM,DefaultPurchasingUoMEntry,InventoryUoMEntry'
+            $select: 'ItemCode,ItemName,InventoryUOM,DefaultPurchasingUoMEntry,InventoryUoMEntry,UoMGroupEntry'
         })
         .get()
 
     const result = await doApiCall(query)
     if (result.status === 400 || !result.ItemCode) {
-        return { itemName: itemCode, measureUnit: '', uoMEntry: null }
+        return { itemCode: itemCode, itemName: itemCode, measureUnit: '', uoMEntry: null, uomGroupEntry: null }
     }
     return {
         itemCode: result.ItemCode,
         itemName: result.ItemName || itemCode,
         measureUnit: result.InventoryUOM || '',
-        uoMEntry: result.DefaultPurchasingUoMEntry || result.InventoryUoMEntry || null
+        uoMEntry: result.DefaultPurchasingUoMEntry || result.InventoryUoMEntry || null,
+        uomGroupEntry: result.UoMGroupEntry || null
     }
 }
 
@@ -289,4 +290,61 @@ export async function createAlternateCatNum(cardCode, vendorItemCode, itemCode) 
         throw new Error(errorMessage)
     }
     return result
+}
+
+// ---------------------------------------------------------------------------
+// Conversão de Unidade de Medida via grupos do SAP B1
+// ---------------------------------------------------------------------------
+
+export async function getUoMEntryByCode(uomCode) {
+    if (!uomCode) return null
+    const query = new Api()
+        .setMethod('GET')
+        .setUrl('/UnitOfMeasurements')
+        .setParams({
+            $filter: `Code eq '${uomCode}'`,
+            $select: 'AbsEntry,Code,Name'
+        })
+        .get()
+    const result = await doApiCall(query)
+    return result.value?.[0] || null
+}
+
+export async function getUoMGroup(uomGroupEntry) {
+    if (!uomGroupEntry) return null
+    const query = new Api()
+        .setMethod('GET')
+        .setUrl(`/UnitOfMeasurementGroups(${uomGroupEntry})`)
+        .get()
+    const result = await doApiCall(query)
+    return result?.UoMGroupDefinitionCollection ? result : null
+}
+
+/**
+ * Calcula o fator de conversão entre a UM do XML (uCom) e a UM do pedido SAP.
+ * Retorna `factor` tal que: deliveryQty = qCom * factor
+ * Retorna null se não conseguir resolver via grupo.
+ */
+export async function resolveUoMConversionFactor(xmlUomCode, orderUomEntry, uomGroupEntry) {
+    if (!uomGroupEntry || !xmlUomCode || orderUomEntry == null) return null
+    try {
+        const [xmlUom, group] = await Promise.all([
+            getUoMEntryByCode(xmlUomCode),
+            getUoMGroup(uomGroupEntry)
+        ])
+        if (!xmlUom || !group) return null
+
+        const defs     = group.UoMGroupDefinitionCollection
+        const xmlDef   = defs.find(d => d.AlternateUoM === xmlUom.AbsEntry)
+        const orderDef = defs.find(d => d.AlternateUoM === orderUomEntry)
+        if (!xmlDef || !orderDef) return null
+
+        // xmlDef:   BaseQuantity base-units = AlternateQuantity xml-units
+        // orderDef: BaseQuantity base-units = AlternateQuantity order-units
+        const xmlToBase   = xmlDef.BaseQuantity   / xmlDef.AlternateQuantity
+        const baseToOrder = orderDef.AlternateQuantity / orderDef.BaseQuantity
+        return xmlToBase * baseToOrder
+    } catch {
+        return null
+    }
 }
