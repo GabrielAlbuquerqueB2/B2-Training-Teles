@@ -82,7 +82,6 @@ export async function findVendorByCNPJ(cnpj) {
     const formatted = isCPF ? formatCPF(raw) : formatCNPJ(cnpj)
     const prefixes = getMatrizPrefixes(raw)
 
-    // Etapa 1: busca pela matriz (prefixo do CNPJ com 0001)
     if (prefixes) {
         const matrizQuery = new Api()
             .setMethod('GET')
@@ -99,7 +98,6 @@ export async function findVendorByCNPJ(cnpj) {
         }
     }
 
-    // Etapa 2: fallback — busca pelo CNPJ exato (caso SAP tenha só a filial cadastrada)
     const exactQuery = new Api()
         .setMethod('GET')
         .setUrl('/BusinessPartners')
@@ -115,7 +113,6 @@ export async function findVendorByCNPJ(cnpj) {
         return matriz || exactResult.value[0]
     }
 
-    // Etapa 3: verifica se existe como inativo para fornecer mensagem mais clara ao usuário
     const inactiveQuery = new Api()
         .setMethod('GET')
         .setUrl('/BusinessPartners')
@@ -292,10 +289,6 @@ export async function createAlternateCatNum(cardCode, vendorItemCode, itemCode) 
     return result
 }
 
-// ---------------------------------------------------------------------------
-// Conversão de Unidade de Medida via grupos do SAP B1
-// ---------------------------------------------------------------------------
-
 export async function getUoMEntryByCode(uomCode) {
     if (!uomCode) return null
     const query = new Api()
@@ -320,11 +313,6 @@ export async function getUoMGroup(uomGroupEntry) {
     return result?.UoMGroupDefinitionCollection ? result : null
 }
 
-/**
- * Calcula o fator de conversão entre a UM do XML (uCom) e a UM do pedido SAP.
- * Retorna `factor` tal que: deliveryQty = qCom * factor
- * Retorna null se não conseguir resolver via grupo.
- */
 export async function resolveUoMConversionFactor(xmlUomCode, orderUomEntry, uomGroupEntry) {
     if (!uomGroupEntry || !xmlUomCode || orderUomEntry == null) return null
     try {
@@ -339,8 +327,6 @@ export async function resolveUoMConversionFactor(xmlUomCode, orderUomEntry, uomG
         const orderDef = defs.find(d => d.AlternateUoM === orderUomEntry)
         if (!xmlDef || !orderDef) return null
 
-        // xmlDef:   BaseQuantity base-units = AlternateQuantity xml-units
-        // orderDef: BaseQuantity base-units = AlternateQuantity order-units
         const xmlToBase   = xmlDef.BaseQuantity   / xmlDef.AlternateQuantity
         const baseToOrder = orderDef.AlternateQuantity / orderDef.BaseQuantity
         return xmlToBase * baseToOrder

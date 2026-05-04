@@ -146,11 +146,9 @@ export async function prepareDeliveryNoteLines(comparisonResults, orderDocEntry)
         let deliveryQty = qCom
 
         if (uCom !== sapUom) {
-            // Prioridade 1: uTrib do XML já está na UM do pedido — usa qTrib diretamente
             if (uTrib && uTrib === sapUom && qTrib > 0) {
                 deliveryQty = qTrib
             } else {
-                // Prioridade 2: busca fator de conversão real do grupo de UM do SAP B1
                 const factor = await resolveUoMConversionFactor(
                     item.xmlItem.uCom,
                     item.orderLine.UoMEntry,
@@ -159,7 +157,6 @@ export async function prepareDeliveryNoteLines(comparisonResults, orderDocEntry)
                 if (factor !== null) {
                     deliveryQty = Math.round(qCom * factor * 1000000) / 1000000
                 } else if (sapPrice > 0) {
-                    // Prioridade 3: fallback por preço (menos confiável)
                     deliveryQty = Math.round((vProd / sapPrice) * 10000) / 10000
                 }
             }

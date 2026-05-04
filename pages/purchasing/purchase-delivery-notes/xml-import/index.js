@@ -312,7 +312,7 @@ export default function XmlImportPage() {
             const uTrib     = (item.xmlItem?.uTrib || '').trim().toUpperCase()
             const sapUom    = (item.orderLine.MeasureUnit || '').trim().toUpperCase()
             const hasUomMismatch = xmlUom && sapUom && xmlUom !== sapUom && uTrib !== sapUom
-            if (hasUomMismatch) return false  // UMs incomparáveis aqui; SAP valida no POST
+            if (hasUomMismatch) return false
             const compareQty = (uTrib === sapUom && item.xmlItem.qTrib) ? item.xmlItem.qTrib : item.xmlItem.qCom
             return compareQty > (item.orderLine.OpenQty ?? 0)
         })

@@ -132,7 +132,6 @@ export default function ItemComparisonGrid({ comparisonResults = [], stats = {},
 
     return (
         <>
-            {/* Confirmação de troca de vínculo */}
             {confirmDialog.open && (
                 <Box sx={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 2000, background: 'rgba(0,0,0,0.2)' }}>
                     <Box sx={{ maxWidth: 400, mx: 'auto', mt: 20, p: 3, bgcolor: 'background.paper', borderRadius: 2, boxShadow: 3 }}>
