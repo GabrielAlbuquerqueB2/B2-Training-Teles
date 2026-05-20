@@ -1,21 +1,15 @@
 import { Box, Typography, TextField, Grid, MenuItem } from '@mui/material'
 
 export default function BusinessPartnersHeader(props) {
+    const seriesOptions = props.seriesOptions || []
 
     async function handleCardTypeChange(event) {
-        const seriesMap = {
-            cCustomer: 70,
-            cSupplier: 71,
-            cLid: 3
-        }
-        
         const cardTypeKey = event.target.value
         props.setField('CardType', cardTypeKey)
-        const series = seriesMap[cardTypeKey]
-        props.setField('Series', series)
+        props.setField('Series', '')
 
         if (props.onCardTypeChange) {
-            await props.onCardTypeChange(series, cardTypeKey)
+            await props.onCardTypeChange(cardTypeKey)
         }
     }
 
@@ -45,7 +39,7 @@ export default function BusinessPartnersHeader(props) {
                         size="small"
                     />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={props.status === 'CREATE' && seriesOptions.length > 0 ? 2 : 4}>
                     <TextField
                         select
                         label="Tipo"
@@ -59,6 +53,24 @@ export default function BusinessPartnersHeader(props) {
                         <MenuItem value="cSupplier">Fornecedor</MenuItem>
                     </TextField>
                 </Grid>
+                {props.status === 'CREATE' && seriesOptions.length > 0 && (
+                    <Grid item xs={2}>
+                        <TextField
+                            select
+                            label="Série"
+                            value={props.data?.Series || ''}
+                            onChange={evt => props.setField('Series', evt.target.value)}
+                            fullWidth
+                            size="small"
+                        >
+                            {seriesOptions.map(s => (
+                                <MenuItem key={s.Series} value={s.Series}>
+                                    {s.Name}
+                                </MenuItem>
+                            ))}
+                        </TextField>
+                    </Grid>
+                )}
             </Grid>
         </Box>
     )

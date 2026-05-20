@@ -112,3 +112,15 @@ export async function getStates() {
     const data = await doApiCall(query)
     return data?.value || []
 }
+
+export async function getBusinessPartnerSeries() {
+
+    const query = new Api()
+        .setMethod('POST')
+        .setUrl('/SeriesService_GetDocumentSeries')
+        .setData({ DocumentTypeParams: { Document: 2 } })
+        .get()
+
+    const data = await doApiCall(query)
+    return data?.value || []
+}

@@ -8,7 +8,7 @@ import BusinessPartnersGrid from '../../../features/business/partners/BusinessPa
 import BusinessPartnersAddresses from '../../../features/business/partners/BusinessPartnersAddresses'
 import BusinessPartnersContacts from '../../../features/business/partners/BusinessPartnersContacts'
 import BusinessPartnersActions from '../../../features/business/partners/BusinessPartnersActions'
-import { getBusinessPartnerById } from '../../../features/business/partners/BusinessPartnersServices'
+import { getBusinessPartnerById, getBusinessPartnerSeries } from '../../../features/business/partners/BusinessPartnersServices'
 import { getDefaultData, getDefaultAddress, getDefaultContact } from '../../../features/business/partners/BusinessPartnersModel'
 import { Box } from '@mui/material'
 
@@ -20,6 +20,7 @@ export default function BusinessPartner() {
     const [status, setStatus] = useState('CREATE')
     const [alert, setAlert] = useState({ visible: false, type: '', message: '' })
     const [currentTab, setCurrentTab] = useState(1)
+    const [seriesOptions, setSeriesOptions] = useState([])
 
     useEffect(() => {
         async function fetchData() {
@@ -78,7 +79,7 @@ export default function BusinessPartner() {
                         CardCode: result.CardCode || '',
                         CardName: result.CardName || '',
                         CardType: cardTypeFinal,
-                        Series: result.Series || 70
+                        Series: result.Series
                     })
                     setStatus('EDIT')
                 }
@@ -152,7 +153,24 @@ export default function BusinessPartner() {
                             data={data}
                             status={status}
                             setField={setField}
-                            onCardTypeChange={async (series, cardType) => {
+                            seriesOptions={seriesOptions}
+                            onCardTypeChange={async (cardType) => {
+                                try {
+                                    const allSeries = await getBusinessPartnerSeries()
+                                    const typeMap = { cCustomer: 'C', cSupplier: 'S' }
+                                    const sapType = typeMap[cardType]
+                                    const filtered = sapType
+                                        ? allSeries.filter(s => s.DocSubCode === sapType || s.DocSubCode === '')
+                                        : allSeries
+                                    const options = filtered.length > 0 ? filtered : allSeries
+                                    setSeriesOptions(options)
+                                    const defaultSerie = options.find(s => s.IsDefault === 'tYES') || options[0]
+                                    if (defaultSerie) {
+                                        setField('Series', defaultSerie.Series)
+                                    }
+                                } catch {
+                                    setSeriesOptions([])
+                                }
                             }}
                         />
                         <BusinessPartnersGrid
@@ -204,6 +222,7 @@ export default function BusinessPartner() {
                 currentTab={currentTab}
                 handleNewAddress={handleNewAddress}
                 handleNewContact={handleNewContact}
+                seriesOptions={seriesOptions}
             />
             <Box hidden={!alert.visible}>
                 <AlertMessage

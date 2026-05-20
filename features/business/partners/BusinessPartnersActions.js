@@ -6,7 +6,7 @@ import { Add, ArrowDropDown } from '@mui/icons-material'
 import { createBusinessPartnerModel, editBusinessPartnerModel } from './BusinessPartnersModel'
 import { createBusinessPartner, editBusinessPartner } from './BusinessPartnersServices'
 
-export default function BusinessPartnersActions({ data, router, status, setAlert, currentTab, handleNewAddress, handleNewContact }) {
+export default function BusinessPartnersActions({ data, router, status, setAlert, currentTab, handleNewAddress, handleNewContact, seriesOptions }) {
     const [isLoading, setIsLoading] = useState(false)
     const [addressMenuAnchor, setAddressMenuAnchor] = useState(null)
 
@@ -84,7 +84,7 @@ export default function BusinessPartnersActions({ data, router, status, setAlert
                     startIcon={<SaveIcon />}
                     onClick={handleSubmit}
                     variant="contained"
-                    disabled={status === 'CREATE' && !data.Series}
+                    disabled={status === 'CREATE' && (!data.CardType || (seriesOptions?.length > 0 && !data.Series))}
                 >
                     {status === 'CREATE' ? 'ADICIONAR' : 'ATUALIZAR'}
                 </LoadingButton>
