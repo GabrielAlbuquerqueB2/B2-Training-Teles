@@ -83,20 +83,13 @@ export function createBusinessPartnerModel(data) {
 
 export function editBusinessPartnerModel(data) {
 
-    console.log('=== DEBUG: editBusinessPartnerModel ===')
-    console.log('BPFiscalTaxIDCollection ANTES do mapeamento:', JSON.stringify(data.BPFiscalTaxIDCollection, null, 2))
-    console.log('BPAddresses:', JSON.stringify(data.BPAddresses, null, 2))
-
     const contacts = mapContacts(data.ContactEmployees || [])
     
-    // Sincroniza o U_TX_IE dos endereços de entrega com o BPFiscalTaxIDCollection
     let fiscalCollection = Array.isArray(data.BPFiscalTaxIDCollection) ? [...data.BPFiscalTaxIDCollection] : [];
     
-    // Para cada endereço de entrega com U_TX_IE, atualiza/cria o registro no BPFiscalTaxIDCollection
     const entregas = (data.BPAddresses || []).filter(addr => addr.AddressType === 'bo_ShipTo')
     entregas.forEach(endereco => {
         if (endereco.U_TX_IE && endereco.U_TX_IE.trim()) {
-            // Busca registro existente para este endereço
             let fiscalEntry = fiscalCollection.find(f => 
                 f.Address === endereco.AddressName && f.AddrType === 'bo_ShipTo'
             )
@@ -104,7 +97,6 @@ export function editBusinessPartnerModel(data) {
             if (fiscalEntry) {
                 fiscalEntry.TaxId1 = endereco.U_TX_IE
             } else {
-                // Cria novo registro
                 fiscalCollection.push({
                     Address: endereco.AddressName,
                     AddrType: 'bo_ShipTo',
@@ -113,7 +105,6 @@ export function editBusinessPartnerModel(data) {
             }
         }
     })
-        // Propaga TaxId1 de BPAddresses[x].BPFiscalTaxIDCollection para o array principal
         if (!Array.isArray(fiscalCollection)) {
             fiscalCollection = [];
         }
@@ -142,8 +133,6 @@ export function editBusinessPartnerModel(data) {
         });
     
     const mappedFiscalCollection = mapFiscalTaxCollection(fiscalCollection, data.FederalTaxID, data.CardCode)
-
-    console.log('BPFiscalTaxIDCollection DEPOIS do mapeamento:', JSON.stringify(mappedFiscalCollection, null, 2))
 
     const result = {
         CardName: data.CardName,
@@ -255,34 +244,24 @@ function mapContacts(contacts) {
 }
 
 function mapFiscalTaxCollection(fiscalTaxCollection, federalTaxID, cardCode) {
-    console.log('=== DEBUG: mapFiscalTaxCollection ===')
-    console.log('Entrada - fiscalTaxCollection:', JSON.stringify(fiscalTaxCollection, null, 2))
-    console.log('Entrada - federalTaxID:', federalTaxID)
-    console.log('Entrada - cardCode:', cardCode)
-
     let collection = Array.isArray(fiscalTaxCollection) ? [...fiscalTaxCollection] : []
     
     collection = collection.map(item => {
         const newItem = {}
         
-        // Verifica se é registro de Cobrança (bo_BillTo) - Cobrança NÃO tem IE
         const isCobranca = item.AddrType === 'bo_BillTo' || 
                           (item.Address && item.Address.toUpperCase() === 'COBRANCA')
         
-        // Address é obrigatório
         if (item.Address !== undefined) {
             newItem.Address = item.Address
         }
         
-        // AddrType: mantém para endereços específicos (ENTREGA = bo_ShipTo, COBRANCA = bo_BillTo)
-        // Dados Gerais (Address vazio) NÃO tem AddrType
         if (item.Address && item.Address !== '') {
             if (item.AddrType === 'bo_ShipTo' || item.AddrType === 'bo_BillTo') {
                 newItem.AddrType = item.AddrType
             }
         }
         
-        // BPCode é obrigatório para o SAP identificar o registro
         if (cardCode) {
             newItem.BPCode = cardCode
         } else if (item.BPCode) {
@@ -293,7 +272,6 @@ function mapFiscalTaxCollection(fiscalTaxCollection, federalTaxID, cardCode) {
             newItem.CNAECode = item.CNAECode
         }
         
-        // TaxId1 (IE): inclui para Dados Gerais e Entrega, mas NÃO para Cobrança
         if (!isCobranca && item.TaxId1 && item.TaxId1.trim() !== '') {
             newItem.TaxId1 = item.TaxId1
         }
@@ -313,8 +291,6 @@ function mapFiscalTaxCollection(fiscalTaxCollection, federalTaxID, cardCode) {
         
         return newItem
     }).filter(item => Object.keys(item).length > 0)
-    
-    console.log('Saída - collection mapeada:', JSON.stringify(collection, null, 2))
     
     return collection
 }

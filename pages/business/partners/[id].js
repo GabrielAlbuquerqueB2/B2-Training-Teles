@@ -67,9 +67,6 @@ export default function BusinessPartner() {
                         ? result.BPFiscalTaxIDCollection
                         : []
 
-                    console.log('=== DEBUG: Dados recebidos do SAP ===')
-                    console.log('BPFiscalTaxIDCollection:', JSON.stringify(fiscalTaxCollection, null, 2))
-
                     const cardTypeFinal = result.CardType === 'C' ? 'cCustomer' : result.CardType === 'S' ? 'cSupplier' : result.CardType || '';
                     setData({
                         ...result,
@@ -88,7 +85,7 @@ export default function BusinessPartner() {
             }
         }
         if (id) {
-            fetchData().catch(error => console.error('Erro ao carregar dados:', error))
+            fetchData()
         }
     }, [id])
 

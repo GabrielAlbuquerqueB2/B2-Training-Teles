@@ -54,25 +54,16 @@ export async function getBusinessPartnerById(cardCode) {
 
 export async function editBusinessPartner(cardCode, businessPartnerData) {
 
-    console.log('=== DEBUG: editBusinessPartner ===')
-    console.log('cardCode:', cardCode)
-    console.log('businessPartnerData:', JSON.stringify(businessPartnerData, null, 2))
-
     const query = new Api()
         .setMethod('PATCH')
         .setUrl(`/BusinessPartners('${cardCode}')`)
         .setData(businessPartnerData)
         .get()
 
-    console.log('Query enviada:', JSON.stringify(query, null, 2))
-
     const result = await doApiCall(query)
-    
-    console.log('Resultado da API:', JSON.stringify(result, null, 2))
     
     if (result.status === 400) {
         const errorMessage = result ? result.data.message.value : 'Unknown error'
-        console.log('Erro 400:', errorMessage)
         throw new Error(errorMessage)
     }
     return result
